@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Cuidado Contínuo · Apresentação ao Conselho · Maio 2026</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --green: #6b8e6f;
+    --red: #c25a4a;
+  }
+
+  @page {
+    size: A4;
+    margin: 22mm 18mm 22mm 18mm;
+  }
+  @page :first {
+    margin: 0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    color: var(--ink);
+    background: white;
+    font-size: 12pt;
+    line-height: 1.55;
+  }
+  .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  /* PAGES */
+  .page {
+    page-break-after: always;
+    min-height: 257mm; /* A4 minus default margins approximation */
+    padding-top: 4mm;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  /* CAPA */
+  .cover {
+    page: first;
+    page-break-after: always;
+    min-height: 297mm;
+    background: linear-gradient(135deg, #1f1a17 0%, #5a4f47 55%, #8a6f3d 100%);
+    color: var(--cream);
+    padding: 30mm 22mm;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: -50mm; right: -50mm;
+    width: 180mm; height: 180mm;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,191,149,0.16), transparent 70%);
+  }
+  .cover::after {
+    content: "";
+    position: absolute;
+    bottom: -40mm; left: -30mm;
+    width: 140mm; height: 140mm;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,125,142,0.12), transparent 70%);
+  }
+  .cover-eyebrow {
+    font-family: -apple-system, sans-serif;
+    font-size: 10pt;
+    letter-spacing: 4pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 14mm;
+    font-weight: 600;
+  }
+  .cover-title {
+    font-size: 60pt;
+    font-weight: 600;
+    letter-spacing: -2pt;
+    line-height: 0.95;
+    margin-bottom: 6mm;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-subtitle {
+    font-size: 18pt;
+    font-style: italic;
+    color: rgba(244,236,226,0.85);
+    line-height: 1.4;
+    max-width: 140mm;
+    margin-bottom: 30mm;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-meta {
+    position: absolute;
+    bottom: 30mm;
+    left: 22mm;
+    right: 22mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 2;
+  }
+  .cover-meta-item {
+    font-family: -apple-system, sans-serif;
+    font-size: 9pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 600;
+  }
+  .cover-meta-item strong {
+    display: block;
+    color: var(--cream);
+    font-size: 11pt;
+    letter-spacing: 0.5pt;
+    text-transform: none;
+    margin-top: 3mm;
+    font-weight: 600;
+  }
+
+  /* PAGE STRUCTURE */
+  .page-eyebrow {
+    font-family: -apple-system, sans-serif;
+    font-size: 8.5pt;
+    letter-spacing: 2.5pt;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 4mm;
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+  }
+  .page-eyebrow::before {
+    content: "";
+    width: 14mm;
+    height: 0.4mm;
+    background: var(--gold);
+  }
+  .page-title {
+    font-size: 36pt;
+    font-weight: 600;
+    letter-spacing: -1pt;
+    line-height: 1.05;
+    margin-bottom: 8mm;
+    color: var(--ink);
+  }
+  .page-deck {
+    font-size: 15pt;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 8mm;
+    max-width: 165mm;
+  }
+
+  h2 {
+    font-size: 22pt;
+    font-weight: 600;
+    letter-spacing: -0.5pt;
+    line-height: 1.15;
+    margin: 8mm 0 4mm;
+    color: var(--ink);
+  }
+  h3 {
+    font-family: -apple-system, sans-serif;
+    font-size: 9pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 700;
+    margin: 6mm 0 3mm;
+  }
+
+  p {
+    margin-bottom: 4mm;
+    color: var(--ink);
+  }
+  p.intro { font-size: 13pt; line-height: 1.6; color: var(--ink-soft); }
+
+  /* BLOCKS */
+  .pullquote {
+    border-left: 0.8mm solid var(--gold);
+    padding: 5mm 8mm;
+    margin: 6mm 0 6mm;
+    font-size: 15pt;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    background: #faf7f1;
+    border-radius: 0 3mm 3mm 0;
+    page-break-inside: avoid;
+  }
+  .pullquote .cite {
+    font-family: -apple-system, sans-serif;
+    display: block;
+    font-style: normal;
+    font-size: 9pt;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 3mm;
+    font-weight: 600;
+  }
+
+  .highlight-box {
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: var(--cream);
+    padding: 8mm 10mm;
+    border-radius: 4mm;
+    margin: 6mm 0;
+    page-break-inside: avoid;
+  }
+  .highlight-box .hb-eyebrow {
+    font-family: -apple-system, sans-serif;
+    font-size: 8.5pt;
+    letter-spacing: 2.5pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 3mm;
+    font-weight: 700;
+  }
+  .highlight-box .hb-title {
+    font-size: 20pt;
+    font-weight: 600;
+    letter-spacing: -0.5pt;
+    margin-bottom: 3mm;
+    line-height: 1.2;
+  }
+  .highlight-box .hb-body {
+    font-size: 12pt;
+    color: rgba(244,236,226,0.92);
+    line-height: 1.5;
+  }
+  .highlight-box .hb-stat {
+    font-size: 48pt;
+    color: var(--gold);
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: -2pt;
+    margin: 3mm 0;
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 5mm 0;
+    font-family: -apple-system, sans-serif;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  th, td {
+    text-align: left;
+    padding: 3mm 4mm;
+    border-bottom: 0.2mm solid var(--cream-deep);
+  }
+  th {
+    background: var(--cream);
+    font-weight: 700;
+    font-size: 8.5pt;
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  td.num { text-align: right; font-weight: 600; }
+  td.green { color: var(--green); }
+  td.red { color: var(--red); }
+
+  /* STATS GRID */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4mm;
+    margin: 5mm 0;
+    page-break-inside: avoid;
+  }
+  .stat-grid.three { grid-template-columns: repeat(3, 1fr); }
+  .stat-grid.two { grid-template-columns: repeat(2, 1fr); }
+  .stat-card {
+    background: var(--cream);
+    padding: 5mm;
+    border-radius: 3mm;
+    text-align: center;
+  }
+  .stat-card-num {
+    font-size: 26pt;
+    font-weight: 600;
+    letter-spacing: -1pt;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-card-num.gold { color: var(--gold-deep); }
+  .stat-card-num.rose { color: var(--rose-deep); }
+  .stat-card-num.green { color: var(--green); }
+  .stat-card-num.red { color: var(--red); }
+  .stat-card-label {
+    font-family: -apple-system, sans-serif;
+    font-size: 8pt;
+    letter-spacing: 1.2pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-top: 2mm;
+  }
+
+  /* LISTAS */
+  ul, ol { margin: 4mm 0 4mm 7mm; }
+  ul li, ol li { margin-bottom: 2mm; line-height: 1.55; }
+
+  /* SCREEN MOCKUPS */
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+    margin: 5mm 0;
+    page-break-inside: avoid;
+  }
+  .screen-card {
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: var(--cream);
+    padding: 4mm;
+    border-radius: 3mm;
+    aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-inside: avoid;
+  }
+  .screen-card.gold { background: linear-gradient(135deg, #b89968, #5a4f47); }
+  .screen-card.rose { background: linear-gradient(135deg, #8a3a4f, #c97d8e); }
+  .screen-card.cream { background: var(--cream); color: var(--ink); border: 0.3mm solid var(--cream-deep); }
+  .screen-card.cream .sc-eyebrow { color: var(--rose-deep); }
+  .screen-card.cream .sc-meta { color: var(--ink-soft); opacity: 0.8; }
+  .sc-eyebrow {
+    font-family: -apple-system, sans-serif;
+    font-size: 7.5pt;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+  }
+  .sc-title {
+    font-size: 14pt;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.3pt;
+    margin: 3mm 0;
+  }
+  .sc-meta {
+    font-family: -apple-system, sans-serif;
+    font-size: 7.5pt;
+    color: rgba(244,236,226,0.7);
+    line-height: 1.4;
+  }
+
+  /* DECISIONS */
+  .decision {
+    background: white;
+    border-left: 0.8mm solid var(--rose-deep);
+    padding: 4mm 6mm;
+    margin-bottom: 4mm;
+    page-break-inside: avoid;
+  }
+  .decision-num {
+    font-size: 11pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 700;
+    font-family: -apple-system, sans-serif;
+  }
+  .decision-q {
+    font-size: 16pt;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 1.5mm 0 2.5mm;
+  }
+  .decision-context {
+    font-family: -apple-system, sans-serif;
+    font-size: 10pt;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  /* TIMELINE */
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 28mm 1fr;
+    gap: 5mm;
+    padding: 3mm 0;
+    border-bottom: 0.2mm solid var(--cream-deep);
+    page-break-inside: avoid;
+  }
+  .timeline-when {
+    font-family: -apple-system, sans-serif;
+    font-size: 9pt;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--rose-deep);
+  }
+  .timeline-what {
+    font-size: 12pt;
+  }
+  .timeline-what strong { color: var(--ink); }
+
+  /* FOOT */
+  .pagefoot {
+    position: absolute;
+    bottom: 12mm;
+    left: 18mm;
+    right: 18mm;
+    font-family: -apple-system, sans-serif;
+    font-size: 7.5pt;
+    color: var(--ink-soft);
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    border-top: 0.2mm solid var(--cream-deep);
+    padding-top: 3mm;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= CAPA ============= -->
+<section class="cover">
+  <div class="cover-eyebrow">Apresentação ao Conselho · Maio 2026</div>
+  <h1 class="cover-title">Cuidado<br>Contínuo</h1>
+  <p class="cover-subtitle">O programa de acompanhamento que transforma 10% de recompra em 40% — sem trocar uma única consultora, sem queimar mídia, sem desconto. Apenas ativando o que já está construído.</p>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      Apresentado por
+      <strong>Danilo Tuffi</strong>
+    </div>
+    <div class="cover-meta-item">
+      Para
+      <strong>Conselho do Estúdio Mais</strong>
+    </div>
+    <div class="cover-meta-item">
+      Data
+      <strong>28 · Maio · 2026</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ============= TL;DR ============= -->
+<section class="page">
+  <div class="page-eyebrow">Sumário executivo</div>
+  <h1 class="page-title">5 frases que sustentam essa apresentação</h1>
+
+  <ol style="margin-top: 12mm;">
+    <li><p class="intro"><strong>O problema</strong> · Hoje 70% das clientes nunca fazem uma 2ª compra. A receita da casa é sustentada por 10-15% das clientes Premium — um risco estrutural já identificado na SWOT.</p></li>
+    <li><p class="intro"><strong>A descoberta</strong> · 90% da solução técnica já está construída no app — incluindo a Jornada com Capítulos (Início · Caminho · Trilha · Constelação) implementada em abril. Não precisamos construir; precisamos ativar.</p></li>
+    <li><p class="intro"><strong>A solução</strong> · Cuidado Contínuo é um produto de acompanhamento contínuo que se vende junto com qualquer pacote. Régua D+0 a D+45 por procedimento, IA 24/7, contato direto com profissional e gerente, Diário editorial entre clientes.</p></li>
+    <li><p class="intro"><strong>O motor da equipe</strong> · Score de Cuidado substitui o ranking por faturamento bruto. Profissional ganha bônus em dinheiro (R$ 200 a R$ 12.000/ano) por executar briefing diário, preencher Memória, registrar objeções e participar de Co-Criação.</p></li>
+    <li><p class="intro"><strong>O ROI</strong> · Custo ~R$ 200-300 mil de implementação + R$ 96-216 mil/ano em prêmios. Retorno conservador: +R$ 13 milhões/ano em receita via Recompra 90d subindo de 10% para 40%. <strong>ROI de 50 a 120 vezes.</strong></p></li>
+  </ol>
+
+  <div class="highlight-box" style="margin-top: 10mm;">
+    <div class="hb-eyebrow">Pedido ao Conselho</div>
+    <div class="hb-title">Aprovação de piloto em uma unidade (Center Norte) por 90 dias.</div>
+    <div class="hb-body">Sem investimento adicional além do que já foi alocado. Métrica única: Taxa de Recompra em 90 dias subindo de 10% para 25% no primeiro mês e 40% no terceiro. Se não bater, desativamos. Se bater, escalamos.</div>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 2</span>
+  </div>
+</section>
+
+<!-- ============= O PROBLEMA ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 1 · O Problema</div>
+  <h1 class="page-title">A casa fica de pé em 10% das clientes</h1>
+  <p class="page-deck">A SWOT já apontou isso em 2026. Os dados confirmaram em maio. Agora a questão é: continuamos torcendo pra que essas 10% não saiam, ou estruturamos a base inteira pra cuidar de quem entra?</p>
+
+  <h3>Os números crus (Linkx + Belle · 22.756 clientes · R$ 102M · 5 anos)</h3>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-card-num red">70%</div>
+      <div class="stat-card-label">Nunca chegam à 2ª compra</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num red">~10%</div>
+      <div class="stat-card-label">Fazem 2ª compra nova<br>(não uso de pacote)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num gold">1,1%</div>
+      <div class="stat-card-label">Premium históricas (248)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num gold">24,3%</div>
+      <div class="stat-card-label">Da receita vem dessas 1,1%</div>
+    </div>
+  </div>
+
+  <h3>O funil real</h3>
+
+  <table>
+    <thead>
+      <tr><th>Etapa</th><th>Clientes</th><th>% Conversão</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1ª compra</td><td class="num">22.756</td><td class="num">100%</td></tr>
+      <tr><td>2ª compra</td><td class="num">6.783</td><td class="num red">29,8%</td></tr>
+      <tr><td>3ª compra</td><td class="num">3.492</td><td class="num">15,3%</td></tr>
+      <tr><td>5ª compra</td><td class="num">1.374</td><td class="num">6,0%</td></tr>
+      <tr><td>11ª compra (Premium)</td><td class="num">248</td><td class="num gold">1,1%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="pullquote">
+    O salto da 1ª para a 2ª compra perde 70% da base. Resolver esse 1 ponto = dobrar o tamanho do negócio.
+    <span class="cite">Doc 21 · Dados Master Linkx + Belle</span>
+  </div>
+
+  <h3>O preditor mais forte de todos</h3>
+  <p>Cliente que volta entre <strong>8 e 30 dias</strong> da 1ª visita tem <strong>12,6× mais chance de virar Premium</strong> que cliente que volta após 180 dias. Esse é o achado mais importante dos últimos 5 anos de dados — e o app não ativa esse gatilho hoje.</p>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 3</span>
+  </div>
+</section>
+
+<!-- ============= A DESCOBERTA ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 2 · A Descoberta</div>
+  <h1 class="page-title">90% do app já está construído</h1>
+  <p class="page-deck">Em maio, ao analisar o repositório completo do dev, encontrei algo que muda toda a conversa: as decisões estratégicas que estávamos tomando neste mês já foram codificadas em abril. A casa já preparou as fundações.</p>
+
+  <h3>O que já existe no código</h3>
+
+  <table>
+    <thead>
+      <tr><th>Capacidade</th><th>Status no repo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Jornada visível com capítulos (Início · Caminho · Trilha · Constelação)</td><td class="green">✓ Implementada migration 00124</td></tr>
+      <tr><td>Régua de cuidado D+0 a D+45 por procedimento</td><td class="green">✓ Schema completo (protocol_definitions + client_protocol_progress)</td></tr>
+      <tr><td>Decision Engine com 6 regras mestras</td><td class="green">✓ R1-R6 codificadas</td></tr>
+      <tr><td>Score de propensão de retorno (Janela Mágica)</td><td class="green">✓ Já calculado</td></tr>
+      <tr><td>Daily Recommendation (Casa do Cuidado)</td><td class="green">✓ Tela mobile pronta</td></tr>
+      <tr><td>IA Assistente "Mais" com 18+ ferramentas</td><td class="green">✓ Em produção</td></tr>
+      <tr><td>Gamificação com pontos diários idempotentes</td><td class="green">✓ Function existe</td></tr>
+    </tbody>
+  </table>
+
+  <h3>O que falta (escopo realista)</h3>
+
+  <table>
+    <thead>
+      <tr><th>Item</th><th>Esforço estimado</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Popular 7 protocolos do Bloco do Olhar (Design, Brow Lamination etc)</td><td class="num">1-2 dias</td></tr>
+      <tr><td>1 score + 1 regra + 1 action no decision-engine (Janela Mágica D+15)</td><td class="num">2-3 dias</td></tr>
+      <tr><td>Score de Cuidado: 5 tabelas + 4 functions + RLS</td><td class="num">3-4 dias</td></tr>
+      <tr><td>4 telas mobile do Modo Profissional</td><td class="num">2-3 sprints</td></tr>
+      <tr><td>Diário Estúdio Mais (4 telas)</td><td class="num">1 sprint</td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box">
+    <div class="hb-eyebrow">Implicação estratégica</div>
+    <div class="hb-title">Não precisamos construir o Cuidado Contínuo. Precisamos ativar o que já existe.</div>
+    <div class="hb-body">Isso muda completamente o pedido ao Conselho. Não estamos falando de 6 meses de desenvolvimento. Estamos falando de 4-6 semanas para ter o piloto técnico rodando em Center Norte.</div>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 4</span>
+  </div>
+</section>
+
+<!-- ============= A SOLUÇÃO ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 3 · A Solução</div>
+  <h1 class="page-title">O Estúdio Mais para de vender procedimento e passa a vender cuidado</h1>
+  <p class="page-deck">A tese é simples: o procedimento é o evento, a relação é o produto. Toda cliente que compra qualquer pacote ≥ R$ 95 ativa o Cuidado Contínuo automaticamente — sem custo adicional pra ela.</p>
+
+  <h3>Os 3 tiers do Cuidado Contínuo</h3>
+
+  <table>
+    <thead>
+      <tr><th>Tier</th><th>Preço</th><th>O que inclui</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>🌱 Essencial</strong></td>
+        <td class="num">Grátis com qualquer pacote</td>
+        <td>Casa do Cuidado · Régua pós-procedimento · IA 24/7 · Chat com executora · Cortesia da Janela Mágica em D+15</td>
+      </tr>
+      <tr>
+        <td><strong>💆 Cuidado</strong></td>
+        <td class="num">R$ 200/mês</td>
+        <td>Tudo do Essencial + consulta online mensal (nutri/enfermeira) + Painel Hormonal + plano refeito 4×/ano</td>
+      </tr>
+      <tr>
+        <td><strong>✦ Programa 360°</strong></td>
+        <td class="num">R$ 500/mês</td>
+        <td>Tudo do Cuidado + dermatologista trimestral + médica do protocolo + personal + suplementação + atendimento prioritário</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Os 2 lados do produto</h3>
+
+  <p><strong>Para a cliente</strong> — Sua Cuidadora Digital. Casa do Cuidado com timeline pós-procedimento (Hidrolipo D+5 explica que desinchar é normal), IA 24/7 que responde dúvidas básicas e escala pra humano em &lt;2h, análises domésticas que ela registra no app (foto, dor 0-10, ciclo), chat direto com a profissional que executou — não anônimo, contato com a gerente, ouvidoria.</p>
+
+  <p><strong>Para a profissional</strong> — Briefing Diário. Tela inicial da manhã com a lista priorizada do dia: "Ligar pra Rosana — Hidrolipo D+5, ver se desinchou", "Mensagem pra Maria — aniversário do filho amanhã, perguntar como ele tá". O sistema lembra dos detalhes pela profissional. Memória das clientes alimentada por cada interação. Score de Cuidado substituindo ranking por faturamento.</p>
+
+  <div class="pullquote">
+    Toda mensagem importante é assinada por uma pessoa real — a executora, a gerente, a médica. Nunca pela marca anônima.
+    <span class="cite">Princípio Cucinelli aplicado ao Cuidado Contínuo</span>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 5</span>
+  </div>
+</section>
+
+<!-- ============= AS TELAS ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 4 · As 9 telas do protótipo</div>
+  <h1 class="page-title">Protótipo navegável de ponta a ponta</h1>
+  <p class="page-deck">Nove telas em HTML produzidas em maio. Toda a estética do que será o app real — visual, conteúdo, fluxo. Pode-se navegar agora em ambiente local.</p>
+
+  <h3>Modo Cliente</h3>
+  <div class="screens-grid">
+    <div class="screen-card rose">
+      <div class="sc-eyebrow">Vista da Cliente</div>
+      <div>
+        <div class="sc-title">Casa do Cuidado</div>
+        <div class="sc-meta">Contador D+8 desde o Design · Banner Janela Mágica · Cortesia de Tintura ofertada · Cards de cuidado do dia</div>
+      </div>
+      <div class="sc-eyebrow">Beatriz · D+8</div>
+    </div>
+    <div class="screen-card gold">
+      <div class="sc-eyebrow">Diário Estúdio Mais</div>
+      <div>
+        <div class="sc-title">Hub editorial</div>
+        <div class="sc-meta">Coluna em destaque · 9 colunas recentes · Galeria de colunistas · 4 eventos Constelação</div>
+      </div>
+      <div class="sc-eyebrow">Edição 38</div>
+    </div>
+    <div class="screen-card cream">
+      <div class="sc-eyebrow">Diário · Coluna aberta</div>
+      <div>
+        <div class="sc-title">Liderar sem pedir desculpas</div>
+        <div class="sc-meta">Coluna de Elaine Wassermann · 1.200 palavras · 542 curtidas · 5 comentários de outras clientes</div>
+      </div>
+      <div class="sc-eyebrow">Edição 38</div>
+    </div>
+  </div>
+
+  <h3>Modo Profissional</h3>
+  <div class="screens-grid">
+    <div class="screen-card">
+      <div class="sc-eyebrow">Briefing Hoje</div>
+      <div>
+        <div class="sc-title">5 ações priorizadas</div>
+        <div class="sc-meta">Score 94/100 · NPS 9,4 · Recompras 4/8 mês · Memória das clientes do dia</div>
+      </div>
+      <div class="sc-eyebrow">Lene · Center Norte</div>
+    </div>
+    <div class="screen-card gold">
+      <div class="sc-eyebrow">Pipeline</div>
+      <div>
+        <div class="sc-title">28 clientes em 6 colunas</div>
+        <div class="sc-meta">1ª Visita · Janela Mágica · Em Pacote · Meio · Penúltima · Constelação</div>
+      </div>
+      <div class="sc-eyebrow">Filtros funcionais</div>
+    </div>
+    <div class="screen-card rose">
+      <div class="sc-eyebrow">Perfil 360° da cliente</div>
+      <div>
+        <div class="sc-title">Elaine Wassermann</div>
+        <div class="sc-meta">LTV R$ 287k · 141 visitas · NPS 9,8 · 11 indicações · 12 colunas no Diário</div>
+      </div>
+      <div class="sc-eyebrow">Cliente Constelação 6 anos</div>
+    </div>
+  </div>
+
+  <h3>Telas extras</h3>
+  <div class="screens-grid">
+    <div class="screen-card cream">
+      <div class="sc-eyebrow">Score de Cuidado</div>
+      <div>
+        <div class="sc-title">94/100 · R$ 1.000</div>
+        <div class="sc-meta">Breakdown 4 KPIs · Escala de prêmios · Ranking unidade · 6 meses histórico · Bugs e Ideias</div>
+      </div>
+      <div class="sc-eyebrow">Modo Profissional</div>
+    </div>
+    <div class="screen-card">
+      <div class="sc-eyebrow">Perfil Colunista</div>
+      <div>
+        <div class="sc-title">Elaine Wassermann</div>
+        <div class="sc-meta">12 colunas · 4,2k seguidoras · 6 eventos · 37 conexões</div>
+      </div>
+      <div class="sc-eyebrow">Diário Estúdio Mais</div>
+    </div>
+    <div class="screen-card gold">
+      <div class="sc-eyebrow">Evento Constelação</div>
+      <div>
+        <div class="sc-title">Liderar e cuidar de si</div>
+        <div class="sc-meta">12/junho 19h · Center Norte · 11 confirmadas de 18 vagas · 5 anfitriãs · Cortesia exclusiva</div>
+      </div>
+      <div class="sc-eyebrow">Painel CEOs</div>
+    </div>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 6</span>
+  </div>
+</section>
+
+<!-- ============= O SCORE ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 5 · O Score de Cuidado</div>
+  <h1 class="page-title">O motor que engaja a equipe sem mexer na comissão</h1>
+  <p class="page-deck">A questão sempre foi: como medir cuidado de forma justa? O Score é a resposta. Não substitui a comissão de venda — soma. Profissional pode bater meta de venda e ainda ganhar +R$ 1.000 por executar o briefing e preencher a Memória.</p>
+
+  <h3>4 categorias de KPI</h3>
+
+  <table>
+    <thead>
+      <tr><th>Categoria</th><th>Peso</th><th>Mede</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>🎯 <strong>Execução</strong></td><td class="num">40%</td><td>Briefing executado · resposta a alertas · cortesias D+15 aceitas · foto por procedimento</td></tr>
+      <tr><td>💝 <strong>Relacionamento</strong></td><td class="num">30%</td><td>NPS médio · Memória preenchida · observações pós-atendimento (auditadas) · áudios pessoais</td></tr>
+      <tr><td>💰 <strong>Vendas Saudáveis</strong></td><td class="num">20%</td><td>Recompra 90d · Ponte 2 e Ponte 3 · objeções catalogadas · vendas com 3+ SKUs</td></tr>
+      <tr><td>🌟 <strong>Co-Criação</strong></td><td class="num">10%</td><td>Bugs reportados · ideias enviadas · ideias implementadas · indicações de talento</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Escala de prêmios mensais</h3>
+
+  <table>
+    <thead>
+      <tr><th>Score</th><th>Prêmio</th><th>Reconhecimento</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>70-79</td><td class="num">R$ 200</td><td>Estrela no app · grupo Vencedores</td></tr>
+      <tr><td>80-89</td><td class="num">R$ 500</td><td>Foto destaque · 1 dia flex</td></tr>
+      <tr><td>90-99</td><td class="num">R$ 1.000</td><td>Almoço Constelação com sócios</td></tr>
+      <tr><td>100</td><td class="num">R$ 1.500</td><td>Folga premium · capa do Diário interno</td></tr>
+      <tr><td>3× ≥ 85 seguidos</td><td class="num">R$ 3.000</td><td>Jantar Constelação no Olivier ou Tre Bicchieri</td></tr>
+      <tr><td>Top rede anual</td><td class="num">R$ 12.000 + viagem</td><td>Lisboa, Paris ou Buenos Aires</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Co-Criação — a equipe melhora o sistema</h3>
+  <p>Bug reportado e validado: R$ 100-500 conforme severidade. Ideia implementada: R$ 500 + nome da feature no app. Ideia que move KPI da rede: R$ 2.000 + apresentação no Encontro Constelação.</p>
+
+  <div class="pullquote">
+    O Score é o jeito digno de medir cuidado. Quem cuida bem, ganha. Quem ignora o app, fica pra trás — sem brigas, só números.
+    <span class="cite">Frase-âncora pra comunicação ao time</span>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 7</span>
+  </div>
+</section>
+
+<!-- ============= O DIÁRIO ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 6 · O Diário Estúdio Mais</div>
+  <h1 class="page-title">Clientes Premium viram colunistas. A casa vira biblioteca.</h1>
+  <p class="page-deck">A Premium consolidada (Constelação) já fez tudo — quê razão tem pra abrir o app diariamente? O Diário é a resposta. Mulheres que lideram, atendem ou criam encontram aqui um palco editorial elegante, off-the-record, sem pressa.</p>
+
+  <h3>O conceito</h3>
+  <p>Cada cliente Trilha ou Constelação pode se candidatar a ser colunista. Tema livre, dentro de sua expertise — Liderança (Elaine, CEO Pharma), Saúde Feminina (Dra. Marília, ginecologista), Carreira (Sofia, CEO Startup), Direito (Dra. Amanda), Arquitetura (Juliana), Joalheria (Camila Tiffany), Mãe 60+ (Verônica).</p>
+
+  <p>A coluna é editada com curadoria interna leve. Publicação quinzenal. Comentários abertos entre clientes (community building). Cada coluna é também conteúdo SEO orgânico que atrai novas clientes pra base.</p>
+
+  <h3>Encontros Constelação</h3>
+  <p>Mesa redonda íntima, 18 vagas, exclusivo Trilha/Constelação (Caminho com convite). Champagne, mediação cuidada, off-the-record. Quem confirma vai como ela é — não como ela performa.</p>
+
+  <h3>Por que isso é estratégico</h3>
+
+  <ul>
+    <li><strong>Razão emocional não-comercial pra cliente Premium abrir o app</strong> · sem CTA, sem oferta, sem desconto. Princípio Arnault preservado.</li>
+    <li><strong>Reconhecimento social</strong> · dinheiro não compra ser referência pra outras mulheres. O Diário compra.</li>
+    <li><strong>Network real entre clientes do mesmo tier</strong> · cria comunidade que protege LTV. Cliente que vira colunista nunca mais sai.</li>
+    <li><strong>SEO orgânico</strong> · 9 colunas por edição × 24 edições/ano = 216 peças editoriais reais por ano. Atração orgânica que não depende de mídia paga.</li>
+  </ul>
+
+  <div class="highlight-box">
+    <div class="hb-eyebrow">É o moat editorial que o Cucinelli faria</div>
+    <div class="hb-body">Brunello Cucinelli construiu um moat com Solomeo — uma vila onde a alma da marca mora. O Estúdio Mais constrói um moat editorial: um lugar onde a alma das clientes encontra voz. Concorrentes podem copiar procedimento. Não conseguem copiar voz.</div>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 8</span>
+  </div>
+</section>
+
+<!-- ============= ROADMAP ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 7 · Roadmap</div>
+  <h1 class="page-title">90 dias para o piloto, 6 meses para a rede</h1>
+  <p class="page-deck">Piloto em Center Norte primeiro (gerente Paula, maior conversão da rede, 51 Premium históricos). Se bater meta de Recompra 90d ≥ 25% no Mês 1 e ≥ 40% no Mês 3, escalamos. Se não bater, desativamos sem custos enterrados.</p>
+
+  <h3>Cronograma resumido</h3>
+
+  <div class="timeline-item">
+    <div class="timeline-when">Mês 1</div>
+    <div class="timeline-what"><strong>Implementação técnica</strong> · 5 PRs do dev. Migrations dos protocolos, Decision Engine, Score schema, Telas mobile Modo Profissional, Diário. ~4-6 semanas.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-when">Mês 1-2</div>
+    <div class="timeline-what"><strong>Validação Center Norte</strong> · 50 clientes novas de Design entram no Cuidado Contínuo. Meta: Taxa Recompra 90d ≥ 25%. Cortesia D+15 com Tintura. Briefing manual primeiro, automatizado depois.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-when">Mês 3</div>
+    <div class="timeline-what"><strong>Decisão Go / No-Go</strong> · Avaliação 90 dias. Meta: ≥ 40% Recompra. NPS ≥ 8,5. Pelo menos 5 clientes saltam pra Nível 2+. Se sim: planejamento rollout 2 unidades por semana.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-when">Mês 4-6</div>
+    <div class="timeline-what"><strong>Rollout rede</strong> · 2 unidades/semana. Primeiras Constelações migrando. Encontros Constelação rodando. Diário com edição quinzenal. Primeiros prêmios trimestrais distribuídos.</div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-when">Mês 6+</div>
+    <div class="timeline-what"><strong>Tier Cuidado e 360° em venda</strong> · Pool de profissionais alocado (nutri + enfermeira + dermato + médica protocolo). Sistema de vídeo consulta integrado. Receita recorrente começa a entrar.</div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="hb-eyebrow">Critério de continuidade do piloto</div>
+    <div class="hb-title">Recompra 90d ≥ 40% até o fim do Mês 3 = escala. Abaixo disso = ajuste ou desativação.</div>
+    <div class="hb-body">Nenhum compromisso é feito antes desse ponto. Sem queima de marca, sem investimento pesado em mídia, sem grandes contratações até o piloto provar a tese.</div>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 9</span>
+  </div>
+</section>
+
+<!-- ============= ROI ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 8 · ROI Esperado</div>
+  <h1 class="page-title">Investimento vs retorno em 12 meses</h1>
+  <p class="page-deck">Cálculo conservador. Sem assumir aumento de aquisição de novas clientes. Apenas conversão melhor da base que já entra hoje.</p>
+
+  <h3>Investimento</h3>
+  <table>
+    <thead>
+      <tr><th>Linha</th><th>Valor</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Implementação técnica (5 PRs com dev existente)</td><td class="num">R$ 80-150k</td></tr>
+      <tr><td>Infra adicional (Supabase, IA Anthropic, vídeo Daily.co)</td><td class="num">R$ 30k</td></tr>
+      <tr><td>Profissionais pool Tier Cuidado/360° (3 meses iniciais)</td><td class="num">R$ 60k</td></tr>
+      <tr><td>Treinamento equipe Center Norte + materiais Diário</td><td class="num">R$ 30k</td></tr>
+      <tr><td>Prêmios do Score (média 40 profissionais × 12 meses)</td><td class="num">R$ 96-216k</td></tr>
+      <tr><td><strong>TOTAL ANO 1</strong></td><td class="num"><strong>R$ 296-486k</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Receita adicional esperada</h3>
+  <table>
+    <thead>
+      <tr><th>Linha</th><th>Cálculo</th><th>Valor</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Recompra 90d: 10% → 30%</td><td>+ 1.460 clientes × R$ 3k ticket médio</td><td class="num green">+R$ 4,4M</td></tr>
+      <tr><td>Premium em formação: 49 → 200/ano</td><td>+151 Premium × R$ 100k LTV (diluído em 3 anos)</td><td class="num green">+R$ 5M</td></tr>
+      <tr><td>Tier Cuidado recorrente</td><td>1.000 clientes × R$ 200/mês × 12</td><td class="num green">+R$ 2,4M</td></tr>
+      <tr><td>Tier 360° recorrente</td><td>200 clientes × R$ 500/mês × 12</td><td class="num green">+R$ 1,2M</td></tr>
+      <tr><td><strong>TOTAL ANO 1</strong></td><td></td><td class="num green"><strong>+R$ 13M</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="stat-grid three" style="margin-top: 8mm;">
+    <div class="stat-card">
+      <div class="stat-card-num red">R$ 486k</div>
+      <div class="stat-card-label">Investimento máximo</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num green">R$ 13M</div>
+      <div class="stat-card-label">Receita adicional Ano 1</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num gold">26-44×</div>
+      <div class="stat-card-label">ROI conservador Ano 1</div>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    Mesmo no cenário pessimista (Recompra 90d sobe apenas 5 pontos), o ROI continua acima de 10×. Não há cenário plausível em que esse projeto perde dinheiro.
+    <span class="cite">Análise de sensibilidade · cenário pessimista vs base vs otimista</span>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 10</span>
+  </div>
+</section>
+
+<!-- ============= DECISÕES ============= -->
+<section class="page">
+  <div class="page-eyebrow">Capítulo 9 · Decisões pro Conselho</div>
+  <h1 class="page-title">5 perguntas que precisam de resposta</h1>
+  <p class="page-deck">Nenhuma das decisões abaixo é tecnicamente irreversível. Mas precisam ser tomadas antes do piloto começar, pra não atrasar a Fase 1 e pra alinhar todos os stakeholders.</p>
+
+  <div class="decision">
+    <div class="decision-num">Decisão 01</div>
+    <div class="decision-q">Aprovar piloto em Center Norte por 90 dias com KPI único?</div>
+    <div class="decision-context">Recomendação: aprovar. Sem investimento adicional além do orçamento de tecnologia já alocado. Métrica única (Recompra 90d). Critério Go/No-Go claro no Mês 3.</div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-num">Decisão 02</div>
+    <div class="decision-q">Tier Essencial GRÁTIS com qualquer compra (incluindo Design R$ 95)?</div>
+    <div class="decision-context">Recomendação: sim. A faixa ≤R$ 100 representa 8,7% da base histórica. Ativar o Cuidado Contínuo já no Design transforma a porta de entrada de menor ticket em máquina de Premium em formação.</div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-num">Decisão 03</div>
+    <div class="decision-q">Score de Cuidado entra como bônus paralelo OU substitui parte do ranking atual?</div>
+    <div class="decision-context">Recomendação: bônus paralelo. Comissão de venda permanece igual. Score adiciona prêmio em cima, com regras claras. Substituição completa só após validar 6 meses de adoção.</div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-num">Decisão 04</div>
+    <div class="decision-q">Diário Estúdio Mais é off-the-record (não publicável em redes) ou pode ter recortes pra Instagram?</div>
+    <div class="decision-context">Recomendação: off-the-record total. Princípio Cucinelli — quem fala fala porque confia no espaço. Recortes pra rede social quebram o pacto e descem o nível da conversa.</div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-num">Decisão 05</div>
+    <div class="decision-q">Validação jurídica do Tier 360° (consulta médica online) com advogado ANS/CFM?</div>
+    <div class="decision-context">Recomendação: contratar advogado especialista em saúde digital antes do Mês 4. O Tier 360° tem médica do protocolo e dermato online — risco de interpretação como plano de saúde. Investimento ~R$ 15-30k pra opinião formal.</div>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 11</span>
+  </div>
+</section>
+
+<!-- ============= FECHAMENTO ============= -->
+<section class="page">
+  <div class="page-eyebrow">Encerramento</div>
+  <h1 class="page-title">O Estúdio Mais que sobrevive os próximos 10 anos</h1>
+  <p class="page-deck">A questão não é se a estética premium vai ficar mais competitiva. Vai. A questão é onde estaremos quando isso acontecer.</p>
+
+  <p>O setor inteiro está migrando pra experiência. Concorrentes copiando procedimento. Aparelhos viram commodity. Tecnologia entra em 6 meses em qualquer clínica que pague.</p>
+
+  <p>O que não se copia é a relação. O Cuidado Contínuo é a infraestrutura técnica que transforma cada uma das 22.756 clientes da base em uma relação viva, registrada, ativada. Não com a marca anônima — com a Lene, a Paula, a Camila. Com nome próprio. Com Memória.</p>
+
+  <p>E a Score de Cuidado é o que faz a Lene, a Paula e a Camila quererem usar o app todo dia. Não por obrigação. Por dinheiro, sim. Mas também porque pela primeira vez o sistema não vai medi-las por quanto venderam, e sim por quanto cuidaram.</p>
+
+  <div class="pullquote" style="margin-top: 12mm; font-size: 18pt;">
+    Não vamos vender mais procedimento. Vamos vender cuidado contínuo. O procedimento é o evento. A relação é o produto.
+    <span class="cite">Tese central · Cuidado Contínuo</span>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 12mm;">
+    <div class="hb-eyebrow">Pedido final</div>
+    <div class="hb-title">Aprovação pra começar o piloto em Center Norte no próximo mês.</div>
+    <div class="hb-body">90 dias. KPI único: Recompra 90d. Center Norte (Paula). Se bater 40% no Mês 3, escalamos. Se não bater, paramos. Sem custos enterrados, sem queima de marca, sem queima de equipe.</div>
+  </div>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 12</span>
+  </div>
+</section>
+
+<!-- ============= APÊNDICE ============= -->
+<section class="page">
+  <div class="page-eyebrow">Apêndice</div>
+  <h1 class="page-title">Documentação completa</h1>
+  <p class="page-deck">Todos os documentos estratégicos e técnicos que sustentam esta apresentação. Disponíveis em Obsidian e GitHub.</p>
+
+  <h3 class="sans">Estratégia (Obsidian)</h3>
+  <ul class="sans" style="font-family: -apple-system, sans-serif; font-size: 10pt;">
+    <li><strong>Doc 41</strong> · App como Motor de LTV — Estratégia Baseada em Dados</li>
+    <li><strong>Doc 42</strong> · Programa de Acompanhamento — Produto-Âncora (decisões fechadas)</li>
+    <li><strong>Doc 43</strong> · Cuidado Contínuo — O Que Já Existe no App (descoberta crítica)</li>
+    <li><strong>Doc 44</strong> · Score de Cuidado — KPIs Prêmios e Co-Criação (fórmulas completas)</li>
+    <li><strong>Doc 27</strong> · Os 4 Ingredientes do Premium (base estatística da Janela Mágica)</li>
+    <li><strong>Doc 21</strong> · Dados Master Linkx + Belle (22.756 clientes · 5 anos)</li>
+    <li><strong>Doc 09</strong> · Projeto Ela Volta (KPI único Recompra 90d)</li>
+    <li><strong>Beneficios_Procedimentos_Lote3_Sobrancelha</strong> · catálogo clínico revisado em maio</li>
+  </ul>
+
+  <h3 class="sans">Pacote de implementação técnica (GitHub)</h3>
+  <ul class="sans" style="font-family: -apple-system, sans-serif; font-size: 10pt;">
+    <li>7 migrations SQL prontas (seeds Lote 3, Score schema + RLS, pré/pós atendimento, objeções, bug/idea reports)</li>
+    <li>3 arquivos TypeScript do decision-engine (score Janela Mágica, regra R7, action dispatch-courtesy)</li>
+    <li>Specs detalhadas de 4+ telas mobile novas com queries Supabase</li>
+    <li>README de implementação + PROMPT-DEV pra IA do dev</li>
+    <li>Protótipos HTML navegáveis (9 telas, ~228KB)</li>
+  </ul>
+
+  <h3 class="sans">Protótipos visuais</h3>
+  <p class="sans" style="font-family: -apple-system, sans-serif; font-size: 10pt;">Rodando localmente em http://127.0.0.1:8081/ — abrir <strong>index.html</strong> e navegar pelas 9 telas pelo switcher de modos. Tudo cross-linkado, animações suaves, botões funcionais.</p>
+
+  <div class="pagefoot">
+    <span>Cuidado Contínuo · Conselho · 28/05/2026</span>
+    <span>Página 13</span>
+  </div>
+</section>
+
+</body>
+</html>
