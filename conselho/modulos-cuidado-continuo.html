@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Cuidado Contínuo · Módulos Criados · Maio 2026</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --green: #6b8e6f;
+  }
+
+  @page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+  @page :first { margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif;
+    color: var(--ink);
+    background: white;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+  .serif { font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif; }
+  strong { font-weight: 600; color: var(--ink); }
+
+  /* CAPA */
+  .cover {
+    page-break-after: always;
+    min-height: 297mm;
+    background: linear-gradient(135deg, #1f1a17 0%, #5a4f47 55%, #8a6f3d 100%);
+    color: var(--cream);
+    padding: 30mm 22mm;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: -50mm; right: -50mm;
+    width: 180mm; height: 180mm;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,191,149,0.16), transparent 70%);
+  }
+  .cover-eyebrow {
+    font-size: 9.5pt;
+    letter-spacing: 4pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 16mm;
+    font-weight: 700;
+  }
+  .cover-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 56pt;
+    font-weight: 600;
+    letter-spacing: -2pt;
+    line-height: 0.95;
+    margin-bottom: 6mm;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-subtitle {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 16pt;
+    font-style: italic;
+    color: rgba(244,236,226,0.85);
+    line-height: 1.4;
+    max-width: 140mm;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-meta {
+    position: absolute;
+    bottom: 30mm;
+    left: 22mm;
+    right: 22mm;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+    letter-spacing: 1.8pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 600;
+    z-index: 2;
+  }
+  .cover-meta strong { display: block; color: var(--cream); font-size: 11pt; letter-spacing: 0.3pt; text-transform: none; margin-top: 2mm; font-weight: 600; }
+
+  /* SUMÁRIO */
+  .toc {
+    page-break-after: always;
+    padding-top: 6mm;
+  }
+  .toc-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32pt;
+    font-weight: 600;
+    letter-spacing: -1pt;
+    margin-bottom: 8mm;
+  }
+  .toc-eyebrow {
+    font-size: 8.5pt;
+    letter-spacing: 2.5pt;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 4mm;
+  }
+  .toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 4mm 0;
+    border-bottom: 0.15mm solid var(--cream-deep);
+  }
+  .toc-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24pt;
+    font-weight: 600;
+    color: var(--gold-deep);
+    width: 18mm;
+    letter-spacing: -1pt;
+  }
+  .toc-name {
+    font-size: 13pt;
+    font-weight: 600;
+    flex: 1;
+    color: var(--ink);
+  }
+  .toc-meta {
+    font-size: 9pt;
+    color: var(--ink-soft);
+    letter-spacing: 0.5pt;
+  }
+
+  /* MODULE */
+  .module {
+    page-break-before: always;
+    padding-top: 4mm;
+  }
+  .module-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 14pt;
+    color: var(--gold-deep);
+    font-weight: 600;
+    letter-spacing: 1pt;
+  }
+  .module-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 34pt;
+    font-weight: 600;
+    letter-spacing: -1pt;
+    line-height: 1.05;
+    margin-bottom: 3mm;
+    color: var(--ink);
+  }
+  .module-tag {
+    display: inline-block;
+    background: var(--cream);
+    padding: 1.5mm 4mm;
+    border-radius: 100px;
+    font-size: 8.5pt;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--gold-deep);
+    margin-bottom: 6mm;
+  }
+  .module-tag.implemented { background: #ecf2ed; color: #4a6e4f; }
+  .module-tag.protótipo { background: #fff4e0; color: #8a6f3d; }
+  .module-tag.handoff { background: #f3eaf0; color: #8a3a4f; }
+
+  h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18pt;
+    font-weight: 600;
+    letter-spacing: -0.3pt;
+    margin: 7mm 0 3mm;
+    color: var(--ink);
+    padding-bottom: 1.5mm;
+    border-bottom: 0.2mm solid var(--cream-deep);
+  }
+  h3:first-of-type { margin-top: 4mm; }
+
+  ul.bullets {
+    list-style: none;
+    margin: 2mm 0 4mm;
+  }
+  ul.bullets li {
+    position: relative;
+    padding-left: 6mm;
+    margin-bottom: 1.5mm;
+    line-height: 1.55;
+  }
+  ul.bullets li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 16pt;
+    line-height: 0.8;
+  }
+  ul.bullets li strong { color: var(--ink); font-weight: 600; }
+
+  ul.specs {
+    list-style: none;
+    margin: 2mm 0 4mm;
+    background: var(--cream);
+    border-radius: 3mm;
+    padding: 4mm 6mm 3mm;
+  }
+  ul.specs li {
+    display: grid;
+    grid-template-columns: 32mm 1fr;
+    gap: 4mm;
+    padding: 1.5mm 0;
+    font-size: 10pt;
+  }
+  ul.specs li strong {
+    color: var(--gold-deep);
+    font-size: 8pt;
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding-top: 0.5mm;
+  }
+
+  .pull {
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: var(--cream);
+    padding: 5mm 7mm;
+    border-radius: 3mm;
+    margin: 4mm 0;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 13pt;
+    line-height: 1.4;
+  }
+  .pull-eyebrow {
+    font-family: -apple-system, sans-serif;
+    font-size: 8pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 1.5mm;
+    font-style: normal;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6mm;
+    margin: 4mm 0;
+  }
+
+  table.compact {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3mm 0;
+    font-size: 9.5pt;
+  }
+  table.compact th, table.compact td {
+    text-align: left;
+    padding: 2.5mm 3mm;
+    border-bottom: 0.15mm solid var(--cream-deep);
+  }
+  table.compact th {
+    background: var(--cream);
+    font-weight: 700;
+    font-size: 8pt;
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  table.compact td.right { text-align: right; font-weight: 600; }
+
+  .pagefoot {
+    position: fixed;
+    bottom: 6mm;
+    left: 16mm;
+    right: 16mm;
+    font-size: 7pt;
+    color: var(--ink-soft);
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    border-top: 0.15mm solid var(--cream-deep);
+    padding-top: 2mm;
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<section class="cover">
+  <div class="cover-eyebrow">O que foi feito · Maio 2026</div>
+  <h1 class="cover-title">Cuidado<br>Contínuo</h1>
+  <p class="cover-subtitle">10 módulos criados em maio de 2026. Esta apresentação descreve cada um de forma objetiva.</p>
+
+  <div class="cover-meta">
+    <div>
+      Apresentado por
+      <strong>Danilo Tuffi</strong>
+    </div>
+    <div>
+      Para
+      <strong>Conselho · Estúdio Mais</strong>
+    </div>
+    <div>
+      Data
+      <strong>28 · Maio · 2026</strong>
+    </div>
+  </div>
+</section>
+
+<!-- SUMÁRIO -->
+<section class="toc">
+  <div class="toc-eyebrow">Sumário</div>
+  <h2 class="toc-title">10 módulos</h2>
+
+  <div class="toc-item">
+    <div class="toc-num">01</div>
+    <div class="toc-name">Cuidado Contínuo · Produto-Âncora</div>
+    <div class="toc-meta">Conceito · 3 tiers</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">02</div>
+    <div class="toc-name">Vista da Cliente · Casa do Cuidado</div>
+    <div class="toc-meta">Régua D+0 a D+45</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">03</div>
+    <div class="toc-name">Briefing Diário do Profissional</div>
+    <div class="toc-meta">5 ações priorizadas</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">04</div>
+    <div class="toc-name">Pipeline de Clientes</div>
+    <div class="toc-meta">Kanban 6 colunas</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">05</div>
+    <div class="toc-name">Perfil 360° da Cliente</div>
+    <div class="toc-meta">Memória + histórico</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">06</div>
+    <div class="toc-name">Score de Cuidado</div>
+    <div class="toc-meta">KPIs + prêmios</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">07</div>
+    <div class="toc-name">Diário Estúdio Mais</div>
+    <div class="toc-meta">Colunistas + encontros</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">08</div>
+    <div class="toc-name">Catálogo Clínico Lote 3 · Sobrancelha</div>
+    <div class="toc-meta">7 procedimentos documentados</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">09</div>
+    <div class="toc-name">Pacote Técnico de Implementação</div>
+    <div class="toc-meta">Migrations + decision engine</div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">10</div>
+    <div class="toc-name">Documentação Estratégica</div>
+    <div class="toc-meta">4 docs Obsidian novos</div>
+  </div>
+</section>
+
+<!-- ============= MÓDULO 1 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 01</div>
+  <h1 class="module-name">Cuidado Contínuo · Produto-Âncora</h1>
+  <span class="module-tag handoff">Conceito · Documentado · Aguarda piloto</span>
+
+  <h3>O que é</h3>
+  <ul class="bullets">
+    <li>Programa de acompanhamento contínuo que se vende junto com qualquer pacote do Estúdio Mais</li>
+    <li>Ativa automaticamente quando cliente faz qualquer compra ≥ R$ 95</li>
+    <li>Substitui a tese de "fidelidade por pontos" (descartada)</li>
+  </ul>
+
+  <h3>3 tiers comerciais</h3>
+  <table class="compact">
+    <thead>
+      <tr><th>Tier</th><th>Preço</th><th>Inclui</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Essencial</strong></td><td>Grátis com qualquer pacote</td><td>Casa do Cuidado · Régua pós-procedimento · IA 24/7 · Chat com executora · Cortesia D+15</td></tr>
+      <tr><td><strong>Cuidado</strong></td><td>R$ 200/mês</td><td>Essencial + consulta mensal nutri/enfermeira + Painel Hormonal + plano refeito 4×/ano</td></tr>
+      <tr><td><strong>Programa 360°</strong></td><td>R$ 500/mês</td><td>Cuidado + dermato trimestral + médica do protocolo + personal + suplementação</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Decisões fechadas</h3>
+  <ul class="bullets">
+    <li><strong>Nome comercial:</strong> Cuidado Contínuo</li>
+    <li><strong>Procedimento piloto:</strong> Design de Sobrancelha (carro-chefe da casa)</li>
+    <li><strong>Cortesia D+15 padrão:</strong> Tintura de Sobrancelha (custo R$ 3,47 / valor percebido R$ 219,60)</li>
+    <li><strong>Unidade piloto:</strong> Center Norte (Paula, 10,5% conversão)</li>
+    <li><strong>Ativação:</strong> toda compra ativa Tier Essencial automaticamente</li>
+  </ul>
+
+  <div class="pull">
+    <div class="pull-eyebrow">Princípio comercial central</div>
+    O Estúdio Mais para de vender procedimento isolado. Vende procedimento + Programa de Acompanhamento. O procedimento é o evento. A relação é o produto.
+  </div>
+</section>
+
+<!-- ============= MÓDULO 2 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 02</div>
+  <h1 class="module-name">Vista da Cliente · Casa do Cuidado</h1>
+  <span class="module-tag protótipo">Protótipo HTML pronto · 1 tela</span>
+
+  <h3>Componentes</h3>
+  <ul class="bullets">
+    <li><strong>Contador "D+8":</strong> dias desde o procedimento sempre visível no topo</li>
+    <li><strong>Banner Janela Mágica:</strong> oferta de cortesia em destaque (Tintura, Brow Lamination, Lash Lifting — conforme dia)</li>
+    <li><strong>Cards "Hoje no seu cuidado":</strong> ações do dia (foto de evolução, hidratação, escovação)</li>
+    <li><strong>Strip "Sua equipe":</strong> contato direto com executora (Lene) e gerente (Paula)</li>
+    <li><strong>Bloco Diário:</strong> coluna em destaque + convite pra ler</li>
+    <li><strong>Bloco Encontro:</strong> próximo evento Constelação pra ela</li>
+    <li><strong>Cards "Para frente":</strong> Pacote Flex Beleza do Olhar + Painel Hormonal (sem urgência comercial)</li>
+    <li><strong>Chat FAB pulsante:</strong> IA 24/7 + handoff humano em &lt;2h</li>
+  </ul>
+
+  <h3>Princípios aplicados</h3>
+  <ul class="bullets">
+    <li>Toda mensagem assinada por pessoa real (Lene, não "Estúdio Mais")</li>
+    <li>Zero CTA comercial. Zero desconto. Zero urgência falsa</li>
+    <li>Cortesia é presente, não isca (princípio Arnault)</li>
+    <li>Customer effort score &lt; 2 toques pra qualquer ação</li>
+  </ul>
+
+  <h3>Spec</h3>
+  <ul class="specs">
+    <li><strong>Protótipo</strong>index.html · 34 KB</li>
+    <li><strong>Cliente exemplo</strong>Beatriz Almeida · D+8 do Design</li>
+    <li><strong>Cor de marca</strong>Cream + Rose Deep + Gold</li>
+    <li><strong>Tipografia</strong>Cormorant Garamond (títulos) + SF Pro (corpo)</li>
+  </ul>
+</section>
+
+<!-- ============= MÓDULO 3 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 03</div>
+  <h1 class="module-name">Briefing Diário do Profissional</h1>
+  <span class="module-tag protótipo">Protótipo HTML pronto · 1 tela</span>
+
+  <h3>O que faz</h3>
+  <ul class="bullets">
+    <li>Tela inicial do Modo Profissional ao abrir o app na manhã</li>
+    <li>Sistema decide as 5 ações prioritárias do dia — profissional não escolhe</li>
+    <li>Cada ação carrega contexto: tag (Janela Mágica / Cuidado Clínico / Memória), procedimento, dia, executora</li>
+  </ul>
+
+  <h3>5 tipos de ação típica</h3>
+  <ul class="bullets">
+    <li><strong>Janela Mágica:</strong> "Confirmar cortesia da Beatriz — D+8, ela ainda não escolheu horário"</li>
+    <li><strong>Cuidado Clínico:</strong> "Ligar pra Rosana — Hidrolipo D+5, ver se desinchou"</li>
+    <li><strong>Memória:</strong> "Mensagem pra Maria — aniversário do filho amanhã"</li>
+    <li><strong>Ponte 3:</strong> "Patrícia — sessão 11/12, propor Pacote Flex"</li>
+    <li><strong>Ritual D+1:</strong> "Áudio de boas-vindas pra Luiza — fez Design ontem"</li>
+  </ul>
+
+  <h3>Sidebar permanente</h3>
+  <ul class="bullets">
+    <li>Score de Cuidado (compacto)</li>
+    <li>Memória das clientes do dia (5 lembretes)</li>
+    <li>Próximas da semana (3 itens)</li>
+  </ul>
+
+  <h3>Stats do dia (header)</h3>
+  <table class="compact">
+    <thead><tr><th>Métrica</th><th>Valor exemplo</th></tr></thead>
+    <tbody>
+      <tr><td>Score de Cuidado</td><td>94 / 100</td></tr>
+      <tr><td>Ações hoje</td><td>5 / 5 sugeridas</td></tr>
+      <tr><td>NPS médio 30 dias</td><td>9,4</td></tr>
+      <tr><td>Recompras mês</td><td>4 / 8 meta</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============= MÓDULO 4 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 04</div>
+  <h1 class="module-name">Pipeline de Clientes</h1>
+  <span class="module-tag protótipo">Protótipo HTML pronto · 1 tela</span>
+
+  <h3>O que faz</h3>
+  <ul class="bullets">
+    <li>Mostra TODAS as clientes ativas da profissional (28 no exemplo) em kanban de 6 colunas</li>
+    <li>Cada coluna representa uma etapa da jornada da cliente</li>
+    <li>Cards arrastáveis (visual) e clicáveis (abrem modal de detalhe)</li>
+  </ul>
+
+  <h3>6 colunas do pipeline</h3>
+  <table class="compact">
+    <thead><tr><th>Coluna</th><th>Período</th><th>Foco</th></tr></thead>
+    <tbody>
+      <tr><td>🌱 <strong>1ª Visita</strong></td><td>D+1 a D+7</td><td>Anamnese · áudio de boas-vindas</td></tr>
+      <tr><td>⚡ <strong>Janela Mágica</strong></td><td>D+8 a D+30</td><td>Cortesia escalonada · 12,6× Premium</td></tr>
+      <tr><td>📦 <strong>Em Pacote</strong></td><td>Sessões 1-5</td><td>Ponte 1 (Mapa de dor)</td></tr>
+      <tr><td>🔄 <strong>Meio do Pacote</strong></td><td>Sessão 6 de 12</td><td>Ponte 2 (Proposta natural)</td></tr>
+      <tr><td>🔐 <strong>Penúltima Sessão</strong></td><td>Sessão 11 de 12</td><td>Ponte 3 (Decisão de renovar)</td></tr>
+      <tr><td>✨ <strong>Constelação</strong></td><td>LTV consolidado</td><td>Premium ativa · silêncio quando necessário</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Conteúdo de cada card</h3>
+  <ul class="bullets">
+    <li>Avatar + nome + dia da jornada (D+X)</li>
+    <li>Procedimento + executora</li>
+    <li><strong>Memória pessoal:</strong> filho, viagem, evento, profissão, medo</li>
+    <li><strong>Próxima ação sugerida</strong></li>
+    <li>Tag de contexto colorida</li>
+    <li>Botões: 💬 Chat in-app · 📲 WhatsApp · 📞 Ligar · 🎙️ Áudio</li>
+  </ul>
+
+  <h3>Filtros funcionais</h3>
+  <ul class="bullets">
+    <li>Todas (28) · Janela Mágica (7) · Em Pacote (9) · Bloco do Olhar</li>
+    <li>Por procedimento · Ordenar</li>
+  </ul>
+</section>
+
+<!-- ============= MÓDULO 5 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 05</div>
+  <h1 class="module-name">Perfil 360° da Cliente</h1>
+  <span class="module-tag protótipo">Protótipo HTML pronto · 1 tela</span>
+
+  <h3>O que faz</h3>
+  <ul class="bullets">
+    <li>Visão completa da cliente pela profissional (clicando em qualquer card do Pipeline)</li>
+    <li>Hero com foto, tier, bio, 3 botões (Chat / WhatsApp / Áudio)</li>
+    <li>6 stats em destaque: LTV · Visitas · NPS médio · Indicações · Eventos · Colunas no Diário</li>
+  </ul>
+
+  <h3>6 abas (tabs)</h3>
+  <ul class="bullets">
+    <li><strong>Visão geral:</strong> citação verbatim · Memória resumida (6 categorias) · antes/depois · linha do tempo 90 dias</li>
+    <li><strong>Histórico de visitas:</strong> 141 visitas com filtros por ano/procedimento</li>
+    <li><strong>Memória completa:</strong> 6 anos de notas em categorias</li>
+    <li><strong>Procedimentos:</strong> grid com todos os procedimentos realizados + quantidade + última data</li>
+    <li><strong>Diário & Eventos:</strong> colunas publicadas + eventos conduzidos</li>
+    <li><strong>Conexões:</strong> outras clientes que ela indicou + rede de proximidade</li>
+  </ul>
+
+  <h3>Sidebar permanente</h3>
+  <ul class="bullets">
+    <li>Card do tier atual (Constelação)</li>
+    <li>3 próximas ações sugeridas</li>
+    <li>Painel Hormonal · resumo da semana (ciclo, sono, energia, aderência)</li>
+    <li>Última coluna publicada no Diário</li>
+  </ul>
+
+  <h3>Cliente exemplo</h3>
+  <ul class="specs">
+    <li><strong>Nome</strong>Elaine Wassermann</li>
+    <li><strong>Tier</strong>Constelação · 6 anos</li>
+    <li><strong>LTV</strong>R$ 287.000</li>
+    <li><strong>Indicações</strong>11 (7 viraram cliente)</li>
+    <li><strong>Colunas Diário</strong>12 (mais lida da plataforma)</li>
+  </ul>
+</section>
+
+<!-- ============= MÓDULO 6 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 06</div>
+  <h1 class="module-name">Score de Cuidado</h1>
+  <span class="module-tag protótipo">Protótipo HTML pronto · 1 tela completa + chip persistente</span>
+
+  <h3>4 categorias de KPI</h3>
+  <table class="compact">
+    <thead><tr><th>Categoria</th><th>Peso</th><th>Quantidade de KPIs</th></tr></thead>
+    <tbody>
+      <tr><td>🎯 <strong>Execução</strong></td><td>40%</td><td>5 KPIs (ações executadas, tempo de resposta, cortesias aceitas, briefing aberto, foto)</td></tr>
+      <tr><td>💝 <strong>Relacionamento</strong></td><td>30%</td><td>5 KPIs (NPS, Memória, observações auditadas, áudios pessoais, mensagens humanas)</td></tr>
+      <tr><td>💰 <strong>Vendas Saudáveis</strong></td><td>20%</td><td>5 KPIs (Recompra 90d, Ponte 2 e 3, objeções, SKUs múltiplos)</td></tr>
+      <tr><td>🌟 <strong>Co-Criação</strong></td><td>10%</td><td>4 KPIs (bugs, ideias, ideias implementadas, indicações de talento)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Escala mensal de prêmios</h3>
+  <table class="compact">
+    <thead><tr><th>Score</th><th>Prêmio</th><th>Extra</th></tr></thead>
+    <tbody>
+      <tr><td>70-79</td><td class="right">R$ 200</td><td>Estrela no app</td></tr>
+      <tr><td>80-89</td><td class="right">R$ 500</td><td>Foto destaque + 1 dia flex</td></tr>
+      <tr><td>90-99</td><td class="right">R$ 1.000</td><td>Almoço Constelação com sócios</td></tr>
+      <tr><td>100</td><td class="right">R$ 1.500</td><td>Folga premium + capa do Diário</td></tr>
+      <tr><td>3× ≥85</td><td class="right">R$ 3.000</td><td>Jantar Constelação</td></tr>
+      <tr><td>Top rede anual</td><td class="right">R$ 12.000 + viagem</td><td>Lisboa, Paris ou Buenos Aires</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Co-criação · prêmios paralelos</h3>
+  <ul class="bullets">
+    <li><strong>Bug reportado e validado:</strong> R$ 100 (baixo) · R$ 300 (médio) · R$ 500 (crítico)</li>
+    <li><strong>Ideia implementada:</strong> R$ 500 + nome da feature no app</li>
+    <li><strong>Ideia que muda KPI da rede:</strong> R$ 2.000 + apresentação no Encontro Constelação</li>
+    <li><strong>Indicação de talento contratado:</strong> R$ 2.000 (paga após 90d)</li>
+  </ul>
+
+  <h3>Telas relacionadas</h3>
+  <ul class="bullets">
+    <li><strong>Score completo</strong> (score-detalhe.html): ring animado · breakdown 4 KPIs · escala de prêmios · ranking unidade · histórico 6 meses · bugs/ideias</li>
+    <li><strong>Score chip persistente:</strong> aparece em todas as telas do Modo Profissional · click abre popover com breakdown rápido</li>
+  </ul>
+</section>
+
+<!-- ============= MÓDULO 7 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 07</div>
+  <h1 class="module-name">Diário Estúdio Mais</h1>
+  <span class="module-tag protótipo">Protótipo HTML pronto · 4 telas</span>
+
+  <h3>O que é</h3>
+  <ul class="bullets">
+    <li>Plataforma editorial dentro do app</li>
+    <li>Clientes Trilha e Constelação podem ser colunistas</li>
+    <li>Acessível também a clientes Início e Caminho (leitura)</li>
+    <li>Off-the-record · não publicado em redes sociais</li>
+  </ul>
+
+  <h3>4 telas criadas</h3>
+  <table class="compact">
+    <thead><tr><th>Tela</th><th>Conteúdo</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Hub editorial</strong> (colunistas.html)</td><td>Hero com coluna em destaque · 9 colunas recentes · galeria de 10 colunistas · 4 eventos Constelação · CTA "Quero ser colunista"</td></tr>
+      <tr><td><strong>Coluna aberta</strong> (coluna.html)</td><td>Hero · 1.200 palavras de texto real · drop cap · 2 blockquotes · 5 comentários reais de outras clientes · autor box · 3 colunas relacionadas</td></tr>
+      <tr><td><strong>Perfil colunista</strong> (perfil-colunista.html)</td><td>Foto + bio · 6 stats · 4 tabs (12 colunas / eventos / conexões 37 / sobre) · botão "Seguir"</td></tr>
+      <tr><td><strong>Página de evento</strong> (evento.html)</td><td>Hero · programação 5 blocos · 6 anfitriãs · 11 confirmadas · FAQ expansível · botão "Confirmar presença"</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Colunistas exemplo (10)</h3>
+  <ul class="bullets">
+    <li>Elaine Wassermann · CEO Pharma · 12 colunas</li>
+    <li>Dra. Ana Carolina Vega · Dermatologista · 8 colunas</li>
+    <li>Dra. Marília Tavares · Ginecologista · 6 colunas</li>
+    <li>Dra. Amanda Lobo · Advogada · 9 colunas</li>
+    <li>Juliana Costa · Arquiteta · 5 colunas</li>
+    <li>Sofia Mendes · CEO Startup · 7 colunas</li>
+    <li>Camila Botta · Joalheira Tiffany · 4 colunas</li>
+    <li>Verônica Saito · Mãe 60+ · 11 colunas</li>
+    <li>Daniela Cortez · Saúde Feminina · 3 colunas</li>
+    <li>Renata Vilela · Joalheria Higienópolis · 6 colunas</li>
+  </ul>
+
+  <h3>Categorias editoriais</h3>
+  <ul class="bullets">
+    <li>Liderança · Carreira · Maternidade · Saúde Feminina · Direito · Arquitetura · Estilo · Joalheria · Mindset · Ciência · Mãe 60+</li>
+  </ul>
+</section>
+
+<!-- ============= MÓDULO 8 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 08</div>
+  <h1 class="module-name">Catálogo Clínico Lote 3 · Sobrancelha</h1>
+  <span class="module-tag handoff">Documentação técnica · 24 KB · Aguarda revisão clínica</span>
+
+  <h3>7 procedimentos documentados</h3>
+  <table class="compact">
+    <thead><tr><th>Procedimento</th><th>Mínimo</th><th>Máximo</th><th>Margem</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Design de Sobrancelha</strong></td><td class="right">R$ 82,00</td><td class="right">R$ 163,48</td><td class="right">58,94%</td></tr>
+      <tr><td>Brow Lamination</td><td class="right">R$ 219,60</td><td class="right">R$ 414,80</td><td class="right">61,44%</td></tr>
+      <tr><td>Lash Lifting</td><td class="right">R$ 285,48</td><td class="right">R$ 413,58</td><td class="right">63,25%</td></tr>
+      <tr><td>Tintura de Sobrancelha</td><td class="right">R$ 79,41</td><td class="right">R$ 219,60</td><td class="right">60,53%</td></tr>
+      <tr><td>Henna Degradê</td><td class="right">R$ 170,80</td><td class="right">R$ 219,60</td><td class="right">63,44%</td></tr>
+      <tr><td>Permanente de Cílios</td><td class="right">—</td><td class="right">—</td><td class="right">~63%</td></tr>
+      <tr><td>Micropigmentação 3D</td><td class="right">R$ 494,10</td><td class="right">R$ 2.806,00</td><td class="right">60,24%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>O que cada procedimento contém na documentação</h3>
+  <ul class="bullets">
+    <li><strong>Tecnologia / Técnica</strong> · descrição clínica</li>
+    <li><strong>Benefícios principais</strong> · 5-7 bullets por procedimento</li>
+    <li><strong>Cuidados pré-visita</strong> · checklist</li>
+    <li><strong>Cuidados pós-imediatos</strong> · primeiras 24h críticas</li>
+    <li><strong>Cuidados contínuos D+1 a D+45</strong> · régua dia a dia</li>
+    <li><strong>Contraindicações</strong> · lista de bloqueios</li>
+    <li><strong>Sessões típicas</strong> · cadência ideal</li>
+    <li><strong>Fontes</strong> · 3 links de dermatologistas/clínicas para validação</li>
+  </ul>
+
+  <h3>Aplicação direta</h3>
+  <ul class="bullets">
+    <li>Régua D+0 a D+45 do Cuidado Contínuo (Modo Cliente)</li>
+    <li>Janela Mágica D+8 dispara cortesia escalonada (Design → Tintura → Brow → Lash)</li>
+    <li>Seed da migration <strong>00150_protocol_definitions_olhar_seed.sql</strong></li>
+  </ul>
+</section>
+
+<!-- ============= MÓDULO 9 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 09</div>
+  <h1 class="module-name">Pacote Técnico de Implementação</h1>
+  <span class="module-tag handoff">No GitHub · DaniloTuffi/cuidado-continuo-handoff</span>
+
+  <h3>7 migrations SQL prontas</h3>
+  <table class="compact">
+    <thead><tr><th>Arquivo</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td>00150_protocol_definitions_olhar_seed.sql</td><td>Popula 5 protocolos do Bloco Olhar com daily_actions completas</td></tr>
+      <tr><td>00151_service_care_instructions_olhar.sql</td><td>Popula services.pre_care_instructions e post_care_instructions</td></tr>
+      <tr><td>00152_score_de_cuidado_schema.sql</td><td>Cria profile_score_monthly · profile_score_kpi_log · profile_score_audit</td></tr>
+      <tr><td>00153_score_de_cuidado_rls.sql</td><td>RLS multi-tenant (prof vê dele, gerente vê unidade, admin vê tudo)</td></tr>
+      <tr><td>00154_appointment_pre_post_brief.sql</td><td>Tabelas dos campos obrigatórios pré e pós atendimento</td></tr>
+      <tr><td>00155_objections_catalog.sql</td><td>Catálogo verbatim de objeções com curadoria do gerente</td></tr>
+      <tr><td>00156_bug_reports_feature_ideas.sql</td><td>Programa de co-criação com workflow e prêmios</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3 arquivos TypeScript do Decision Engine</h3>
+  <ul class="bullets">
+    <li><strong>scores/magic-window-propensity.ts</strong> · score 0-100 da Janela Mágica + catálogo de cortesias escalonadas</li>
+    <li><strong>rules/r7-magic-window.ts</strong> · regra R7 (preserva hierarquia: clínico &gt; momento &gt; experiência &gt; negócio)</li>
+    <li><strong>actions/dispatch-courtesy.ts</strong> · cria a oferta de cortesia automaticamente com payload completo (cost, valor percebido, janela sugerida, reason for client + for professional)</li>
+  </ul>
+
+  <h3>Documentação técnica</h3>
+  <ul class="bullets">
+    <li><strong>README.md</strong> · ordem de implementação em 5 PRs · estimativa 4-6 semanas</li>
+    <li><strong>PROMPT-DEV.md</strong> · prompt pronto pra colar na IA do dev (Claude Code, Cursor)</li>
+    <li><strong>specs/mobile-screens.md</strong> · spec detalhada de cada tela nova com queries Supabase e componentes a criar</li>
+  </ul>
+
+  <h3>Repositório público</h3>
+  <ul class="specs">
+    <li><strong>URL</strong>github.com/DaniloTuffi/cuidado-continuo-handoff</li>
+    <li><strong>Visibilidade</strong>Público</li>
+    <li><strong>Tamanho</strong>~150 KB (zip)</li>
+    <li><strong>Arquivos</strong>16 (migrations + TS + specs + README + PDF + HTML)</li>
+  </ul>
+</section>
+
+<!-- ============= MÓDULO 10 ============= -->
+<section class="module">
+  <div class="module-num">Módulo 10</div>
+  <h1 class="module-name">Documentação Estratégica</h1>
+  <span class="module-tag handoff">4 docs novos no Obsidian · Cérebro de Contexto</span>
+
+  <h3>Doc 41 · App como Motor de LTV — Estratégia Baseada em Dados</h3>
+  <ul class="bullets">
+    <li>SWOT calibrada com dados Linkx + Belle</li>
+    <li>4 hipóteses ranqueadas pra "por que 70% não recompram"</li>
+    <li>Jornada Visível com 6 Capítulos (Início → Constelação)</li>
+    <li>Sprint plan 90 dias movendo Taxa de Recompra</li>
+    <li>ROI conservador +R$ 15-20M LTV anual</li>
+  </ul>
+
+  <h3>Doc 42 · Programa de Acompanhamento — Produto-Âncora</h3>
+  <ul class="bullets">
+    <li>Tese central + 2 lados do produto (cliente e profissional)</li>
+    <li>3 tiers com preço e composição</li>
+    <li>Decisões fechadas (nome, piloto, cortesia, unidade)</li>
+    <li>Roadmap 6 meses + ROI esperado</li>
+  </ul>
+
+  <h3>Doc 43 · Cuidado Contínuo — O Que Já Existe no App</h3>
+  <ul class="bullets">
+    <li>Mapeamento completo do código atual do dev (steinhauserhzs/estudio-mais)</li>
+    <li>Descoberta da migration 00124 (Jornada com Capítulos já implementada)</li>
+    <li>Lista cirúrgica do que falta (alta / média / baixa prioridade)</li>
+    <li>Reconciliação entre estratégia nova e código existente</li>
+  </ul>
+
+  <h3>Doc 44 · Score de Cuidado — KPIs, Prêmios e Co-Criação</h3>
+  <ul class="bullets">
+    <li>4 categorias de KPI com fórmulas detalhadas e metas</li>
+    <li>Sistema de prêmios em 3 escalas (mensal, trimestral, anual)</li>
+    <li>17 campos obrigatórios pré e pós atendimento</li>
+    <li>Mecânica anti-jogada (auditoria, NPS automático, cross-check)</li>
+    <li>Esquema técnico (8 tabelas, 4 functions) para o dev</li>
+    <li>Plano de rollout em 3 fases</li>
+  </ul>
+
+  <h3>Catálogo Clínico paralelo</h3>
+  <ul class="bullets">
+    <li><strong>Beneficios_Procedimentos_Lote3_Sobrancelha.md</strong> (24 KB) com 7 procedimentos completos</li>
+  </ul>
+</section>
+
+</body>
+</html>
