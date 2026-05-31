@@ -62,19 +62,23 @@ export default function InstitutoScreen() {
             Há 4 anos, formamos mulheres em situação de vulnerabilidade nas áreas onde o Estúdio Mais atua: estética, biomedicina, nutrição. Gratuitamente. Sem retorno financeiro pra rede.
           </Text>
 
-          {/* Métricas */}
-          <View style={styles.metricsGrid}>
-            {metrics.map((m) => (
-              <View key={m.metric_key} style={styles.metricBox}>
-                <Text style={styles.metricNum}>
-                  {m.display_format === "currency"
-                    ? `R$ ${(m.current_value / 100).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`
-                    : Math.round(m.current_value).toLocaleString("pt-BR")}
-                </Text>
-                <Text style={styles.metricLabel}>{m.label}</Text>
-              </View>
-            ))}
-          </View>
+          {/* Métricas só aparecem quando admin popular valores reais */}
+          {metrics.filter((m) => Number(m.current_value) > 0).length > 0 && (
+            <View style={styles.metricsGrid}>
+              {metrics
+                .filter((m) => Number(m.current_value) > 0)
+                .map((m) => (
+                  <View key={m.metric_key} style={styles.metricBox}>
+                    <Text style={styles.metricNum}>
+                      {m.display_format === "currency"
+                        ? `R$ ${(m.current_value / 100).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`
+                        : Math.round(m.current_value).toLocaleString("pt-BR")}
+                    </Text>
+                    <Text style={styles.metricLabel}>{m.label}</Text>
+                  </View>
+                ))}
+            </View>
+          )}
         </View>
 
         {/* Como funciona */}
@@ -118,7 +122,8 @@ export default function InstitutoScreen() {
           </View>
         </View>
 
-        {/* Depoimentos completos */}
+        {/* Depoimentos completos — só renderiza se admin publicou pelo menos 1 */}
+        {depoimentos.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionH}>DEPOIMENTOS</Text>
           {depoimentos.map((d) => (
@@ -161,15 +166,26 @@ export default function InstitutoScreen() {
             </View>
           ))}
         </View>
+        )}
 
-        {/* Footer / próxima turma */}
-        <View style={styles.footer}>
-          <Text style={styles.footerEyebrow}>PRÓXIMA TURMA</Text>
-          <Text style={styles.footerTitle}>40 vagas · setembro 2026</Text>
-          <Text style={styles.footerText}>
-            Cada Madrinha do Clube co-financia em média 0,3 vaga por ano. Quando você passa pelo procedimento, alguém entra na formação.
-          </Text>
-        </View>
+        {/* Footer próxima turma — só renderiza se admin populou os 2 metrics */}
+        {(() => {
+          const turmaSize = metrics.find((m) => m.metric_key === "current_turma_size")?.current_value ?? 0;
+          const nextTs = metrics.find((m) => m.metric_key === "next_turma_starts_at_ts")?.current_value ?? 0;
+          if (!turmaSize || !nextTs) return null;
+          const nextDate = new Date(Number(nextTs) * 1000);
+          const months = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+          const formatted = `${months[nextDate.getMonth()]} de ${nextDate.getFullYear()}`;
+          return (
+            <View style={styles.footer}>
+              <Text style={styles.footerEyebrow}>PRÓXIMA TURMA</Text>
+              <Text style={styles.footerTitle}>{Math.round(Number(turmaSize))} vagas · {formatted}</Text>
+              <Text style={styles.footerText}>
+                Cada Madrinha do Clube co-financia em média 0,3 vaga por ano. Quando você passa pelo procedimento, alguém entra na formação.
+              </Text>
+            </View>
+          );
+        })()}
       </ScrollView>
     </SafeAreaView>
   );

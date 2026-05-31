@@ -1,254 +1,229 @@
 ================================================================================
-MENSAGEM PARA STEINHAUSER · CUIDADO CONTÍNUO · PRÓXIMOS PASSOS
+MENSAGEM PARA STEINHAUSER · CLUBE DAS MADRINHAS · PIVÔ ESTRATÉGICO
+================================================================================
+Data: maio/2026
+Repo: github.com/DaniloTuffi/cuidado-continuo-handoff
 ================================================================================
 
-Hari,
+Hari, te mando o estado completo do Clube das Madrinhas — o pivô estratégico
+do Cuidado Contínuo que substitui o modelo de 3 tiers de assinatura que tinha
+no design anterior. O motivo da mudança e a tese estão no doc 45 do Obsidian
+(posso compartilhar separado se quiser).
 
-tudo certo? Subi no GitHub um pacote completo do Cuidado Contínuo com tudo
-que faltava pra fechar a tese: 7 PRs prontos pra você revisar e mergear no
-estudio-mais. Já cuidei pra usar o schema real (employee_details + appointments
-date+start_time + package_sessions + units), respeitando o padrão do
-monorepo (useTheme/useAuth/expo-router/SECURITY DEFINER).
+TL;DR do que mudou:
 
-Link único do pacote:
-→ https://github.com/DaniloTuffi/cuidado-continuo-handoff
+- Saiu: 3 tiers pagos (Essencial / Cuidado R$ 200/mês / Programa 360° R$ 500/mês)
+- Entrou: Clube das Madrinhas (360 vagas, fila viva, acesso por escassez)
+         + Benefícios High Value liberados automaticamente por pacote ≥ R$ 10k
+         + Storytelling do Instituto Estúdio Mais embutido em todas as superfícies
 
-Doc obrigatória de leitura antes de tocar em qualquer migration:
-→ INTEGRACAO_BELLE.md (na raiz do repo, explica como Belle ETL feeds as
-  features novas)
-
-
-================================================================================
-RESUMO DO PACOTE
-================================================================================
-
-15 migrations SQL (00150 a 00165 — aplicação ordenada)
-3 arquivos TypeScript do decision-engine (Janela Mágica + R7 + dispatch)
-15 telas mobile TSX (Modo Profissional + Cliente)
-3 páginas web Next.js (dashboard admin)
-1 edge function Deno (IA 24/7 com Claude Sonnet 4.5)
-Helper compartilhado de queries (mobile-tsx/lib/cuidado-continuo-queries.ts)
+Nada de assinatura recorrente vendida. Nada de regulação ANS/CFM como plano de
+saúde. Só escassez + storytelling + trigger automático em client_packages.
 
 
 ================================================================================
-ORDEM DE IMPLEMENTAÇÃO SUGERIDA (4 SPRINTS · ~6-8 SEMANAS)
+COMMITS NOVOS DESDE O ÚLTIMO QUE VOCÊ VIU
 ================================================================================
 
-SPRINT 1 · DESTRAVA PILOTO CENTER NORTE (1 semana)
---------------------------------------------------
-1. Aplicar migrations em DEV (não prod ainda):
-   - 00158_pipeline_functions.sql
-   - 00162_cuidado_continuo_schema_fixes.sql (esta é a chave — reconcilia tudo
-     com schema real do Belle, ALTER TABLE aditivos sem destruir)
-2. Mergear PR 4 (mobile-tsx/components/score-chip + employee/briefing + pipeline + score)
-3. Atualizar apps/mobile/app/(employee)/_layout.tsx adicionando rotas novas
-4. Testar fluxo:
-   - Criar cliente teste, agendar Design de Sobrancelha
-   - Marcar appointment.status = completed
-   - Confirmar que trigger appointment_completion criou client_protocol_progress
-   - Login como employee → ver Briefing
-5. Configurar BELLE_API_TOKEN_CENTER_NORTE no Vercel
-6. Escrever scripts/belle-etl/sync/04-multi-store-sync.ts seguindo padrão
-   dos scripts 01, 02, 03 (já existentes)
-7. Cron rodando appointments + vendas fluindo do Belle Center Norte
+Em ordem cronológica (todos já no main remoto):
 
+1. 5246dc9 · Pivô estratégico · Clube das Madrinhas substitui tiers de assinatura
+   - migrations 00166 + 00167 (schema + RLS)
+   - 4 telas TSX (entrada, painel webview, instituto, profissional libera)
+   - Casa do Cuidado atualizada (banner contextual ao status do Clube)
+   - Deck do board atualizado (slides 6/11/12/14/16)
 
-SPRINT 2 · CLIENTE + CO-CRIAÇÃO (2 semanas)
---------------------------------------------
-8. Mergear PR 6 (employee/client-360 + bug-report + idea-submit)
-9. Mergear PR 10 (client/casa-do-cuidado) substituindo ou estendendo o
-   portal.tsx atual do cliente
-10. Aplicar migration 00161_client_memory_facts.sql
-11. Escrever cron decision-engine em apps/web/app/api/cron/decision-engine
-    rodando a cada 1h (use vercel.json crons):
+2. 200027b · Protótipo HTML + fix trigger high-value + Belle readiness doc
+   - prototypes/clube-madrinhas.html (interativo, vai no GitHub Pages)
+   - BELLE-READINESS-CLUBE.md (auditoria de integração com o Belle ETL)
+   - Fix crítico no trigger: usava packages.average_price_per_session
+     (coluna inexistente) → agora usa unit_prices.custom_price →
+     packages.price → payments.amount como fallback chain
 
-    Para cada cliente ativa nas units configuradas:
-      - Coletar signals (appointments recentes, protocolo ativo, churn risk)
-      - DecisionEngine.nextBestAction(signals)
-      - Se action != do_nothing: INSERT em decision_actions_queue
+3. b675645 · Edge function JWT + Flask receiver + Seed Instituto
+   - edge-functions/issue-painel-jwt/index.ts (Deno + djwt HS256)
+   - flask-side/madrinha_auto_login.py (template Flask)
+   - migrations/00168_instituto_seed.sql (intencionalmente vazia)
 
-12. Validar Janela Mágica D+8 do Design de Beatriz:
-    - decision_actions_queue recebe linha com payload Tintura
-    - Aparece no Briefing Hoje da Lene
-    - Cliente vê banner na Casa do Cuidado
-
-
-SPRINT 3 · DIÁRIO + IA (2 semanas)
------------------------------------
-13. Aplicar migrations 00159 (diario schema) + 00160 (diario RLS) +
-    00164 (ai conversations) + 00165 (self assessments)
-14. Mergear PR 5 (4 telas do Diário) + PR 9 (ai-care-chat + self-assessment)
-15. Deploy edge function:
-    cd supabase/functions && supabase functions deploy ai-care-respond
-16. Setar secrets:
-    supabase secrets set ANTHROPIC_API_KEY=<chave da org>
-17. Seed 5-10 colunas iniciais do Diário (clientes Constelação reais que
-    aceitarem — Danilo pode fazer follow-up presencial)
-18. Configurar push notifications via OneSignal pra:
-    - Lembrete de análise doméstica D+5 e D+15
-    - Nova mensagem da IA escalada
-
-
-SPRINT 4 · TIERS + WEB ADMIN (1 sprint)
-----------------------------------------
-19. Aplicar migration 00163 (tiers + pool + video consultations)
-20. Mergear PR 7 (web admin: score-de-cuidado + pipeline + cuidado-continuo-cliente)
-21. Mergear PR 8 (client/cuidado-continuo/choose-tier)
-22. Configurar Asaas:
-    - Criar produto recorrente "Cuidado R$ 200/mês"
-    - Criar produto recorrente "Programa 360° R$ 500/mês"
-    - Webhook em apps/web/app/api/asaas/webhook que sincroniza status
-      pra client_cc_subscriptions
-23. Configurar Daily.co (ou Whereby/Zoom):
-    - Account + API key
-    - Quando consulta agendada → criar room → preencher
-      cc_video_consultations.video_room_url
-24. Recrutar pool inicial:
-    - 1 nutricionista (atende clientes Cuidado + 360°)
-    - 1 dermatologista (só 360°)
-    - 1 médica do protocolo (só 360°)
-    - 1 personal/fisio dermatofuncional (só 360°)
-25. Validação jurídica ANS/CFM da consulta médica online (advogado
-    especialista em saúde digital — orçamento ~R$ 15-30k)
+4. <commit desta sessão> · Esconder seções vazias do Instituto + mensagem
+   - Telas Clube/Instituto agora escondem seções de métricas e depoimentos
+     enquanto admin não populá-los. Sem números chutados.
 
 
 ================================================================================
-CHECKLIST DE VALIDAÇÃO PRÉ-PRODUÇÃO
+SEQUÊNCIA DE EXECUÇÃO EM PRODUÇÃO (na ordem)
 ================================================================================
 
-Antes de release público pra Center Norte, validar:
+ETAPA 1 · Drop opcional do schema antigo de tiers de assinatura
+─────────────────────────────────────────────────────────────────
+Se a migration 00163_tiers_assinaturas.sql já foi aplicada em produção:
 
-[ ] Criar cliente teste no Belle, sincronizar pro Supabase
-[ ] Agendar appointment Design de Sobrancelha com Lene (employee teste)
-[ ] Marcar status = completed
-[ ] Confirmar client_protocol_progress criado (trigger 00162)
-[ ] Confirmar protocol-progress.tsx (já existente) renderiza ações D+1
-[ ] Em D+8 simulado (UPDATE appointment.date = CURRENT_DATE - 8):
-    - Rodar manualmente o cron decision-engine
-    - Confirmar decision_actions_queue recebe dispatch_courtesy com
-      payload da Tintura de Sobrancelha
-    - Login como cliente → ver banner na Casa do Cuidado
-    - Login como Lene → ver no Briefing Hoje
-[ ] Cliente teste responde análise doméstica com pain = 8:
-    - Trigger 00165 cria alert_team em decision_actions_queue
-    - Lene vê alerta vermelho no Briefing
-[ ] Cliente abre chat IA, escreve "tô com muita dor":
-    - Edge function ai-care-respond marca escalation_status = requested
-    - Empilha ação alert_team
-    - Lene vê na fila
-[ ] Cliente assina Tier Cuidado:
-    - Webhook Asaas chega
-    - client_cc_subscriptions status = active
-    - Cliente vê em /cuidado-continuo/active
-[ ] Admin/manager loga em /painel-interno/score-de-cuidado:
-    - Vê ranking da unit dele
-    - Vê total de prêmios pagos no mês
+  DROP TABLE IF EXISTS public.client_cc_subscriptions CASCADE;
+  DROP TABLE IF EXISTS public.cuidado_continuo_tiers CASCADE;
+
+Caso ainda não tenha aplicado, simplesmente ignora a 00163 e segue.
+
+
+ETAPA 2 · Aplicar migrations do Clube
+─────────────────────────────────────────────────────────────────
+  - 00166_clube_madrinhas_schema.sql  (schema + trigger + funções)
+  - 00167_clube_madrinhas_rls.sql      (políticas RLS pras 6 tabelas)
+  - 00168_instituto_seed.sql           (no-op por design — só comentários guia)
+
+Todas são idempotentes (CREATE TABLE IF NOT EXISTS, ON CONFLICT DO NOTHING).
+
+Após aplicar, valida que tudo subiu:
+  SELECT count(*) FROM clube_madrinhas_membership;            -- esperado: 0
+  SELECT count(*) FROM clube_madrinhas_waitlist;              -- esperado: 0
+  SELECT count(*) FROM clube_high_value_benefits;             -- esperado: 0
+  SELECT * FROM instituto_metrics ORDER BY metric_key;        -- esperado: 4 linhas, current_value = 0
+  SELECT count(*) FROM instituto_depoimentos;                 -- esperado: 0
+
+
+ETAPA 3 · Backfill histórico de Madrinhas High Value
+─────────────────────────────────────────────────────────────────
+Roda UMA VEZ pra promover clientes com pacote ≥ R$ 10k ativo.
+SQL completo em BELLE-READINESS-CLUBE.md (seção "Backfill histórico").
+
+Estimativa: 40-100 clientes em Center Norte. Antes de rodar o INSERT,
+checa o count esperado:
+
+  SELECT count(*) FROM client_packages cp
+  JOIN packages p ON p.id = cp.package_id
+  LEFT JOIN unit_prices up ON up.package_id = cp.package_id AND up.unit_id = cp.unit_id
+  WHERE COALESCE(up.custom_price, p.price) >= 10000
+    AND cp.status = 'active';
+
+
+ETAPA 4 · Deploy da edge function issue-painel-jwt
+─────────────────────────────────────────────────────────────────
+  cd <repo-do-app>
+  cp -r ../cuidado-continuo-handoff/edge-functions/issue-painel-jwt \
+        supabase/functions/
+
+  # Gera secret 32 bytes random
+  PAINEL_JWT_SECRET=$(openssl rand -base64 32)
+  echo "$PAINEL_JWT_SECRET"     # ← anota, vai precisar no Flask também
+  supabase secrets set PAINEL_JWT_SECRET="$PAINEL_JWT_SECRET"
+
+  supabase functions deploy issue-painel-jwt
+
+Testa:
+  curl -X POST 'https://<ref>.supabase.co/functions/v1/issue-painel-jwt' \
+    -H "Authorization: Bearer <USER_JWT>" \
+    -H "Content-Type: application/json" \
+    -d '{"profile_id": "<UUID>", "scope": "madrinha"}'
+
+Resposta esperada (Madrinha ativa):
+  {
+    "jwt": "eyJhbGc...",
+    "expires_at": "2026-...",
+    "scope": "madrinha"
+  }
+
+Outras respostas a esperar:
+  401 invalid_user            - JWT do usuário inválido
+  403 forbidden_other_profile - profile_id != auth.uid()
+  403 not_a_madrinha          - cliente não é Madrinha
+  403 membership_expired      - membership venceu
+
+
+ETAPA 5 · Integrar receiver no Flask painel.estudiomaisestetica.com.br
+─────────────────────────────────────────────────────────────────
+  pip install PyJWT==2.8.0
+
+Copia flask-side/madrinha_auto_login.py pro projeto Flask.
+Ajusta as 5 linhas do find_or_create_madrinha() pra apontar pro modelo
+real de Madrinha que você tem no Flask (busca por supabase_profile_id
+ou por CPF, cria se não existir, login_user, redirect).
+
+Define a mesma PAINEL_JWT_SECRET no .env do Flask (NÃO regenera —
+tem que ser idêntica à do Supabase).
+
+Registra a rota:
+  app.register_blueprint(madrinha_bp)
+
+
+ETAPA 6 · Popular dados manuais (decisão de produto)
+─────────────────────────────────────────────────────────────────
+Time do Instituto vai me passar os números reais e 3-5 alunas pra
+depoimento. Por enquanto, AS TELAS ESCONDEM AUTOMATICAMENTE as seções
+de métricas e depoimentos enquanto current_value = 0 / depoimentos.length = 0.
+
+Sem placeholder visível. Fica limpo até a gente ter dados reais.
+
+Quando o conteúdo chegar, vou mandar uma migration 00169_instituto_real_data.sql
+com os UPDATEs e INSERTs prontos.
+
+clube_stock_visibility — admin popula mensalmente por unidade.
+Template SQL no 00168 (comentado).
+
+
+ETAPA 7 · Deploy das telas TSX no app
+─────────────────────────────────────────────────────────────────
+Copiar de mobile-tsx/ pro app:
+
+  client/clube-madrinhas/index.tsx       → app/(client)/clube-madrinhas/index.tsx
+  client/clube-madrinhas/painel.tsx      → app/(client)/clube-madrinhas/painel.tsx
+  client/clube-madrinhas/instituto.tsx   → app/(client)/clube-madrinhas/instituto.tsx
+  employee/liberar-madrinha.tsx          → app/(employee)/liberar-madrinha.tsx
+  client/casa-do-cuidado.tsx             → SUBSTITUI a Casa do Cuidado atual
+
+Dependências NPM novas (se ainda não tiver):
+  - react-native-webview (pro Painel via WebView)
+
+Não tem nada de Anthropic novo, nem Daily.co — fica zero novo serviço externo.
 
 
 ================================================================================
-PENDÊNCIAS EXTERNAS (não dependem de mim ou de você)
+PERGUNTAS PRA VOCÊ ME RESPONDER QUANDO PUDER
 ================================================================================
 
-1. Token Belle por unidade
-   → Cada franqueada gera no painel dela e envia pro Danilo
+1. Pode aplicar as 3 migrations (00166-00168) em produção quando quiser?
+   Confirma que prefere agendar uma janela específica?
 
-2. Asaas account configurado pra subscriptions recorrentes
-   → Já existe ou precisa configurar fluxo de subscription
+2. unit_prices está populado pras unidades onde vamos rodar? Se não, o
+   trigger high-value cai no fallback packages.price — quero saber se isso
+   é OK ou se precisa popular unit_prices antes.
 
-3. Daily.co (ou alternativa) pra vídeo das consultas dos Tiers pagos
-   → Conta + API key + webhook
+3. O endpoint /madrinha/auto-login do Flask você consegue subir em paralelo
+   ao deploy da edge function, ou precisa eu te passar mais alguma coisa?
 
-4. Validação jurídica da consulta médica online (CFM/ANS)
-   → Advogado especialista, antes do lançamento Tier 360°
+4. A 00163_tiers_assinaturas.sql já tinha sido aplicada em algum ambiente?
+   (se sim, drop antes; se não, ignora.)
 
-5. Pool de profissionais (nutri, dermato, médica, personal)
-   → Sourcing PJ pelo time de operações
-
-6. Revisão clínica final do Lote 3 Sobrancelha
-   → Designer sênior + enfermeira do Estúdio (Beneficios_Procedimentos_Lote3_Sobrancelha.md
-     foi compilado de fontes públicas, marcado "revisar com clínica")
+5. Quer que eu já pegue do Flask atual o modelo de Madrinha e te entregue
+   o find_or_create_madrinha() preenchido pra você só copiar?
 
 
 ================================================================================
-DECISÕES QUE VÃO TE PERGUNTAR (já tenho recomendação)
+ARQUIVOS NOVOS NESTA ENTREGA (caminhos relativos ao repo)
 ================================================================================
 
-Q: Diário Estúdio Mais — mobile (Expo) ou web (Next.js portal)?
-R: Mobile (Expo) — fiz nessa estrutura. Leitura longa cabe e mantém o app
-   sendo o canal principal. Versão web pode vir depois se SEO precisar.
+Backend:
+  migrations/00166_clube_madrinhas_schema.sql       (schema + trigger + funções)
+  migrations/00167_clube_madrinhas_rls.sql          (RLS das 6 tabelas)
+  migrations/00168_instituto_seed.sql               (no-op + template)
 
-Q: Casa do Cuidado substitui o portal.tsx atual ou roda em paralelo?
-R: Substitui. O portal antigo já redireciona pra portal-home-client.tsx;
-   Casa do Cuidado é o novo home-client mais rico.
+Edge / Flask:
+  edge-functions/issue-painel-jwt/index.ts          (Deno + djwt HS256)
+  flask-side/madrinha_auto_login.py                 (template Flask receiver)
 
-Q: client-360.tsx substitui client-file.tsx?
-R: Pode estender em vez de substituir — abre uma nova rota
-   /(employee)/client-360 e linka do pipeline/briefing. O client-file
-   antigo continua funcionando pra fluxos legados.
+App cliente (mobile):
+  mobile-tsx/client/clube-madrinhas/index.tsx
+  mobile-tsx/client/clube-madrinhas/painel.tsx
+  mobile-tsx/client/clube-madrinhas/instituto.tsx
+  mobile-tsx/client/casa-do-cuidado.tsx             (já existia, foi modificada)
 
-Q: Quem popula o Diário inicialmente?
-R: Danilo + Hari escrevem 3-5 colunas seed pra ter o que mostrar quando
-   primeiras clientes Constelação forem convidadas a participar.
+App profissional (mobile):
+  mobile-tsx/employee/liberar-madrinha.tsx
 
-Q: Em qual tier mínimo um cliente vê eventos Constelação?
-R: Tier mínimo configurável no diario_events.min_tier. Recomendo começar
-   com 'trilha' (Trilha + Constelação veem) e ir expandindo conforme o
-   programa cresce.
-
-
-================================================================================
-MERGE STRATEGY SUGERIDA
-================================================================================
-
-Pra evitar conflitos e fazer revisão por etapas:
-
-1. Abre 1 PR por sprint (4 PRs grandes no fim) OU
-2. Abre 1 PR por componente (7 PRs menores)
-
-Sugiro a opção 2 pra você revisar feature por feature. Cada PR já tem
-descrição completa pré-redigida no histórico de commits do
-DaniloTuffi/cuidado-continuo-handoff — pode copiar/colar como body do PR
-no estudio-mais.
-
-Branch sugerida pra começar:
-    feat/cuidado-continuo-pr4-telas-mobile (PR 4 primeiro porque destrava piloto)
+Documentação:
+  BELLE-READINESS-CLUBE.md                          (auditoria + backfill SQL)
+  prototypes/clube-madrinhas.html                   (visual interativo)
+  board/apresentacao-board.html + PDF               (deck atualizado)
 
 
 ================================================================================
-SE PRECISAR
-================================================================================
-
-- Toda a documentação estratégica está no Obsidian do Danilo (docs 41, 42,
-  43, 44 da pasta Estúdio Mais - Estratégia)
-- Protótipos visuais navegáveis:
-    https://danilotuffi.github.io/cuidado-continuo-handoff/prototypes/
-- PDF executivo do Conselho pra contexto estratégico:
-    conselho/Cuidado-Continuo-Modulos-Criados.pdf no repo
-
-Qualquer dúvida estrutural ou conceitual, chama o Danilo. Dúvida técnica
-sobre o pacote, pode me chamar (ou abrir issue no repo handoff que eu
-respondo via Claude Code).
-
-
-================================================================================
-TEMPO ESTIMADO TOTAL
-================================================================================
-
-Sprint 1: 1 semana    →   Center Norte rodando com Briefing + Pipeline
-Sprint 2: 2 semanas   →   Casa do Cuidado live + Co-criação ativa
-Sprint 3: 2 semanas   →   Diário publicando + IA respondendo
-Sprint 4: 1-2 sprints →   Tiers pagos rodando + Web admin
-
-TOTAL: 6-8 semanas até produção 100%.
-
-Resultado esperado em 12 meses (modelo conservador do doc 42):
-- Taxa Recompra 90d: 10% → 30-40%
-- Premium em formação: 49 → 200 por ano
-- Receita adicional: +R$ 11-13M/ano
-- ROI sobre investimento (R$ 300k): 35-40x
-
-
-Abraço e bom trabalho,
-Danilo
-
+ABRAÇO — qualquer coisa me chama
 ================================================================================

@@ -221,18 +221,23 @@ export default function ClubeIndex() {
             O Instituto Estúdio Mais forma esteticistas, biomédicas e nutricionistas em vulnerabilidade — gratuitamente. Cada Madrinha co-financia uma vaga.
           </Text>
 
-          <View style={styles.institutoMetrics}>
-            {metrics.map((m) => (
-              <View key={m.metric_key} style={styles.institutoMetric}>
-                <Text style={styles.institutoMetricNum}>
-                  {m.display_format === "currency"
-                    ? `R$ ${(m.current_value / 100).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`
-                    : Math.round(m.current_value).toLocaleString("pt-BR")}
-                </Text>
-                <Text style={styles.institutoMetricLabel}>{m.label}</Text>
-              </View>
-            ))}
-          </View>
+          {/* Métricas só aparecem quando admin popular valores reais (current_value > 0) */}
+          {metrics.filter((m) => Number(m.current_value) > 0).length > 0 && (
+            <View style={styles.institutoMetrics}>
+              {metrics
+                .filter((m) => Number(m.current_value) > 0)
+                .map((m) => (
+                  <View key={m.metric_key} style={styles.institutoMetric}>
+                    <Text style={styles.institutoMetricNum}>
+                      {m.display_format === "currency"
+                        ? `R$ ${(m.current_value / 100).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`
+                        : Math.round(m.current_value).toLocaleString("pt-BR")}
+                    </Text>
+                    <Text style={styles.institutoMetricLabel}>{m.label}</Text>
+                  </View>
+                ))}
+            </View>
+          )}
 
           {depoimentos.length > 0 && (
             <>
