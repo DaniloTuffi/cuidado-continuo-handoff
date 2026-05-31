@@ -629,6 +629,7 @@
     <div style="display:flex;gap:4px;flex-wrap:wrap;">
       <button id="sub-home" style="background:transparent;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;">🏠 Casa</button>
       <button style="background:var(--rose-deep);color:white;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;">📰 Diário</button>
+      <button id="sub-mural" onclick="window.location.href='mural.html'" style="display:none;background:transparent;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;">📢 Mural</button>
     </div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
       <button class="masthead-cta">Quero ser colunista</button>
@@ -670,6 +671,9 @@
     } else {
       subHome.textContent = '💼 Briefing Hoje';
       subHome.onclick = () => window.location.href = 'briefing.html';
+      // Modo profissional: mostra o botão Mural junto na sub-nav
+      const subMural = document.getElementById('sub-mural');
+      if (subMural) subMural.style.display = 'inline-block';
     }
   })();
 </script>
