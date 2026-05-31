@@ -9,8 +9,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 import { useAuth } from "../../lib/auth-context";
-import { supabase } from "../../lib/supabase";
 import { useTheme } from "../../lib/theme";
+import { getMyEmployee, reportBug } from "../../lib/cuidado-continuo-queries";
 
 const FREQUENCIES = [
   { key: "once", label: "Aconteceu 1 vez" },
@@ -40,15 +40,15 @@ export default function BugReportScreen() {
     }
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("bug_reports").insert({
-        reporter_profile_id: profile.id,
-        franchise_id: profile.franchise_id,
+      const emp = await getMyEmployee(profile.id);
+      const { error } = await reportBug({
+        profileId: profile.id,
+        unitId: emp?.unit_id ?? null,
         title: title.trim(),
         description: description.trim(),
-        steps_to_reproduce: steps.trim() || null,
+        steps: steps.trim() || undefined,
         frequency,
-        screen_or_path: screen.trim() || null,
-        status: "new",
+        screen: screen.trim() || undefined,
       });
       if (error) throw error;
       Alert.alert(

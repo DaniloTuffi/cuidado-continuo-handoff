@@ -9,8 +9,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 import { useAuth } from "../../lib/auth-context";
-import { supabase } from "../../lib/supabase";
 import { useTheme } from "../../lib/theme";
+import { getMyEmployee, submitIdea } from "../../lib/cuidado-continuo-queries";
 
 export default function IdeaSubmitScreen() {
   const router = useRouter();
@@ -32,15 +32,15 @@ export default function IdeaSubmitScreen() {
     }
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("feature_ideas").insert({
-        reporter_profile_id: profile.id,
-        franchise_id: profile.franchise_id,
+      const emp = await getMyEmployee(profile.id);
+      const { error } = await submitIdea({
+        profileId: profile.id,
+        unitId: emp?.unit_id ?? null,
         title: title.trim(),
-        problem_it_solves: problem.trim(),
-        how_it_works: howItWorks.trim() || null,
-        who_benefits: whoBenefits.trim() || null,
-        willing_to_test: willingToTest,
-        status: "new",
+        problem: problem.trim(),
+        howItWorks: howItWorks.trim() || undefined,
+        whoBenefits: whoBenefits.trim() || undefined,
+        willingToTest,
       });
       if (error) throw error;
       Alert.alert(
