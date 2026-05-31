@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Cuidado Contínuo · Board · Maio 2026</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --green: #6b8e6f;
+    --red: #c25a4a;
+  }
+
+  @page { size: A4; margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif;
+    color: var(--ink);
+    background: white;
+  }
+  .serif { font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif; }
+
+  /* PAGE — todos os slides são página A4 deitada-equivalente */
+  .slide {
+    width: 297mm;          /* A4 landscape width */
+    height: 210mm;
+    padding: 18mm 24mm;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide:last-child { page-break-after: avoid; }
+
+  /* Variações de fundo */
+  .bg-cream { background: var(--cream); }
+  .bg-ink {
+    background: linear-gradient(135deg, var(--ink) 0%, #5a4f47 60%, var(--gold-deep) 100%);
+    color: var(--cream);
+  }
+  .bg-rose {
+    background: linear-gradient(135deg, var(--rose-deep) 0%, var(--rose-soft) 100%);
+    color: white;
+  }
+  .bg-gold {
+    background: linear-gradient(135deg, var(--gold-deep) 0%, var(--gold) 100%);
+    color: var(--ink);
+  }
+
+  /* ================= CAPA ================= */
+  .cover {
+    background: linear-gradient(135deg, var(--ink) 0%, #5a4f47 50%, var(--gold-deep) 100%);
+    color: var(--cream);
+    padding: 30mm 28mm;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: -40mm; right: -40mm;
+    width: 220mm; height: 220mm;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,191,149,0.16), transparent 70%);
+  }
+  .cover::after {
+    content: "";
+    position: absolute;
+    bottom: -50mm; left: -30mm;
+    width: 160mm; height: 160mm;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,125,142,0.12), transparent 70%);
+  }
+  .cover-eyebrow {
+    font-size: 11pt;
+    letter-spacing: 5pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 14mm;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 96pt;
+    font-weight: 600;
+    letter-spacing: -3pt;
+    line-height: 0.92;
+    margin-bottom: 8mm;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-deck {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24pt;
+    font-style: italic;
+    color: rgba(244,236,226,0.85);
+    line-height: 1.3;
+    max-width: 170mm;
+    margin-bottom: 20mm;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-meta {
+    position: absolute;
+    bottom: 28mm;
+    left: 28mm;
+    right: 28mm;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    border-top: 0.3mm solid rgba(212,191,149,0.3);
+    padding-top: 8mm;
+  }
+  .cover-meta-block { display: flex; flex-direction: column; }
+  .cover-meta-label {
+    font-size: 9pt;
+    letter-spacing: 3pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+  }
+  .cover-meta-value {
+    font-size: 14pt;
+    color: var(--cream);
+    margin-top: 2mm;
+    font-weight: 600;
+  }
+
+  /* ================= STRUCTURE ================= */
+  .slide-num {
+    position: absolute;
+    bottom: 12mm;
+    right: 24mm;
+    font-size: 9pt;
+    letter-spacing: 3pt;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+  .bg-ink .slide-num, .bg-rose .slide-num, .bg-gold .slide-num { color: rgba(244,236,226,0.5); }
+  .bg-gold .slide-num { color: rgba(31,26,23,0.5); }
+
+  .slide-eyebrow {
+    font-size: 10pt;
+    letter-spacing: 3pt;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 8mm;
+    display: flex;
+    align-items: center;
+    gap: 6mm;
+  }
+  .slide-eyebrow::before {
+    content: "";
+    width: 16mm;
+    height: 0.4mm;
+    background: var(--gold);
+  }
+  .bg-ink .slide-eyebrow, .bg-rose .slide-eyebrow {
+    color: var(--gold-soft);
+  }
+  .bg-ink .slide-eyebrow::before, .bg-rose .slide-eyebrow::before {
+    background: var(--gold);
+  }
+
+  h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 56pt;
+    font-weight: 600;
+    letter-spacing: -1.5pt;
+    line-height: 1.02;
+    margin-bottom: 8mm;
+  }
+  h1.small {
+    font-size: 44pt;
+  }
+  h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 30pt;
+    font-weight: 600;
+    letter-spacing: -0.5pt;
+    line-height: 1.15;
+    margin: 8mm 0 4mm;
+  }
+  .deck {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22pt;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    margin-bottom: 12mm;
+    max-width: 200mm;
+  }
+  .bg-ink .deck, .bg-rose .deck { color: rgba(244,236,226,0.85); }
+
+  /* ================= HERO STATS ================= */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6mm;
+    margin: 8mm 0;
+  }
+  .stats-row.three { grid-template-columns: repeat(3, 1fr); }
+  .stats-row.two { grid-template-columns: 1fr 1fr; }
+  .stat-card {
+    background: white;
+    padding: 12mm 10mm;
+    border-radius: 6mm;
+    text-align: center;
+    box-shadow: 0 2mm 8mm rgba(0,0,0,0.04);
+  }
+  .stat-card.dark {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .stat-card.gold {
+    background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+    color: var(--ink);
+  }
+  .stat-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 64pt;
+    font-weight: 600;
+    letter-spacing: -2pt;
+    line-height: 0.95;
+    margin-bottom: 4mm;
+  }
+  .stat-num.small { font-size: 48pt; }
+  .stat-num.red { color: var(--red); }
+  .stat-num.green { color: var(--green); }
+  .stat-num.gold-c { color: var(--gold-deep); }
+  .stat-card.dark .stat-num { color: var(--gold-soft); }
+  .stat-label {
+    font-size: 10pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+  }
+  .stat-card.dark .stat-label { color: rgba(244,236,226,0.7); }
+
+  /* ================= MEGA STAT ================= */
+  .mega-stat {
+    text-align: center;
+    margin: 18mm 0;
+  }
+  .mega-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 180pt;
+    font-weight: 600;
+    letter-spacing: -8pt;
+    line-height: 0.85;
+    background: linear-gradient(180deg, var(--rose-deep), var(--gold-deep));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .mega-label {
+    font-size: 12pt;
+    letter-spacing: 4pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-top: 6mm;
+  }
+  .mega-explainer {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20pt;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin-top: 8mm;
+    max-width: 200mm;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ================= TABLES ================= */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4mm 0;
+    font-size: 11pt;
+  }
+  th, td {
+    text-align: left;
+    padding: 4mm 5mm;
+    border-bottom: 0.2mm solid var(--cream-deep);
+  }
+  th {
+    background: var(--cream);
+    font-size: 9pt;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+  }
+  .bg-ink th { background: rgba(255,255,255,0.05); color: var(--gold-soft); }
+  .bg-ink td { border-bottom-color: rgba(255,255,255,0.08); }
+  td.num { text-align: right; font-weight: 600; }
+  td.green { color: var(--green); }
+  td.red { color: var(--red); }
+  td.gold-c { color: var(--gold-deep); }
+
+  /* ================= QUOTE ================= */
+  .pullquote {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28pt;
+    font-style: italic;
+    line-height: 1.35;
+    margin: 14mm 0;
+    border-left: 0.8mm solid var(--gold);
+    padding: 6mm 0 6mm 10mm;
+    max-width: 220mm;
+  }
+  .pullquote-source {
+    font-family: -apple-system, sans-serif;
+    font-size: 10pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 5mm;
+  }
+
+  /* ================= GRID 2 ================= */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12mm;
+    margin: 8mm 0;
+  }
+  .grid-2-65-35 {
+    display: grid;
+    grid-template-columns: 65% 1fr;
+    gap: 10mm;
+  }
+
+  /* ================= LIST ================= */
+  ul.bullets {
+    list-style: none;
+    margin: 6mm 0;
+  }
+  ul.bullets li {
+    position: relative;
+    padding-left: 8mm;
+    margin-bottom: 4mm;
+    font-size: 14pt;
+    line-height: 1.5;
+  }
+  ul.bullets li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 22pt;
+    line-height: 0.8;
+  }
+  ul.bullets li strong { color: var(--ink); font-weight: 600; }
+  .bg-ink ul.bullets li strong { color: var(--gold-soft); }
+
+  /* ================= TIMELINE ================= */
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6mm;
+    margin: 10mm 0;
+  }
+  .tl-card {
+    background: white;
+    padding: 8mm;
+    border-radius: 5mm;
+    box-shadow: 0 2mm 6mm rgba(0,0,0,0.04);
+  }
+  .bg-ink .tl-card { background: rgba(255,255,255,0.07); }
+  .tl-when {
+    font-size: 9pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 3mm;
+  }
+  .bg-ink .tl-when { color: var(--gold-soft); }
+  .tl-what {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18pt;
+    font-weight: 600;
+    letter-spacing: -0.3pt;
+    line-height: 1.2;
+    margin-bottom: 3mm;
+  }
+  .tl-desc {
+    font-size: 10pt;
+    color: var(--ink-soft);
+    line-height: 1.45;
+  }
+  .bg-ink .tl-desc { color: rgba(244,236,226,0.7); }
+
+  /* ================= MOCKUPS ================= */
+  .mockup {
+    background: linear-gradient(135deg, var(--ink), #5a4f47);
+    color: var(--cream);
+    border-radius: 5mm;
+    padding: 8mm;
+    aspect-ratio: 4/5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .mockup.rose { background: linear-gradient(135deg, var(--rose-deep), var(--rose-soft)); color: white; }
+  .mockup.gold { background: linear-gradient(135deg, var(--gold-deep), var(--gold)); color: var(--ink); }
+  .mockup.cream { background: var(--cream); color: var(--ink); border: 0.3mm solid var(--cream-deep); }
+  .mockup-eyebrow {
+    font-size: 8pt;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+  }
+  .mockup.cream .mockup-eyebrow { color: var(--rose-deep); }
+  .mockup.gold .mockup-eyebrow { color: var(--ink); }
+  .mockup-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22pt;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5pt;
+    margin: 4mm 0;
+  }
+  .mockup-stat {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 56pt;
+    font-weight: 600;
+    letter-spacing: -2pt;
+    line-height: 0.9;
+    color: var(--gold-soft);
+  }
+  .mockup.cream .mockup-stat { color: var(--gold-deep); }
+  .mockup.gold .mockup-stat { color: var(--ink); }
+  .mockup-foot {
+    font-size: 9pt;
+    color: rgba(244,236,226,0.7);
+    font-weight: 600;
+  }
+  .mockup.cream .mockup-foot { color: var(--ink-soft); }
+  .mockup.gold .mockup-foot { color: rgba(31,26,23,0.7); }
+
+  /* ================= ASK BOX ================= */
+  .ask-box {
+    background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+    color: var(--ink);
+    padding: 14mm 16mm;
+    border-radius: 6mm;
+    margin: 10mm 0;
+  }
+  .ask-eyebrow {
+    font-size: 10pt;
+    letter-spacing: 3pt;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4mm;
+  }
+  .ask-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32pt;
+    font-weight: 600;
+    letter-spacing: -1pt;
+    line-height: 1.15;
+    margin-bottom: 6mm;
+  }
+  .ask-body {
+    font-size: 14pt;
+    line-height: 1.55;
+  }
+
+  /* ================= BIG QUOTE PAGE ================= */
+  .big-quote {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 64pt;
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: -1.5pt;
+    line-height: 1.1;
+    margin: auto 0;
+    max-width: 220mm;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= 1. CAPA ============= -->
+<section class="slide cover">
+  <div style="position: relative; z-index: 2;">
+    <div class="cover-eyebrow">BOARD · Q2 2026</div>
+    <h1 class="cover-title">Cuidado<br>Contínuo</h1>
+    <p class="cover-deck">A camada de software que transforma Estúdio Mais de rede de procedimentos em ecossistema de cuidado — e a recompra de 10% em 40%.</p>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-block">
+      <span class="cover-meta-label">APRESENTADO POR</span>
+      <span class="cover-meta-value">Danilo Tuffi · CEO</span>
+    </div>
+    <div class="cover-meta-block">
+      <span class="cover-meta-label">PARA</span>
+      <span class="cover-meta-value">Board · Estúdio Mais</span>
+    </div>
+    <div class="cover-meta-block">
+      <span class="cover-meta-label">DATA</span>
+      <span class="cover-meta-value">Maio · 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= 2. TL;DR ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Sumário executivo</div>
+  <h1 class="small">5 frases pra você decidir.</h1>
+
+  <ul class="bullets" style="margin-top: 12mm;">
+    <li><strong>Problema:</strong> 70% das clientes nunca chegam à 2ª compra. A receita depende de 10-15% da base — risco estrutural identificado na SWOT desde 2024.</li>
+    <li><strong>Causa raiz:</strong> não existe gatilho operacional na "Janela Mágica" de 8-30 dias após a 1ª visita — o preditor mais forte de Premium (12,6× chance).</li>
+    <li><strong>Solução:</strong> Cuidado Contínuo é um produto recorrente vendido junto com qualquer pacote. Régua D+0 a D+45 + IA 24/7 + Diário editorial premium + tier 360° multidisciplinar.</li>
+    <li><strong>Tração técnica:</strong> 90% do app já está construído. 15 migrations + 18 telas prontas no GitHub. Faltam 6-8 semanas pro piloto em Center Norte.</li>
+    <li><strong>Resultado esperado:</strong> Recompra 90d sobe de 10% para 40%. +R$ 13M receita adicional/ano. Investimento R$ 300-500k. ROI 26-44×.</li>
+  </ul>
+
+  <div class="ask-box" style="margin-top: 10mm;">
+    <div class="ask-eyebrow">PEDIDO AO BOARD</div>
+    <div class="ask-title">Aprovar piloto em Center Norte por 90 dias, com critério Go/No-Go objetivo no Mês 3.</div>
+  </div>
+
+  <div class="slide-num">02</div>
+</section>
+
+<!-- ============= 3. O PROBLEMA — MEGA STAT ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 01 · O Problema</div>
+
+  <div class="mega-stat" style="margin-top: 6mm;">
+    <div class="mega-num">70%</div>
+    <div class="mega-label">DAS CLIENTES NUNCA CHEGAM À 2ª COMPRA</div>
+    <p class="mega-explainer">
+      22.756 clientes únicos analisados em 5 anos. R$ 102 milhões de receita histórica.
+      <strong style="color:var(--ink);">Apenas 30% repetem.</strong> Apenas 10% repetem comprando algo novo (não uso de pacote).
+    </p>
+  </div>
+
+  <p style="text-align:center; font-size: 12pt; letter-spacing: 1pt; color: var(--ink-soft); margin-top: 12mm;">
+    Fonte: Dados Master Linkx (Nov/2020 → Ago/2025) + Belle Software (12 meses)
+  </p>
+
+  <div class="slide-num">03</div>
+</section>
+
+<!-- ============= 4. CONCENTRAÇÃO DA RECEITA ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 01 · O Problema</div>
+  <h1>A casa fica em pé em 1,1% das clientes.</h1>
+  <p class="deck">A SWOT já apontou em 2024. Os dados confirmaram em maio: dependência crítica de uma fração mínima da base.</p>
+
+  <table>
+    <thead>
+      <tr><th>Segmento</th><th class="num">Clientes</th><th class="num">% da Base</th><th class="num">% da Receita</th><th class="num">LTV médio</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1 visita só</td><td class="num">15.973</td><td class="num">70,2%</td><td class="num">18,1%</td><td class="num">R$ 1.160</td></tr>
+      <tr><td>2-5 visitas</td><td class="num">5.846</td><td class="num">25,7%</td><td class="num">37,7%</td><td class="num">R$ 6.603</td></tr>
+      <tr><td>6-10 visitas</td><td class="num">689</td><td class="num">3,0%</td><td class="num">20,1%</td><td class="num">R$ 29.833</td></tr>
+      <tr><td class="gold-c"><strong>Premium 11+ visitas</strong></td><td class="num gold-c"><strong>248</strong></td><td class="num gold-c"><strong>1,1%</strong></td><td class="num gold-c"><strong>24,3%</strong></td><td class="num gold-c"><strong>R$ 100.585</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="pullquote">
+    Resolver o salto da 1ª pra a 2ª compra é dobrar o tamanho do negócio.
+    <div class="pullquote-source">DIAGNÓSTICO INTERNO · 2024</div>
+  </div>
+
+  <div class="slide-num">04</div>
+</section>
+
+<!-- ============= 5. A DESCOBERTA — JANELA MÁGICA ============= -->
+<section class="slide bg-ink">
+  <div class="slide-eyebrow">Capítulo 02 · A Tese</div>
+  <h1 style="color: var(--cream);">A Janela Mágica</h1>
+  <p class="deck">Cliente que volta entre 8 e 30 dias da 1ª visita tem <strong style="color: var(--gold);">12,6× mais chance de virar Premium</strong> do que cliente que volta após 180 dias. O preditor mais forte de LTV — e o app não ativa esse gatilho hoje.</p>
+
+  <div class="stats-row" style="margin-top: 12mm;">
+    <div class="stat-card dark">
+      <div class="stat-num small" style="color: var(--gold-soft);">8-30</div>
+      <div class="stat-label">Janela Mágica<br>(dias)</div>
+    </div>
+    <div class="stat-card dark">
+      <div class="stat-num small" style="color: var(--gold);">12,6×</div>
+      <div class="stat-label">Mais chance<br>de Premium</div>
+    </div>
+    <div class="stat-card dark">
+      <div class="stat-num small" style="color: var(--gold-soft);">R$ 100k</div>
+      <div class="stat-label">LTV médio<br>de Premium</div>
+    </div>
+    <div class="stat-card dark">
+      <div class="stat-num small" style="color: var(--gold);">29×</div>
+      <div class="stat-label">vs cliente<br>não-Premium</div>
+    </div>
+  </div>
+
+  <p style="font-family: 'Cormorant Garamond', serif; font-size: 18pt; font-style: italic; color: var(--gold-soft); margin-top: 14mm; line-height: 1.4;">
+    Cliente Premium tem ticket de 1ª compra 4,4× maior, sai com 1,7× mais SKUs, e volta 3× mais rápido. Tudo isso é mensurável. Tudo isso é manipulável.
+  </p>
+
+  <div class="slide-num">05</div>
+</section>
+
+<!-- ============= 6. A SOLUÇÃO ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 03 · A Solução</div>
+  <h1>Cuidado Contínuo<br>é o produto-âncora.</h1>
+
+  <div class="grid-2-65-35" style="margin-top: 10mm;">
+    <div>
+      <p class="deck" style="margin-bottom: 8mm;">
+        Estúdio Mais para de vender procedimento isolado.<br>
+        Passa a vender procedimento + acompanhamento contínuo.
+      </p>
+
+      <h2>3 camadas de tier:</h2>
+
+      <table>
+        <thead><tr><th>Tier</th><th>Preço</th><th>Inclui</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Essencial</strong></td>
+            <td><strong style="color: var(--green);">Grátis</strong> com qualquer compra</td>
+            <td>Casa do Cuidado · IA 24/7 · chat executora · cortesia Janela Mágica D+15</td>
+          </tr>
+          <tr>
+            <td><strong>Cuidado</strong></td>
+            <td><strong>R$ 200/mês</strong></td>
+            <td>Essencial + consulta nutri/mês + Painel Hormonal completo + análises ilimitadas</td>
+          </tr>
+          <tr>
+            <td><strong>Programa 360°</strong></td>
+            <td><strong>R$ 500/mês</strong></td>
+            <td>Cuidado + dermato + médica protocolo + personal + suplementação coordenada</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div class="mockup rose">
+        <div>
+          <div class="mockup-eyebrow">VISTA DA CLIENTE · D+8</div>
+          <div class="mockup-title">"Sua Tintura está reservada"</div>
+        </div>
+        <div>
+          <div class="mockup-stat">12,6×</div>
+          <div class="mockup-foot">chance de Premium se aceitar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-num">06</div>
+</section>
+
+<!-- ============= 7. PRODUTO — VISTA CLIENTE ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 04 · O Produto</div>
+  <h1 class="small">Para a cliente: sua cuidadora digital, 24/7.</h1>
+
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; margin-top: 14mm;">
+    <div class="mockup">
+      <div>
+        <div class="mockup-eyebrow">CASA DO CUIDADO</div>
+        <div class="mockup-title">D+8 desde seu Design</div>
+      </div>
+      <div class="mockup-foot">Contador presente + Cortesia + Cuidados do dia + Equipe</div>
+    </div>
+    <div class="mockup rose">
+      <div>
+        <div class="mockup-eyebrow">DIÁRIO ESTÚDIO MAIS</div>
+        <div class="mockup-title">"Liderar sem pedir desculpas"</div>
+      </div>
+      <div class="mockup-foot">Clientes Premium viram colunistas. Network real, sem CTA comercial.</div>
+    </div>
+    <div class="mockup gold">
+      <div>
+        <div class="mockup-eyebrow">IA 24/7</div>
+        <div class="mockup-title">"Tá ardendo, é normal?"</div>
+      </div>
+      <div class="mockup-foot">Claude Sonnet responde dúvidas comuns. Escala pra humano em &lt; 2h se for clínico.</div>
+    </div>
+    <div class="mockup cream">
+      <div>
+        <div class="mockup-eyebrow">ANÁLISES DOMÉSTICAS</div>
+        <div class="mockup-title">9 tipos de check-in</div>
+      </div>
+      <div class="mockup-foot">Dor, sono, ciclo, foto. Pain≥7 ou inchaço alto → alerta automático.</div>
+    </div>
+  </div>
+
+  <p style="font-family: 'Cormorant Garamond', serif; font-size: 17pt; font-style: italic; color: var(--ink-soft); margin-top: 14mm; line-height: 1.5; text-align: center;">
+    Toda mensagem importante é assinada por uma pessoa real. Nunca pela marca anônima. Princípio Cucinelli aplicado à estética.
+  </p>
+
+  <div class="slide-num">07</div>
+</section>
+
+<!-- ============= 8. PRODUTO — VISTA PROFISSIONAL ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 04 · O Produto</div>
+  <h1 class="small">Para a profissional: o briefing que substitui ranking por faturamento bruto.</h1>
+
+  <div class="grid-2" style="margin-top: 10mm;">
+    <div>
+      <h2>Briefing Diário</h2>
+      <p style="font-size: 13pt; color: var(--ink-soft); line-height: 1.55; margin-bottom: 6mm;">
+        Tela inicial da manhã com as 5 ações priorizadas pelo sistema:
+      </p>
+      <ul class="bullets" style="font-size: 12pt;">
+        <li>"Ligar pra Rosana — Hidrolipo D+5, ver se desinchou"</li>
+        <li>"Mensagem pra Maria — aniversário do filho amanhã"</li>
+        <li>"Patrícia sessão 11/12 — propor Pacote Flex"</li>
+      </ul>
+      <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14pt; color: var(--ink-soft); margin-top: 6mm; line-height: 1.4;">
+        O sistema lembra. A profissional executa. <strong style="color: var(--ink);">Talento individual deixa de ser pré-requisito.</strong>
+      </p>
+    </div>
+
+    <div>
+      <h2>Score de Cuidado</h2>
+      <table style="margin-top: 2mm;">
+        <thead><tr><th>Categoria</th><th class="num">Peso</th><th class="num">Mede</th></tr></thead>
+        <tbody>
+          <tr><td><strong>🎯 Execução</strong></td><td class="num">40%</td><td class="num" style="font-size: 9pt;">Briefing executado</td></tr>
+          <tr><td><strong>💝 Relacionamento</strong></td><td class="num">30%</td><td class="num" style="font-size: 9pt;">NPS · Memória</td></tr>
+          <tr><td><strong>💰 Vendas saudáveis</strong></td><td class="num">20%</td><td class="num" style="font-size: 9pt;">Recompra 90d · Objeções</td></tr>
+          <tr><td><strong>🌟 Co-Criação</strong></td><td class="num">10%</td><td class="num" style="font-size: 9pt;">Bugs + Ideias</td></tr>
+        </tbody>
+      </table>
+
+      <p style="font-size: 12pt; color: var(--ink-soft); line-height: 1.5; margin-top: 6mm;">
+        Prêmio mensal de <strong>R$ 200 a R$ 1.500</strong>. Anual top da rede: <strong>R$ 12k + viagem internacional</strong>. Bugs validados: R$ 100-500. Ideias implementadas: R$ 500-2.000.
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-num">08</div>
+</section>
+
+<!-- ============= 9. DIFERENCIAL COMPETITIVO ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 05 · Diferencial</div>
+  <h1>Não estamos copiando ninguém.</h1>
+  <p class="deck">Combinamos a infraestrutura de relação contínua da Mayo Clinic com a curadoria editorial premium da Cucinelli. Aplicada à estética feminina brasileira.</p>
+
+  <table style="margin-top: 8mm;">
+    <thead>
+      <tr><th>Player</th><th>Mercado</th><th>Modelo</th><th>O que copiamos</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Mayo Clinic</strong></td>
+        <td>Saúde</td>
+        <td>Acompanhamento longitudinal</td>
+        <td>Régua D+0 a D+45 por procedimento + multidisciplinar</td>
+      </tr>
+      <tr>
+        <td><strong>Cucinelli (Solomeo)</strong></td>
+        <td>Moda</td>
+        <td>Marca como ecossistema cultural</td>
+        <td>Diário Estúdio Mais — moat editorial</td>
+      </tr>
+      <tr>
+        <td><strong>Clínica Seven (BR)</strong></td>
+        <td>Emagrecimento</td>
+        <td>Programa recorrente, R$ 100M ARR</td>
+        <td>Cadência alta + produto proprietário</td>
+      </tr>
+      <tr>
+        <td><strong>Aman Resorts</strong></td>
+        <td>Hospitalidade</td>
+        <td>Tier hospitaleiro premium</td>
+        <td>Recrutamento + cultura sem agressividade</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pullquote" style="margin-top: 10mm;">
+    Concorrentes podem copiar procedimento. Não conseguem copiar voz.<br>Cliente que vira colunista nunca mais sai.
+    <div class="pullquote-source">PRINCÍPIO ESTRATÉGICO · MOAT EDITORIAL</div>
+  </div>
+
+  <div class="slide-num">09</div>
+</section>
+
+<!-- ============= 10. TRAÇÃO TÉCNICA ============= -->
+<section class="slide bg-ink">
+  <div class="slide-eyebrow">Capítulo 06 · Tração</div>
+  <h1 style="color: var(--cream);">90% do app<br>já está construído.</h1>
+  <p class="deck">A descoberta mais importante do trimestre: as decisões estratégicas que tomamos em maio já estavam codificadas no app desde abril. A infraestrutura está pronta. Falta ativar.</p>
+
+  <div class="stats-row three" style="margin-top: 12mm;">
+    <div class="stat-card dark">
+      <div class="stat-num small">15</div>
+      <div class="stat-label">Migrations SQL<br>prontas pra deploy</div>
+    </div>
+    <div class="stat-card dark">
+      <div class="stat-num small">18</div>
+      <div class="stat-label">Telas Mobile/Web<br>TypeScript prontas</div>
+    </div>
+    <div class="stat-card dark">
+      <div class="stat-num small">~150KB</div>
+      <div class="stat-label">Código revisado<br>e disponível no GitHub</div>
+    </div>
+  </div>
+
+  <h2 style="color: var(--gold-soft); margin-top: 14mm;">Já em produção (commit do dia 29/maio):</h2>
+  <ul class="bullets">
+    <li><strong>Decision Engine</strong> com 6 regras mestras + Janela Mágica (R7) + dispatch-courtesy</li>
+    <li><strong>Anamnese Premium</strong> oficial com triagem clínica e persistência</li>
+    <li><strong>Painel Hormonal</strong> (mobile + web + parceiro) — 5 modos do app Flo adaptados</li>
+    <li><strong>Tema premium</strong> dark/dourado/serif aplicado em todas as telas de autenticação</li>
+  </ul>
+
+  <div class="slide-num">10</div>
+</section>
+
+<!-- ============= 11. BUSINESS MODEL ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 07 · Business Model</div>
+  <h1>Receita recorrente em cima do procedimento.</h1>
+  <p class="deck">A camada de assinatura entra por cima da receita de procedimento que já existe. Sem canibalizar venda atual.</p>
+
+  <div class="stats-row" style="margin-top: 10mm;">
+    <div class="stat-card">
+      <div class="stat-num small gold-c">R$ 2,4M</div>
+      <div class="stat-label">Recorrência tier<br>Cuidado · Ano 1</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num small gold-c">R$ 1,2M</div>
+      <div class="stat-label">Recorrência tier<br>360° · Ano 1</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num small gold-c">R$ 4,4M</div>
+      <div class="stat-label">Aumento Recompra<br>90d (10% → 30%)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num small gold-c">R$ 5M</div>
+      <div class="stat-label">Premium em formação<br>(49 → 200/ano)</div>
+    </div>
+  </div>
+
+  <div style="background: var(--ink); color: var(--cream); padding: 14mm; border-radius: 6mm; margin-top: 12mm; text-align: center;">
+    <div style="font-size: 10pt; letter-spacing: 3pt; color: var(--gold-soft); font-weight: 700; margin-bottom: 4mm;">RECEITA INCREMENTAL TOTAL · ANO 1</div>
+    <div style="font-family: 'Cormorant Garamond', serif; font-size: 88pt; font-weight: 600; letter-spacing: -2pt; color: var(--gold); line-height: 1;">+R$ 13M</div>
+    <div style="font-size: 13pt; color: rgba(244,236,226,0.8); margin-top: 6mm; font-style: italic;">Cenário conservador · sem aumento de aquisição</div>
+  </div>
+
+  <div class="slide-num">11</div>
+</section>
+
+<!-- ============= 12. ROADMAP ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 08 · Roadmap</div>
+  <h1>6-8 semanas pra produção 100%.</h1>
+
+  <div class="timeline-grid" style="margin-top: 12mm;">
+    <div class="tl-card">
+      <div class="tl-when">SPRINT 1 · 1 SEMANA</div>
+      <div class="tl-what">Center Norte ativo</div>
+      <div class="tl-desc">Migrations + Briefing + Pipeline. Sync Belle Center Norte. Lene rodando o Score.</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-when">SPRINT 2 · 2 SEMANAS</div>
+      <div class="tl-what">Casa do Cuidado live</div>
+      <div class="tl-desc">Casa do Cuidado + Co-Criação + cron decision-engine. Janela Mágica D+8 disparando.</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-when">SPRINT 3 · 2 SEMANAS</div>
+      <div class="tl-what">Diário + IA</div>
+      <div class="tl-desc">Diário Estúdio Mais publicando. IA 24/7 respondendo. Análises Domésticas em uso.</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-when">SPRINT 4 · 1-2 SPRINTS</div>
+      <div class="tl-what">Tiers pagos vivos</div>
+      <div class="tl-desc">Assinaturas Asaas. Daily.co integrado. Pool inicial (nutri + dermato + médica + personal).</div>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 10mm;">Critério Go / No-Go no Mês 3:</h2>
+  <p style="font-size: 16pt; line-height: 1.5; color: var(--ink); margin-top: 4mm;">
+    <strong style="color: var(--gold-deep);">Taxa de Recompra 90d ≥ 40%</strong> em Center Norte → escala pra rede.<br>
+    Abaixo disso → ajuste cirúrgico ou desativação sem custos enterrados.
+  </p>
+
+  <div class="slide-num">12</div>
+</section>
+
+<!-- ============= 13. ROI ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 09 · ROI</div>
+  <h1>O cenário mais conservador dá 26×.</h1>
+
+  <div class="grid-2" style="margin-top: 10mm;">
+    <div>
+      <h2 style="color: var(--red);">Investimento Ano 1</h2>
+      <table>
+        <tbody>
+          <tr><td>Implementação técnica</td><td class="num">R$ 80-150k</td></tr>
+          <tr><td>Infra (Supabase, IA, vídeo)</td><td class="num">R$ 30k</td></tr>
+          <tr><td>Pool profissionais (3 meses)</td><td class="num">R$ 60k</td></tr>
+          <tr><td>Treinamento + materiais</td><td class="num">R$ 30k</td></tr>
+          <tr><td>Prêmios do Score (40 pros)</td><td class="num">R$ 96-216k</td></tr>
+          <tr style="background: rgba(194,90,74,0.1);"><td><strong>TOTAL</strong></td><td class="num red"><strong>R$ 296-486k</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h2 style="color: var(--green);">Receita Adicional Ano 1</h2>
+      <table>
+        <tbody>
+          <tr><td>Recompra 90d (10% → 30%)</td><td class="num green">+R$ 4,4M</td></tr>
+          <tr><td>Premium em formação</td><td class="num green">+R$ 5M</td></tr>
+          <tr><td>Tier Cuidado recorrente</td><td class="num green">+R$ 2,4M</td></tr>
+          <tr><td>Tier 360° recorrente</td><td class="num green">+R$ 1,2M</td></tr>
+          <tr style="background: rgba(107,142,111,0.1);"><td><strong>TOTAL</strong></td><td class="num green"><strong>+R$ 13M</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="stats-row three" style="margin-top: 12mm;">
+    <div class="stat-card">
+      <div class="stat-num small red">R$ 486k</div>
+      <div class="stat-label">Investimento máximo</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num small green">R$ 13M</div>
+      <div class="stat-label">Receita adicional</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="stat-num small">26-44×</div>
+      <div class="stat-label">ROI Ano 1</div>
+    </div>
+  </div>
+
+  <div class="slide-num">13</div>
+</section>
+
+<!-- ============= 14. RISCOS ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Capítulo 10 · Riscos & Mitigações</div>
+  <h1>3 riscos reais. 3 mitigações estruturais.</h1>
+
+  <table style="margin-top: 12mm;">
+    <thead>
+      <tr><th>Risco</th><th>Probabilidade</th><th>Mitigação</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Equipe não adota o briefing</strong><br><span style="color: var(--ink-soft); font-size: 10pt;">Profissionais resistem ao sistema decidir as ações.</span></td>
+        <td>Média</td>
+        <td>Prêmio mensal de R$ 200-1.500 atrelado a execução. Score público transparente. Bônus paralelo, não substitui comissão.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Sync com Belle falha</strong><br><span style="color: var(--ink-soft); font-size: 10pt;">Multi-store sync ainda não foi escrito.</span></td>
+        <td>Média</td>
+        <td>Esquema documentado. Tokens por loja gerados pela franqueada. Cron Vercel é padrão de mercado. ~2-3 dias de dev.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Validação CFM/ANS do Tier 360°</strong><br><span style="color: var(--ink-soft); font-size: 10pt;">Consulta médica online tem regulação rigorosa.</span></td>
+        <td>Baixa</td>
+        <td>Tier 360° entra só no Sprint 4. Advogado especialista contratado antes do lançamento (R$ 15-30k). Posicionamento jurídico já definido: "avaliação médica de protocolo estético".</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pullquote" style="margin-top: 8mm;">
+    Nenhum desses riscos é estrutural. Todos são executáveis ou contratáveis.
+    <div class="pullquote-source">PRINCÍPIO DA TESE</div>
+  </div>
+
+  <div class="slide-num">14</div>
+</section>
+
+<!-- ============= 15. QUOTE ============= -->
+<section class="slide bg-rose">
+  <p class="big-quote">
+    Não vamos vender mais procedimento. Vamos vender cuidado contínuo.<br>
+    O procedimento é o evento. A relação é o produto.
+  </p>
+  <p style="font-size: 11pt; letter-spacing: 3pt; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-top: 14mm; font-weight: 700;">
+    — Tese central · Cuidado Contínuo · Maio 2026
+  </p>
+  <div class="slide-num">15</div>
+</section>
+
+<!-- ============= 16. ASK ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Pedido ao Board</div>
+  <h1 class="small">Aprovar piloto.<br>Mês 3 decide o resto.</h1>
+
+  <div class="ask-box" style="margin-top: 14mm;">
+    <div class="ask-eyebrow">DECISÃO ESPECÍFICA SOLICITADA</div>
+    <div class="ask-title">Aprovação de piloto em Center Norte por 90 dias com KPI único.</div>
+    <div class="ask-body">
+      • Sem investimento adicional ao orçamento de tecnologia já alocado<br>
+      • Métrica única acompanhada: <strong>Taxa de Recompra em 90 dias</strong><br>
+      • Critério Go/No-Go objetivo no Mês 3 (40% = escala · &lt;40% = ajuste ou desativação)<br>
+      • Validação jurídica ANS/CFM do Tier 360° iniciada em paralelo (Mês 1)<br>
+      • Pool de profissionais começa recrutamento no Mês 2
+    </div>
+  </div>
+
+  <p style="font-family: 'Cormorant Garamond', serif; font-size: 22pt; font-style: italic; color: var(--ink-soft); margin-top: 14mm; line-height: 1.4; text-align: center;">
+    "Nenhum compromisso de capital adicional antes do Mês 3.<br>Sem queima de marca. Sem queima de equipe."
+  </p>
+
+  <div class="slide-num">16</div>
+</section>
+
+<!-- ============= 17. FECHAMENTO ============= -->
+<section class="slide bg-ink">
+  <div class="slide-eyebrow">Encerramento</div>
+  <h1 style="color: var(--cream);">O Estúdio Mais que sobrevive os próximos 10 anos.</h1>
+
+  <ul class="bullets" style="margin-top: 10mm; font-size: 14pt;">
+    <li>O setor inteiro está migrando pra experiência. Aparelhos viram commodity em 6 meses.</li>
+    <li><strong>O que não se copia é a relação.</strong> Cuidado Contínuo é a infraestrutura que transforma cada uma das 22.756 clientes em relação viva, registrada, ativada.</li>
+    <li>O Score de Cuidado é o que faz a equipe querer usar o app todo dia. Pela primeira vez o sistema mede cuidado, não venda bruta.</li>
+    <li>A migração de Bronze/Prata/Ouro/Diamante pra Início/Caminho/Trilha/Constelação já foi feita em abril — antes de nós entrarmos nesse projeto. O DNA da casa já queria isso.</li>
+  </ul>
+
+  <p style="font-family: 'Cormorant Garamond', serif; font-size: 26pt; font-style: italic; color: var(--gold-soft); margin-top: 14mm; line-height: 1.35;">
+    Não é construir um produto novo. É ativar a tese que a casa já carrega há 10 anos.
+  </p>
+
+  <div class="slide-num">17</div>
+</section>
+
+<!-- ============= 18. APÊNDICE ============= -->
+<section class="slide bg-cream">
+  <div class="slide-eyebrow">Apêndice · Documentação</div>
+  <h1>Documentação completa.</h1>
+
+  <div class="grid-2" style="margin-top: 10mm;">
+    <div>
+      <h2>Estratégia (Obsidian)</h2>
+      <ul class="bullets" style="font-size: 11pt;">
+        <li>Doc 41 · App como Motor de LTV</li>
+        <li>Doc 42 · Cuidado Contínuo — Produto-Âncora</li>
+        <li>Doc 43 · O Que Já Existe no App</li>
+        <li>Doc 44 · Score de Cuidado · KPIs & Prêmios</li>
+        <li>Doc 27 · Os 4 Ingredientes do Premium</li>
+        <li>Doc 21 · Dados Master Linkx + Belle</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Técnico (GitHub público)</h2>
+      <ul class="bullets" style="font-size: 11pt;">
+        <li>github.com/DaniloTuffi/cuidado-continuo-handoff</li>
+        <li>15 migrations SQL prontas</li>
+        <li>18 telas Mobile/Web em TypeScript</li>
+        <li>1 edge function Anthropic Claude</li>
+        <li>INTEGRACAO_BELLE.md (fluxo end-to-end)</li>
+        <li>Protótipos navegáveis em GitHub Pages</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background: var(--ink); color: var(--cream); padding: 10mm 14mm; border-radius: 6mm; margin-top: 12mm;">
+    <div style="font-size: 10pt; letter-spacing: 3pt; color: var(--gold-soft); font-weight: 700; margin-bottom: 4mm;">LINK ÚNICO PARA O BOARD</div>
+    <div style="font-family: 'Cormorant Garamond', serif; font-size: 22pt; font-style: italic; color: var(--gold);">github.com/DaniloTuffi/cuidado-continuo-handoff</div>
+  </div>
+
+  <div class="slide-num">18</div>
+</section>
+
+</body>
+</html>
