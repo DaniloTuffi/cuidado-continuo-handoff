@@ -21,7 +21,13 @@ interface CareSnapshot {
   todays_actions: any[];
   recent_featured_column: any | null;
   upcoming_event: any | null;
-  subscription_tier: string | null;
+  clube_status: {
+    membership_status: string;
+    has_active_benefits: boolean;
+    medical_consultations_remaining?: number;
+    nutri_consultations_remaining?: number;
+    waitlist_position?: number | null;
+  } | null;
   professional: { id: string; full_name: string; photo_url: string | null } | null;
 }
 
@@ -115,13 +121,10 @@ export default function CasaDoCuidado() {
         .limit(1)
         .maybeSingle();
 
-      // 7. Assinatura ativa
-      const { data: sub } = await supabase
-        .from("client_cc_subscriptions")
-        .select("tier_slug")
-        .eq("client_id", cd.id)
-        .eq("status", "active")
-        .maybeSingle();
+      // 7. Status no Clube das Madrinhas (substitui assinaturas)
+      const { data: clubeStatus } = await supabase.rpc("client_clube_status", {
+        p_client_id: cd.id,
+      });
 
       setSnap({
         active_protocol: protocol,
@@ -131,7 +134,7 @@ export default function CasaDoCuidado() {
         todays_actions: todays,
         recent_featured_column: column,
         upcoming_event: event,
-        subscription_tier: sub?.tier_slug ?? null,
+        clube_status: clubeStatus ?? null,
         professional: appt
           ? {
               id: (appt as any).employee_details?.profile_id,
@@ -314,19 +317,34 @@ export default function CasaDoCuidado() {
           </TouchableOpacity>
         )}
 
-        {/* Cuidado Contínuo upsell se não tem tier pago */}
-        {!snap?.subscription_tier && (
+        {/* Clube das Madrinhas — banner contextual ao status */}
+        {snap?.clube_status?.membership_status === "active" || snap?.clube_status?.membership_status === "invited" ? (
+          <TouchableOpacity
+            style={styles.clubeActiveBanner}
+            onPress={() => router.push("/(client)/clube-madrinhas/painel" as any)}
+          >
+            <Text style={styles.clubeActiveTag}>✦ MADRINHA · ACESSO PLENO</Text>
+            <Text style={styles.clubeActiveTitle}>Seu Painel das Madrinhas</Text>
+            <Text style={styles.clubeActiveText}>
+              {snap.clube_status.has_active_benefits
+                ? `Você tem acompanhamento médico/nutri ativo · ${snap.clube_status.medical_consultations_remaining ?? 0} consultas médicas, ${snap.clube_status.nutri_consultations_remaining ?? 0} com nutri restantes.`
+                : "Descontos exclusivos, pré-lançamentos e estoques limitados estão te esperando."}
+            </Text>
+            <Text style={styles.clubeActiveCta}>ABRIR PAINEL →</Text>
+          </TouchableOpacity>
+        ) : (
           <TouchableOpacity
             style={styles.subUpsell}
-            onPress={() => router.push("/(client)/cuidado-continuo/choose-tier")}
+            onPress={() => router.push("/(client)/clube-madrinhas" as any)}
           >
-            <Text style={styles.subUpsellTag}>💆 EVOLUIR SUA EXPERIÊNCIA</Text>
-            <Text style={styles.subUpsellTitle}>Cuidado Contínuo Premium</Text>
+            <Text style={styles.subUpsellTag}>✦ EXCLUSIVO · 360 MULHERES</Text>
+            <Text style={styles.subUpsellTitle}>Sou Madrinha</Text>
             <Text style={styles.subUpsellText}>
-              Consulta mensal com profissional + Painel Hormonal completo + Análises ilimitadas.
-              A partir de R$ 200/mês.
+              {snap?.clube_status?.membership_status === "waitlist"
+                ? `Você está na posição #${snap.clube_status.waitlist_position ?? "—"} da fila. Veja a história do Clube.`
+                : "Uma camada do Estúdio Mais que pouca gente vê. Madrinhas têm acesso a estoques limitados e parte do que pagam financia mulheres do Instituto."}
             </Text>
-            <Text style={styles.subUpsellCta}>CONHECER OS PLANOS →</Text>
+            <Text style={styles.subUpsellCta}>VERIFICAR ACESSO →</Text>
           </TouchableOpacity>
         )}
       </ScrollView>
@@ -395,4 +413,9 @@ const styles = StyleSheet.create({
   subUpsellTitle: { fontSize: 20, fontWeight: "600", color: "#f4ece2", marginBottom: 6 },
   subUpsellText: { fontSize: 13, color: "rgba(244,236,226,0.85)", lineHeight: 18, marginBottom: 12 },
   subUpsellCta: { fontSize: 11, letterSpacing: 1.5, color: "#b89968", fontWeight: "700" },
+  clubeActiveBanner: { marginHorizontal: 16, marginTop: 12, padding: 20, borderRadius: 20, backgroundColor: "#3a2e2a", borderWidth: 1, borderColor: "#b89968" },
+  clubeActiveTag: { fontSize: 10, letterSpacing: 1.5, color: "#d4bf95", fontWeight: "700", marginBottom: 6 },
+  clubeActiveTitle: { fontSize: 20, fontWeight: "600", color: "#f4ece2", marginBottom: 6 },
+  clubeActiveText: { fontSize: 13, color: "rgba(244,236,226,0.85)", lineHeight: 18, marginBottom: 12 },
+  clubeActiveCta: { fontSize: 11, letterSpacing: 1.5, color: "#b89968", fontWeight: "700" },
 });
