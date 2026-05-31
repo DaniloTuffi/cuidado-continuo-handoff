@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Score de Cuidado · Lene Souza · Maio 2026</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --green-care: #6b8e6f;
+    --red-alert: #c25a4a;
+    --shadow-soft: 0 4px 16px rgba(31,26,23,0.06);
+    --shadow-strong: 0 24px 60px rgba(31,26,23,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  body { background: var(--cream); color: var(--ink); }
+  .serif { font-family: "Cormorant Garamond", Georgia, serif; }
+
+  /* ============= MODE BAR (switcher 2 níveis) ============= */
+  .mode-bar { position: sticky; top: 0; left: 0; right: 0; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); z-index: 100; border-bottom: 1px solid var(--cream-deep); }
+  .mode-bar-inner { max-width: 1400px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .mode-toggle { background: var(--ink); border-radius: 100px; padding: 3px; display: flex; gap: 2px; }
+  .mode-btn { background: transparent; border: none; padding: 7px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; color: rgba(244,236,226,0.5); cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; transition: all 0.2s; }
+  .mode-btn.active { background: var(--gold); color: var(--ink); }
+  .mode-divider { width: 1px; height: 22px; background: var(--cream-deep); }
+  .sub-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .sub-btn { background: transparent; border: none; padding: 8px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; color: var(--ink-soft); cursor: pointer; }
+  .sub-btn.active { background: var(--rose-deep); color: white; }
+  .sub-btn:hover:not(.active) { background: var(--cream); color: var(--ink); }
+  .mode-user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; }
+  .mode-user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 13px; }
+
+  /* ============= HERO ============= */
+  .hero {
+    background: linear-gradient(135deg, #1f1a17 0%, #5a4f47 50%, #8a6f3d 100%);
+    color: var(--cream);
+    padding: 60px 32px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,191,149,0.18), transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+  .hero-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--gold); }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 800px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* Big score number */
+  .score-display { text-align: center; position: relative; }
+  .score-ring {
+    width: 280px; height: 280px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .score-ring svg {
+    transform: rotate(-90deg);
+    width: 100%; height: 100%;
+  }
+  .score-ring-bg { stroke: rgba(244,236,226,0.1); fill: none; stroke-width: 12; }
+  .score-ring-fill {
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 800;
+    stroke-dashoffset: 48;
+    transition: stroke-dashoffset 1.5s ease;
+    filter: drop-shadow(0 0 20px rgba(184,153,104,0.5));
+  }
+  .score-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+  }
+  .score-number {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 96px;
+    font-weight: 600;
+    letter-spacing: -4px;
+    line-height: 1;
+    color: var(--cream);
+  }
+  .score-max { font-size: 32px; color: var(--gold-soft); }
+  .score-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  .hero-info { color: var(--cream); }
+  .hero-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 52px;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .hero-deck {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(244,236,226,0.85);
+    margin-bottom: 24px;
+  }
+
+  /* Prize card no hero */
+  .prize-card {
+    background: rgba(184,153,104,0.15);
+    border: 1px solid rgba(184,153,104,0.4);
+    border-radius: 16px;
+    padding: 22px;
+    backdrop-filter: blur(10px);
+  }
+  .prize-tag {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .prize-value {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .prize-desc {
+    font-size: 13px;
+    color: rgba(244,236,226,0.75);
+    line-height: 1.5;
+  }
+  .prize-progress {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(184,153,104,0.2);
+  }
+  .prize-progress-label {
+    font-size: 11px;
+    color: var(--gold-soft);
+    margin-bottom: 6px;
+  }
+  .prize-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .prize-bar-fill {
+    height: 100%;
+    width: 94%;
+    background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+  }
+  .prize-progress-text {
+    font-size: 12px;
+    margin-top: 8px;
+    color: rgba(244,236,226,0.7);
+  }
+
+  /* ============= MAIN GRID ============= */
+  .main { max-width: 1280px; margin: 0 auto; padding: 50px 32px; }
+
+  .section-h {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--rose-deep);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-h::before { content: ""; width: 24px; height: 1.5px; background: var(--rose-deep); }
+
+  /* KPI Categories */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 50px;
+  }
+  @media (max-width: 800px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+  .kpi-card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+  }
+  .kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .kpi-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .kpi-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .kpi-icon.exec { background: #fef0ed; color: #c25a4a; }
+  .kpi-icon.rel { background: #f3eaf0; color: #8a3a4f; }
+  .kpi-icon.sales { background: #ecf2ed; color: #6b8e6f; }
+  .kpi-icon.coc { background: #fff4e0; color: #b89968; }
+  .kpi-title {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .kpi-weight {
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.5px;
+  }
+  .kpi-score {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .kpi-score-suffix { font-size: 18px; color: var(--ink-soft); }
+  .kpi-bar {
+    height: 8px;
+    background: var(--cream);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 14px 0;
+  }
+  .kpi-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+  .kpi-bar-fill.exec { background: linear-gradient(90deg, #c25a4a, #e08a7c); }
+  .kpi-bar-fill.rel { background: linear-gradient(90deg, #8a3a4f, #c97d8e); }
+  .kpi-bar-fill.sales { background: linear-gradient(90deg, #6b8e6f, #9bb89e); }
+  .kpi-bar-fill.coc { background: linear-gradient(90deg, #b89968, #d4bf95); }
+
+  .kpi-breakdown {
+    margin-top: 16px;
+    border-top: 1px solid var(--cream-deep);
+    padding-top: 14px;
+  }
+  .kpi-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 12px;
+  }
+  .kpi-line-name { color: var(--ink-soft); }
+  .kpi-line-value { font-weight: 700; }
+  .kpi-line-value.green { color: var(--green-care); }
+  .kpi-line-value.alert { color: var(--red-alert); }
+
+  /* RANKING */
+  .ranking-card {
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: var(--cream);
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 50px;
+  }
+  .ranking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+  .ranking-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .ranking-subtitle { font-size: 12px; color: rgba(244,236,226,0.6); letter-spacing: 1px; text-transform: uppercase; }
+
+  .ranking-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 100px 80px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .ranking-row:last-child { border-bottom: none; }
+  .ranking-row.me { background: rgba(184,153,104,0.1); margin: 0 -20px; padding: 14px 20px; border-radius: 12px; border-bottom: none; }
+  .ranking-position {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold-soft);
+  }
+  .ranking-name { font-weight: 600; font-size: 14px; }
+  .ranking-name-sub { font-size: 11px; color: rgba(244,236,226,0.5); }
+  .ranking-score-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: right;
+  }
+  .ranking-prize {
+    text-align: right;
+    font-size: 12px;
+    color: var(--gold-soft);
+    font-weight: 700;
+  }
+
+  /* PRIZES escala */
+  .prize-ladder {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 50px;
+  }
+  @media (max-width: 900px) { .prize-ladder { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 500px) { .prize-ladder { grid-template-columns: repeat(2, 1fr); } }
+  .prize-step {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    border: 2px solid transparent;
+    position: relative;
+    transition: transform 0.2s;
+  }
+  .prize-step:hover { transform: translateY(-2px); }
+  .prize-step.unlocked {
+    background: linear-gradient(135deg, #fff4e0, #fff);
+    border-color: var(--gold);
+  }
+  .prize-step.current {
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: white;
+    border-color: var(--gold);
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+  .prize-step.current .prize-step-label { color: var(--gold-soft); }
+  .prize-step.current .prize-step-value { color: var(--gold); }
+  .prize-step.current .prize-step-desc { color: rgba(255,255,255,0.7); }
+
+  .prize-step-range {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .prize-step.current .prize-step-range { color: var(--gold-soft); }
+  .prize-step-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .prize-step-value {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+    color: var(--gold-deep);
+  }
+  .prize-step-desc {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .prize-step-tag {
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* HISTORY */
+  .history-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 50px;
+    box-shadow: var(--shadow-soft);
+  }
+  .history-chart {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    align-items: end;
+    height: 180px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--cream-deep);
+  }
+  .history-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .history-bar {
+    width: 100%;
+    background: linear-gradient(180deg, var(--gold), var(--gold-soft));
+    border-radius: 6px 6px 0 0;
+    position: relative;
+    transition: height 1s ease;
+  }
+  .history-bar.current { background: linear-gradient(180deg, var(--rose-deep), var(--rose-soft)); }
+  .history-bar-value {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .history-bar-month {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .history-bar-prize {
+    margin-top: 14px;
+    font-size: 10px;
+    color: var(--gold-deep);
+    font-weight: 700;
+  }
+  .history-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding-top: 20px;
+    text-align: center;
+  }
+  @media (max-width: 700px) { .history-summary { grid-template-columns: repeat(2, 1fr); } }
+  .history-stat-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--rose-deep);
+  }
+  .history-stat-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-top: 4px;
+  }
+
+  /* BUGS + IDEAS */
+  .cocreate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 50px;
+  }
+  @media (max-width: 800px) { .cocreate-grid { grid-template-columns: 1fr; } }
+  .cocreate-card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+  }
+  .cocreate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .cocreate-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .cocreate-cta {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  .submission {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cream);
+  }
+  .submission:last-child { border-bottom: none; }
+  .submission-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .submission-meta {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .submission-status {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .status-paid { background: #ecf2ed; color: #4a6e4f; }
+  .status-review { background: #fff4e0; color: #8a6f3d; }
+  .status-implemented { background: #f3eaf0; color: #8a3a4f; }
+  .status-new { background: var(--cream); color: var(--ink-soft); }
+  .submission-prize {
+    float: right;
+    font-weight: 700;
+    color: var(--gold-deep);
+    font-size: 13px;
+  }
+
+  /* Total ganho */
+  .earnings-banner {
+    background: linear-gradient(135deg, #1f1a17, #b89968);
+    color: var(--cream);
+    border-radius: 24px;
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .earnings-info { flex: 1; }
+  .earnings-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .earnings-total {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 56px;
+    font-weight: 600;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .earnings-sub {
+    font-size: 14px;
+    color: rgba(244,236,226,0.7);
+    margin-top: 8px;
+  }
+  .earnings-cta {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 14px 24px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .pagefoot {
+    background: var(--ink);
+    color: var(--gold-soft);
+    padding: 30px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- SWITCHER -->
+<nav class="mode-bar">
+  <div class="mode-bar-inner">
+    <div class="mode-toggle">
+      <button class="mode-btn" onclick="window.location.href='index.html'">👤 Cliente</button>
+      <button class="mode-btn active">💼 Profissional</button>
+    </div>
+    <div class="mode-divider"></div>
+    <div class="sub-nav">
+      <button class="sub-btn" onclick="window.location.href='briefing.html'">💼 Briefing Hoje</button>
+      <button class="sub-btn" onclick="window.location.href='dashboard.html'">📊 Pipeline</button>
+      <button class="sub-btn active">⭐ Score</button>
+      <button class="sub-btn" onclick="window.location.href='colunistas.html?from=prof'">📰 Diário</button>
+    </div>
+    <div class="mode-user">
+      <div class="mode-user-avatar">L</div>
+      <div>
+        <div style="font-weight:600;">Lene Souza</div>
+        <div style="font-size:10px;color:var(--ink-soft);">Center Norte</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============= HERO ============= -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Score de Cuidado · Maio 2026</div>
+
+    <div class="hero-grid">
+
+      <!-- BIG SCORE RING -->
+      <div class="score-display">
+        <div class="score-ring">
+          <svg viewBox="0 0 280 280">
+            <circle class="score-ring-bg" cx="140" cy="140" r="127" />
+            <circle class="score-ring-fill" cx="140" cy="140" r="127" />
+          </svg>
+          <div class="score-center">
+            <div class="score-number">94<span class="score-max">/100</span></div>
+            <div class="score-label">✦ Topo da unidade</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO + PRIZE -->
+      <div class="hero-info">
+        <h1 class="hero-title">Lene, você desbloqueou R$ 1.000 este mês.</h1>
+        <p class="hero-deck">94 pontos. Topo da equipe da Center Norte. 4ª vez em 6 meses acima de 90. O bônus cai junto da comissão de maio — direto na sua conta.</p>
+
+        <div class="prize-card">
+          <div class="prize-tag">🏆 Prêmio Mensal Desbloqueado</div>
+          <div class="prize-value">R$ 1.000</div>
+          <div class="prize-desc">Almoço Constelação com sócios já agendado pra dia 5 de junho. Áudio da Paula chega amanhã.</div>
+
+          <div class="prize-progress">
+            <div class="prize-progress-label">Próximo nível · R$ 1.500 + dia de folga premium</div>
+            <div class="prize-bar"><div class="prize-bar-fill"></div></div>
+            <div class="prize-progress-text">Faltam <strong style="color:var(--gold-soft);">6 pontos</strong> pra 100/100 — possível com Co-Criação 100% e fechar Vendas em 92%+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main">
+
+  <!-- ============= KPI BREAKDOWN ============= -->
+  <div class="section-h">Como seu Score se forma</div>
+  <div class="kpi-grid">
+
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-name">
+          <div class="kpi-icon exec">🎯</div>
+          <div>
+            <div class="kpi-title">Execução</div>
+            <div class="kpi-weight">Peso 40% · 5 KPIs</div>
+          </div>
+        </div>
+        <div class="kpi-score">96<span class="kpi-score-suffix">%</span></div>
+      </div>
+      <div class="kpi-bar"><div class="kpi-bar-fill exec" style="width:96%;"></div></div>
+      <div class="kpi-breakdown">
+        <div class="kpi-line"><span class="kpi-line-name">Ações sugeridas executadas</span><span class="kpi-line-value green">96% ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Tempo médio de resposta</span><span class="kpi-line-value green">42 min ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Cortesias D+15 aceitas</span><span class="kpi-line-value green">82% ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Briefing aberto (dias)</span><span class="kpi-line-value green">22/22 ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Foto por procedimento</span><span class="kpi-line-value green">94% ✓</span></div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-name">
+          <div class="kpi-icon rel">💝</div>
+          <div>
+            <div class="kpi-title">Relacionamento</div>
+            <div class="kpi-weight">Peso 30% · 5 KPIs</div>
+          </div>
+        </div>
+        <div class="kpi-score">94<span class="kpi-score-suffix">%</span></div>
+      </div>
+      <div class="kpi-bar"><div class="kpi-bar-fill rel" style="width:94%;"></div></div>
+      <div class="kpi-breakdown">
+        <div class="kpi-line"><span class="kpi-line-name">NPS médio (30d)</span><span class="kpi-line-value green">9,4 ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Memória preenchida</span><span class="kpi-line-value green">98% ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Observações pós-atendimento</span><span class="kpi-line-value green">⭐ 4,6 / 5</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Áudios pessoais (mês)</span><span class="kpi-line-value green">11/8 ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Mensagens humanas vs auto</span><span class="kpi-line-value">71%</span></div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-name">
+          <div class="kpi-icon sales">💰</div>
+          <div>
+            <div class="kpi-title">Vendas Saudáveis</div>
+            <div class="kpi-weight">Peso 20% · 5 KPIs</div>
+          </div>
+        </div>
+        <div class="kpi-score">88<span class="kpi-score-suffix">%</span></div>
+      </div>
+      <div class="kpi-bar"><div class="kpi-bar-fill sales" style="width:88%;"></div></div>
+      <div class="kpi-breakdown">
+        <div class="kpi-line"><span class="kpi-line-name">Recompra 90d (clientes novas)</span><span class="kpi-line-value green">42% ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Conversão Ponte 2 (sessão 6)</span><span class="kpi-line-value green">34% ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Conversão Ponte 3 (sessão 11)</span><span class="kpi-line-value">58%</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Objeções catalogadas</span><span class="kpi-line-value green">17/12 ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Vendas com 3+ SKUs</span><span class="kpi-line-value alert">48%</span></div>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-name">
+          <div class="kpi-icon coc">🌟</div>
+          <div>
+            <div class="kpi-title">Co-Criação</div>
+            <div class="kpi-weight">Peso 10% · 4 KPIs</div>
+          </div>
+        </div>
+        <div class="kpi-score">100<span class="kpi-score-suffix">%</span></div>
+      </div>
+      <div class="kpi-bar"><div class="kpi-bar-fill coc" style="width:100%;"></div></div>
+      <div class="kpi-breakdown">
+        <div class="kpi-line"><span class="kpi-line-name">Bugs reportados (validados)</span><span class="kpi-line-value green">3</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Ideias enviadas</span><span class="kpi-line-value green">2/1 ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Ideias implementadas</span><span class="kpi-line-value green">1 ✓</span></div>
+        <div class="kpi-line"><span class="kpi-line-name">Indicações de talento</span><span class="kpi-line-value">1 em processo</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============= TOTAL GANHO ============= -->
+  <div class="earnings-banner">
+    <div class="earnings-info">
+      <div class="earnings-label">💰 Total ganho com Score em 2026</div>
+      <div class="earnings-total">R$ 8.700</div>
+      <div class="earnings-sub">5 prêmios mensais + 1 trimestral + 2 bugs + 1 ideia implementada</div>
+    </div>
+    <button class="earnings-cta">Ver extrato completo</button>
+  </div>
+
+  <!-- ============= ESCALA DE PRÊMIOS ============= -->
+  <div class="section-h">Escala de prêmios mensais</div>
+  <div class="prize-ladder">
+    <div class="prize-step unlocked">
+      <div class="prize-step-range">70-79 pts</div>
+      <div class="prize-step-label">Iniciante+</div>
+      <div class="prize-step-value">R$ 200</div>
+      <div class="prize-step-desc">Estrela no app · grupo Vencedores</div>
+    </div>
+    <div class="prize-step unlocked">
+      <div class="prize-step-range">80-89 pts</div>
+      <div class="prize-step-label">Boa</div>
+      <div class="prize-step-value">R$ 500</div>
+      <div class="prize-step-desc">Foto destaque · 1 dia flex</div>
+    </div>
+    <div class="prize-step current">
+      <div class="prize-step-tag">VOCÊ</div>
+      <div class="prize-step-range">90-99 pts</div>
+      <div class="prize-step-label">Excelente</div>
+      <div class="prize-step-value">R$ 1.000</div>
+      <div class="prize-step-desc">Almoço Constelação · áudio Paula</div>
+    </div>
+    <div class="prize-step">
+      <div class="prize-step-range">100 pts</div>
+      <div class="prize-step-label">Perfeição</div>
+      <div class="prize-step-value">R$ 1.500</div>
+      <div class="prize-step-desc">+ folga premium · capa Diário</div>
+    </div>
+    <div class="prize-step">
+      <div class="prize-step-range">3× ≥85</div>
+      <div class="prize-step-label">Trimestral</div>
+      <div class="prize-step-value">R$ 3.000</div>
+      <div class="prize-step-desc">Jantar Constelação</div>
+    </div>
+  </div>
+
+  <!-- ============= RANKING ============= -->
+  <div class="ranking-card">
+    <div class="ranking-header">
+      <div>
+        <div class="ranking-title">Ranking · Center Norte</div>
+        <div class="ranking-subtitle">7 designers ativas · Maio 2026</div>
+      </div>
+      <div style="font-size:12px;color:rgba(244,236,226,0.6);">Atualizado há 2h</div>
+    </div>
+
+    <div class="ranking-row me">
+      <div class="ranking-position">1º</div>
+      <div>
+        <div class="ranking-name">Lene Souza ← você</div>
+        <div class="ranking-name-sub">3 meses no topo seguidos</div>
+      </div>
+      <div class="ranking-score-num">94</div>
+      <div class="ranking-prize">R$ 1.000</div>
+    </div>
+    <div class="ranking-row">
+      <div class="ranking-position">2º</div>
+      <div>
+        <div class="ranking-name">Paula Magalhães</div>
+        <div class="ranking-name-sub">Gerente · contribui pra média</div>
+      </div>
+      <div class="ranking-score-num">89</div>
+      <div class="ranking-prize">R$ 500</div>
+    </div>
+    <div class="ranking-row">
+      <div class="ranking-position">3º</div>
+      <div>
+        <div class="ranking-name">Camila Ribeiro</div>
+        <div class="ranking-name-sub">Subiu 4 posições no mês</div>
+      </div>
+      <div class="ranking-score-num">87</div>
+      <div class="ranking-prize">R$ 500</div>
+    </div>
+    <div class="ranking-row">
+      <div class="ranking-position">4º</div>
+      <div>
+        <div class="ranking-name">Vanessa Lopes</div>
+        <div class="ranking-name-sub">Primeira vez no top 5</div>
+      </div>
+      <div class="ranking-score-num">82</div>
+      <div class="ranking-prize">R$ 500</div>
+    </div>
+    <div class="ranking-row">
+      <div class="ranking-position">5º</div>
+      <div>
+        <div class="ranking-name">Bia Castro</div>
+        <div class="ranking-name-sub">Precisa de coaching em Vendas</div>
+      </div>
+      <div class="ranking-score-num">71</div>
+      <div class="ranking-prize">R$ 200</div>
+    </div>
+  </div>
+
+  <!-- ============= HISTÓRICO ============= -->
+  <div class="section-h">Seus últimos 6 meses</div>
+  <div class="history-card">
+    <div class="history-chart">
+      <div class="history-bar-wrapper">
+        <div class="history-bar" style="height:74%;"><div class="history-bar-value">76</div></div>
+        <div class="history-bar-month">Dez 25</div>
+        <div class="history-bar-prize">R$ 200</div>
+      </div>
+      <div class="history-bar-wrapper">
+        <div class="history-bar" style="height:81%;"><div class="history-bar-value">82</div></div>
+        <div class="history-bar-month">Jan 26</div>
+        <div class="history-bar-prize">R$ 500</div>
+      </div>
+      <div class="history-bar-wrapper">
+        <div class="history-bar" style="height:85%;"><div class="history-bar-value">85</div></div>
+        <div class="history-bar-month">Fev 26</div>
+        <div class="history-bar-prize">R$ 500</div>
+      </div>
+      <div class="history-bar-wrapper">
+        <div class="history-bar" style="height:89%;"><div class="history-bar-value">89</div></div>
+        <div class="history-bar-month">Mar 26</div>
+        <div class="history-bar-prize">R$ 500 + 🎉 trim</div>
+      </div>
+      <div class="history-bar-wrapper">
+        <div class="history-bar" style="height:88%;"><div class="history-bar-value">88</div></div>
+        <div class="history-bar-month">Abr 26</div>
+        <div class="history-bar-prize">R$ 500</div>
+      </div>
+      <div class="history-bar-wrapper">
+        <div class="history-bar current" style="height:94%;"><div class="history-bar-value">94</div></div>
+        <div class="history-bar-month">Mai 26</div>
+        <div class="history-bar-prize">R$ 1.000</div>
+      </div>
+    </div>
+    <div class="history-summary">
+      <div>
+        <div class="history-stat-num">+18</div>
+        <div class="history-stat-label">Pontos em 6 meses</div>
+      </div>
+      <div>
+        <div class="history-stat-num">R$ 6.700</div>
+        <div class="history-stat-label">Bônus acumulado 6m</div>
+      </div>
+      <div>
+        <div class="history-stat-num">3</div>
+        <div class="history-stat-label">Meses no topo</div>
+      </div>
+      <div>
+        <div class="history-stat-num">2</div>
+        <div class="history-stat-label">Trimestres ≥85</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============= BUGS + IDEIAS ============= -->
+  <div class="section-h">Co-Criação · você ajudando a melhorar o app</div>
+  <div class="cocreate-grid">
+
+    <div class="cocreate-card">
+      <div class="cocreate-header">
+        <h3 class="cocreate-title">🐛 Bugs reportados</h3>
+        <button class="cocreate-cta">+ Reportar bug</button>
+      </div>
+
+      <div class="submission">
+        <span class="submission-prize">R$ 300</span>
+        <div class="submission-title">Notificação de cortesia D+15 chegava 2× em fim de semana</div>
+        <div class="submission-meta">Reportado em 18/05 · validado em 20/05 · médio impacto</div>
+        <span class="submission-status status-paid">✓ Pago</span>
+      </div>
+
+      <div class="submission">
+        <span class="submission-prize">R$ 100</span>
+        <div class="submission-title">Foto antes/depois trocava ao salvar (ordem invertida)</div>
+        <div class="submission-meta">Reportado em 03/05 · validado em 05/05 · baixo impacto</div>
+        <span class="submission-status status-paid">✓ Pago</span>
+      </div>
+
+      <div class="submission">
+        <span class="submission-prize">R$ 100</span>
+        <div class="submission-title">Memória da cliente cortava emoji no campo "preferências"</div>
+        <div class="submission-meta">Reportado em 25/05 · em validação</div>
+        <span class="submission-status status-review">⏳ Em análise</span>
+      </div>
+    </div>
+
+    <div class="cocreate-card">
+      <div class="cocreate-header">
+        <h3 class="cocreate-title">💡 Suas ideias</h3>
+        <button class="cocreate-cta">+ Nova ideia</button>
+      </div>
+
+      <div class="submission">
+        <span class="submission-prize">R$ 500</span>
+        <div class="submission-title">"Lembrar da viagem dela" — campo de calendário com alerta 14d antes</div>
+        <div class="submission-meta">Enviada em 02/04 · implementada em 22/05 · 8 designers usaram</div>
+        <span class="submission-status status-implemented">🚀 Implementada</span>
+      </div>
+
+      <div class="submission">
+        <div class="submission-title">"Áudio com nome do filho" — IA puxa nome de criança do Memória</div>
+        <div class="submission-meta">Enviada em 20/05 · em avaliação técnica</div>
+        <span class="submission-status status-new">📥 Recebida</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============= ANNOTATION ============= -->
+  <div style="background:#fef9e7;border-left:3px solid var(--gold);padding:20px 24px;border-radius:0 14px 14px 0;font-size:14px;color:var(--ink-soft);line-height:1.7;">
+    <strong style="color:var(--ink);font-size:13px;letter-spacing:1px;text-transform:uppercase;">🎯 Como o Score muda a cultura</strong><br>
+    O Score de Cuidado <strong>não substitui sua comissão de venda</strong> — soma. Comissão continua igual. O Score paga em CIMA dela, por <strong>cuidar bem das clientes que o sistema já trouxe pra cadeira</strong>. Você pode bater meta de venda e ainda ganhar +R$ 1.000 só por executar o briefing e preencher a Memória direito.<br><br>
+    <strong style="color:var(--ink);">É o jeito digno de medir cuidado</strong>: quem usa o app, ganha. Quem ignora, fica pra trás — sem brigas, sem ranking de "quem vendeu mais", sem disputa tóxica. Os dados são públicos pra equipe (ranking transparente) mas a comparação é construtiva, não competitiva.<br><br>
+    E você pode <strong>melhorar o sistema enquanto trabalha</strong>: encontrou um bug? bônus na hora. Teve uma ideia? pode virar feature com seu nome. <em>A casa é sua também.</em>
+  </div>
+
+</div>
+
+<footer class="pagefoot">
+  Score de Cuidado · Cuidado Contínuo · <strong>Maio 2026</strong> · Apenas Lene Souza tem acesso a esta tela.
+</footer>
+
+<script>
+  // Anima o ring do score (94/100 = 6% do círculo descoberto)
+  setTimeout(() => {
+    const ring = document.querySelector('.score-ring-fill');
+    if (ring) {
+      const circumference = 2 * Math.PI * 127; // ~798
+      const offset = circumference * (1 - 0.94); // 6% restante
+      ring.style.strokeDasharray = circumference;
+      ring.style.strokeDashoffset = offset;
+    }
+  }, 100);
+
+  // Botões de ação
+  document.querySelectorAll('.cocreate-cta').forEach(b => {
+    b.addEventListener('click', () => {
+      const isBug = b.textContent.includes('bug');
+      alert(isBug
+        ? '🐛 Formulário de Bug:\n\n• Descrição do problema\n• Passos pra reproduzir\n• Frequência\n• Impacto percebido\n• Print/vídeo\n\nValidado pela equipe técnica em até 48h.\nBônus pago junto da próxima comissão.'
+        : '💡 Formulário de Ideia:\n\n• Título da ideia\n• Problema que resolve\n• Como funcionaria\n• Quem beneficia\n• Você ajudaria a testar?\n\nAvaliada pelo time de produto em até 2 semanas.\nSe implementada: R$ 500 + nome no app.'
+      );
+    });
+  });
+</script>
+
+</body>
+</html>

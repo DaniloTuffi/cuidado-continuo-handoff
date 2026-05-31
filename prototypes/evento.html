@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liderar e cuidar de si · 12 de junho · Encontro Constelação</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --green-care: #6b8e6f;
+    --shadow-card: 0 4px 16px rgba(31,26,23,0.06);
+    --shadow-strong: 0 24px 60px rgba(31,26,23,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  body { background: var(--cream); color: var(--ink); }
+
+  .reading-bar {
+    background: white;
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .reading-back {
+    border: none;
+    background: var(--cream);
+    padding: 10px 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .reading-brand {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .reading-brand span {
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: block;
+    font-family: -apple-system, sans-serif;
+  }
+  .top-nav-links {
+    display: flex;
+    gap: 4px;
+  }
+  .top-nav-links button {
+    background: transparent;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .top-nav-links button:hover { background: var(--cream); color: var(--ink); }
+
+  /* HERO */
+  .event-hero {
+    position: relative;
+    min-height: 460px;
+    background: linear-gradient(135deg, #1f1a17 0%, #5a4f47 60%, #8a3a4f 100%);
+    color: var(--cream);
+    padding: 80px 32px 60px;
+    overflow: hidden;
+  }
+  .event-hero::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,191,149,0.18), transparent 70%);
+  }
+  .event-hero::after {
+    content: "";
+    position: absolute;
+    bottom: -150px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,125,142,0.15), transparent 70%);
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .event-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .event-eyebrow::before {
+    content: "";
+    width: 30px;
+    height: 1.5px;
+    background: var(--gold);
+  }
+  .event-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 72px;
+    font-weight: 600;
+    letter-spacing: -2.5px;
+    line-height: 1;
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+  @media (max-width: 700px) { .event-title { font-size: 48px; } }
+  .event-deck {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: rgba(244,236,226,0.85);
+    margin-bottom: 36px;
+    max-width: 680px;
+  }
+  .event-meta-row {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .meta-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(212,191,149,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .meta-content strong { display: block; font-weight: 600; }
+  .meta-content span { font-size: 12px; opacity: 0.75; }
+
+  .hero-action {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 8px 24px rgba(184, 153, 104, 0.3);
+  }
+  .hero-action:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(184, 153, 104, 0.45); }
+  .hero-action.confirmed { background: var(--green-care); color: white; }
+
+  /* AVAILABILITY BAR */
+  .availability {
+    background: rgba(0,0,0,0.3);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 13px;
+  }
+  .av-bar {
+    width: 200px;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .av-bar-fill {
+    width: 61%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 32px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 40px;
+  }
+  @media (max-width: 900px) { .content { grid-template-columns: 1fr; } }
+
+  .section-h {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--rose-deep);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-h::before {
+    content: "";
+    width: 20px;
+    height: 1.5px;
+    background: var(--rose-deep);
+  }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 24px;
+  }
+  .card-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .card-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .card-text p { margin-bottom: 14px; }
+  .card-text p:last-child { margin-bottom: 0; }
+
+  /* PROGRAMA */
+  .programa-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--cream-deep);
+  }
+  .programa-row:last-child { border-bottom: none; }
+  .programa-time {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--rose-deep);
+  }
+  .programa-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .programa-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .programa-who {
+    margin-top: 6px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+  }
+
+  /* ANFITRIÃS */
+  .hosts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 600px) { .hosts-grid { grid-template-columns: 1fr; } }
+  .host {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    background: var(--cream-deep);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .host:hover { transform: translateY(-2px); }
+  .host-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #5a4f47, #1f1a17);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-soft);
+    font-size: 28px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    flex-shrink: 0;
+  }
+  .host-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+  .host-name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .host-role {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.3;
+  }
+
+  /* CONFIRMADAS */
+  .confirmed-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 800px) { .confirmed-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 500px) { .confirmed-grid { grid-template-columns: repeat(3, 1fr); } }
+  .confirmed-item { text-align: center; }
+  .confirmed-avatar {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    margin: 0 auto 6px;
+  }
+  .confirmed-avatar.rose { background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); }
+  .confirmed-avatar.dark { background: linear-gradient(135deg, #5a4f47, #1f1a17); color: var(--gold-soft); }
+  .confirmed-name {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .confirmed-role {
+    font-size: 9px;
+    color: var(--ink-soft);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* FAQ */
+  .faq-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--cream-deep);
+    cursor: pointer;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-q::after {
+    content: "+";
+    color: var(--rose-deep);
+    font-size: 20px;
+    font-weight: 400;
+    transition: transform 0.2s;
+  }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-top: 10px;
+    display: none;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* SIDEBAR */
+  .sidebar-card {
+    background: white;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+  }
+  .sidebar-card.dark {
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: white;
+  }
+  .sidebar-h {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .sidebar-card.dark .sidebar-h { color: var(--gold-soft); }
+  .info-line {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--cream-deep);
+    font-size: 13px;
+  }
+  .info-line:last-child { border-bottom: none; }
+  .info-line strong { display: block; margin-bottom: 2px; }
+  .info-line span { color: var(--ink-soft); font-size: 12px; }
+  .sidebar-card.dark .info-line { border-color: rgba(255,255,255,0.1); }
+  .sidebar-card.dark .info-line span { color: rgba(244,236,226,0.7); }
+
+  .confirm-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 18px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .confirm-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(184, 153, 104, 0.4); }
+  .confirm-btn.confirmed { background: var(--green-care); color: white; }
+  .confirm-btn.confirmed::before { content: "✓ "; }
+
+  /* RELATED */
+  .related-event {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cream-deep);
+    cursor: pointer;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .related-event:last-child { border-bottom: none; }
+  .related-event-date {
+    flex-shrink: 0;
+    width: 50px;
+    text-align: center;
+  }
+  .red-d {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--rose-deep);
+    line-height: 1;
+  }
+  .red-m {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .related-event-body { flex: 1; }
+  .related-event-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .related-event-meta {
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<!-- SWITCHER 2 NÍVEIS -->
+<nav style="position:sticky;top:0;left:0;right:0;background:white;box-shadow:0 2px 12px rgba(0,0,0,0.05);z-index:100;border-bottom:1px solid var(--cream-deep);">
+  <div style="max-width:1400px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="background:var(--ink);border-radius:100px;padding:3px;display:flex;gap:2px;">
+      <button id="mode-client-btn" onclick="window.location.href='index.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">👤 Cliente</button>
+      <button id="mode-prof-btn" onclick="window.location.href='briefing.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">💼 Profissional</button>
+    </div>
+    <div style="width:1px;height:22px;background:var(--cream-deep);"></div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+      <button id="sub-home" style="background:transparent;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;">🏠 Casa</button>
+      <button onclick="window.location.href='colunistas.html'" style="background:var(--rose-deep);color:white;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;">📰 Diário ▸ Encontro</button>
+    </div>
+    <div style="margin-left:auto;">
+      <button class="reading-back" onclick="window.location.href='colunistas.html'">← Diário</button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    const ref = document.referrer;
+    let mode = 'client';
+    if (ref.includes('briefing.html') || ref.includes('dashboard.html') || ref.includes('cliente-detalhe.html')) mode = 'prof';
+    const activeBtn = document.getElementById('mode-' + mode + '-btn');
+    if (activeBtn) { activeBtn.style.background = 'var(--gold)'; activeBtn.style.color = 'var(--ink)'; }
+    const subHome = document.getElementById('sub-home');
+    if (mode === 'client') { subHome.textContent = '🏠 Casa'; subHome.onclick = () => window.location.href = 'index.html'; }
+    else { subHome.textContent = '💼 Briefing'; subHome.onclick = () => window.location.href = 'briefing.html'; }
+  })();
+</script>
+
+<!-- HERO -->
+<section class="event-hero">
+  <div class="hero-inner">
+    <div class="event-eyebrow">✨ Encontro Constelação · Junho 2026</div>
+    <h1 class="event-title">Liderar e cuidar de si</h1>
+    <p class="event-deck">Uma conversa entre cinco CEOs sobre como conciliar liderança e cuidado pessoal — sem fórmulas, sem pressa, sem performance. Drinks, escuta e troca real.</p>
+
+    <div class="event-meta-row">
+      <div class="meta-item">
+        <div class="meta-icon">📅</div>
+        <div class="meta-content"><strong>Quinta · 12 de junho</strong><span>19h00 às 21h30</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-icon">📍</div>
+        <div class="meta-content"><strong>Center Norte</strong><span>Salão Constelação · 3º andar</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-icon">👥</div>
+        <div class="meta-content"><strong>18 vagas exclusivas</strong><span>Clientes Trilha e Constelação</span></div>
+      </div>
+    </div>
+
+    <button class="hero-action" id="hero-action-btn" onclick="confirmAttendance()">Confirmar minha presença</button>
+
+    <div class="availability">
+      <div>
+        <strong style="display:block;font-size:13px;margin-bottom:4px;">11 de 18 vagas preenchidas</strong>
+        <div class="av-bar"><div class="av-bar-fill"></div></div>
+      </div>
+      <div style="font-size:12px;opacity:0.75;">7 vagas restantes</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- LEFT -->
+  <div>
+
+    <div class="card">
+      <div class="section-h">Sobre o encontro</div>
+      <div class="card-text">
+        <p>O Encontro Constelação Junho é um ritual íntimo. Não é palestra, não é workshop, não é evento de marca. É uma roda de conversa entre cinco mulheres que lideram em áreas diferentes — farma, tech, joalheria, saúde, arquitetura — e que aceitaram abrir, em voz alta, a parte que normalmente fica fora de qualquer reportagem.</p>
+        <p>A pergunta que conduz a noite: <strong>"Como você cuida de si mesma sem deixar de liderar?"</strong></p>
+        <p>Não vamos buscar respostas. Vamos ouvir. As cinco anfitriãs trarão uma história curta, real, vivida. Depois, conversa aberta com as 18 mulheres presentes. Drinks servidos durante todo o encontro. Champagne brut da casa, espumante rosé, água de cebola assada (cortesia da chef Helena).</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-h">Programação</div>
+      <div class="programa-row">
+        <div class="programa-time">19h00</div>
+        <div>
+          <div class="programa-title">Chegada e boas-vindas</div>
+          <div class="programa-desc">Drinks no foyer, conversa livre, conhecimento entre participantes</div>
+        </div>
+      </div>
+      <div class="programa-row">
+        <div class="programa-time">19h30</div>
+        <div>
+          <div class="programa-title">Abertura</div>
+          <div class="programa-desc">Palavras de Paula Magalhães, gerente Center Norte, e da equipe Cuidado Contínuo</div>
+        </div>
+      </div>
+      <div class="programa-row">
+        <div class="programa-time">19h45</div>
+        <div>
+          <div class="programa-title">Histórias breves</div>
+          <div class="programa-desc">Cada uma das 5 anfitriãs traz uma história curta (8min) sobre o tema</div>
+          <div class="programa-who">Elaine · Sofia · Camila · Marília · Helena</div>
+        </div>
+      </div>
+      <div class="programa-row">
+        <div class="programa-time">20h30</div>
+        <div>
+          <div class="programa-title">Conversa aberta</div>
+          <div class="programa-desc">Mediada por Verônica Saito. Microfone passa entre as 18 mulheres presentes.</div>
+        </div>
+      </div>
+      <div class="programa-row">
+        <div class="programa-time">21h15</div>
+        <div>
+          <div class="programa-title">Encerramento e brinde</div>
+          <div class="programa-desc">Cada participante leva pra casa um livreto com as 5 histórias e uma carta da Paula.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-h">Anfitriãs da noite</div>
+      <div class="hosts-grid">
+        <div class="host" onclick="window.location.href='perfil-colunista.html'">
+          <div class="host-avatar">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80" alt="" onerror="this.style.display='none'">E
+          </div>
+          <div>
+            <div class="host-name">Elaine Wassermann</div>
+            <div class="host-role">CEO Pharma · Cliente Constelação · 12 colunas</div>
+          </div>
+        </div>
+        <div class="host">
+          <div class="host-avatar">S</div>
+          <div>
+            <div class="host-name">Sofia Mendes</div>
+            <div class="host-role">CEO Startup tech · Cliente Trilha · 7 colunas</div>
+          </div>
+        </div>
+        <div class="host">
+          <div class="host-avatar">C</div>
+          <div>
+            <div class="host-name">Camila Botta</div>
+            <div class="host-role">Joalheira Tiffany · Cliente Início · 4 colunas</div>
+          </div>
+        </div>
+        <div class="host">
+          <div class="host-avatar">M</div>
+          <div>
+            <div class="host-name">Dra. Marília Tavares</div>
+            <div class="host-role">Ginecologista · Cliente Caminho · 6 colunas</div>
+          </div>
+        </div>
+        <div class="host">
+          <div class="host-avatar">H</div>
+          <div>
+            <div class="host-name">Helena Toledo</div>
+            <div class="host-role">Chef · Cliente Trilha · convidada especial</div>
+          </div>
+        </div>
+        <div class="host">
+          <div class="host-avatar">V</div>
+          <div>
+            <div class="host-name">Verônica Saito</div>
+            <div class="host-role">Mediadora · Cliente Constelação · 11 colunas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-h">11 mulheres já confirmadas</div>
+      <div class="confirmed-grid">
+        <div class="confirmed-item"><div class="confirmed-avatar rose">E</div><div class="confirmed-name">Elaine W.</div><div class="confirmed-role">Anfitriã</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar dark">S</div><div class="confirmed-name">Sofia M.</div><div class="confirmed-role">Anfitriã</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar">C</div><div class="confirmed-name">Camila B.</div><div class="confirmed-role">Anfitriã</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar rose">M</div><div class="confirmed-name">Marília T.</div><div class="confirmed-role">Anfitriã</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar">H</div><div class="confirmed-name">Helena T.</div><div class="confirmed-role">Anfitriã</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar dark">V</div><div class="confirmed-name">Verônica S.</div><div class="confirmed-role">Mediadora</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar rose">D</div><div class="confirmed-name">Daniela C.</div><div class="confirmed-role">Constelação</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar">R</div><div class="confirmed-name">Renata V.</div><div class="confirmed-role">Trilha</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar dark">J</div><div class="confirmed-name">Juliana C.</div><div class="confirmed-role">Trilha</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar">A</div><div class="confirmed-name">Ana Carolina V.</div><div class="confirmed-role">Caminho</div></div>
+        <div class="confirmed-item"><div class="confirmed-avatar rose">T</div><div class="confirmed-name">Tatiana B.</div><div class="confirmed-role">Caminho</div></div>
+      </div>
+      <p style="margin-top:20px;font-size:13px;color:var(--ink-soft);font-style:italic;line-height:1.6;">7 vagas ainda disponíveis. As mulheres que confirmarem são notificadas no app sobre quem mais vem — pra rede acontecer antes mesmo da chegada.</p>
+    </div>
+
+    <div class="card">
+      <div class="section-h">Perguntas frequentes</div>
+      <div class="faq-item">
+        <div class="faq-q">Tem custo?</div>
+        <div class="faq-a">Não. O Encontro Constelação é cortesia da casa para clientes Trilha e Constelação. Clientes Caminho podem ser convidadas pelas anfitriãs ou pela gerência. A noite inclui drinks, livreto-presente, fotografia profissional e estacionamento valet.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Posso levar uma amiga?</div>
+        <div class="faq-a">Sim, com indicação prévia. Cada confirmada pode trazer até 1 convidada que ainda não é cliente do Estúdio Mais. A convidada faz seu primeiro Design no dia seguinte ao encontro com 50% de cortesia.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">É gravado ou registrado em redes?</div>
+        <div class="faq-a">Não. O Encontro Constelação é estritamente off the record. Há fotógrafa para registrar atmosfera (sem rostos, salvo autorização), mas nenhuma conversa, nenhum áudio, nenhuma postagem em redes sociais. O que se diz na sala fica na sala.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Como funciona a roda?</div>
+        <div class="faq-a">As cinco anfitriãs falam primeiro (8 min cada). Depois Verônica abre a roda — o microfone passa para qualquer uma das 18 presentes que quiser dividir uma história, fazer uma pergunta ou simplesmente reagir. Não é debate. É escuta.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">E se eu confirmar e não puder ir?</div>
+        <div class="faq-a">Avise a Paula pelo app até 48h antes — sua vaga vai para alguém da lista de espera. Cancelamentos após 48h sem aviso comprometem a possibilidade de receber convite no próximo encontro (regra simples para preservar a curadoria).</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div>
+
+    <div class="sidebar-card dark">
+      <div class="sidebar-h">Sua presença</div>
+      <p style="font-size:14px;line-height:1.6;color:rgba(244,236,226,0.9);margin-bottom:14px;">Você é cliente <strong>Início · 8 dias na jornada</strong>. Este encontro normalmente é exclusivo Trilha/Constelação — mas você foi convidada porque a Lene viu seu perfil e quer te apresentar à rede.</p>
+      <button class="confirm-btn" id="confirm-btn" onclick="confirmAttendance()">Confirmar minha presença</button>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-h">Detalhes práticos</div>
+      <div class="info-line">
+        <strong>Data e hora</strong>
+        <span>Quinta, 12 de junho · 19h às 21h30</span>
+      </div>
+      <div class="info-line">
+        <strong>Local</strong>
+        <span>Estúdio Mais Center Norte<br>Av. Otto Baumgart, 1000<br>Salão Constelação · 3º andar</span>
+      </div>
+      <div class="info-line">
+        <strong>Trajeto</strong>
+        <span>Valet gratuito · estacionamento coberto</span>
+      </div>
+      <div class="info-line">
+        <strong>Dress code</strong>
+        <span>Smart casual feminino · sem regra rígida</span>
+      </div>
+      <div class="info-line">
+        <strong>Bebidas / comida</strong>
+        <span>Champagne brut, rosé, drinks sem álcool, finger food autoral (chef Helena Toledo)</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-h">Próximos Encontros Constelação</div>
+      <div class="related-event">
+        <div class="related-event-date"><div class="red-d">23</div><div class="red-m">Jun</div></div>
+        <div class="related-event-body">
+          <div class="related-event-title">O ciclo, a pele e o procedimento certo</div>
+          <div class="related-event-meta">Workshop · Cidade Jardim</div>
+        </div>
+      </div>
+      <div class="related-event">
+        <div class="related-event-date"><div class="red-d">02</div><div class="red-m">Jul</div></div>
+        <div class="related-event-body">
+          <div class="related-event-title">Edição especial Diário · 1 ano</div>
+          <div class="related-event-meta">Lançamento · Paulista</div>
+        </div>
+      </div>
+      <div class="related-event">
+        <div class="related-event-date"><div class="red-d">19</div><div class="red-m">Jul</div></div>
+        <div class="related-event-body">
+          <div class="related-event-title">Mulher 60+ e o espelho</div>
+          <div class="related-event-meta">Mesa redonda · Morumbi</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-h">Compartilhar</div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button style="flex:1;background:var(--cream);border:none;padding:10px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;">📱 WhatsApp</button>
+        <button style="flex:1;background:var(--cream);border:none;padding:10px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;">✉️ Email</button>
+      </div>
+      <p style="font-size:11px;color:var(--ink-soft);margin-top:12px;line-height:1.5;">Convidar uma amiga ou cliente nova que você queira apresentar à rede.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<footer style="background:var(--ink);color:var(--gold-soft);padding:30px;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;">
+  Diário Estúdio Mais · Encontro Constelação · Junho 2026
+</footer>
+
+<script>
+function confirmAttendance() {
+  const heroBtn = document.getElementById('hero-action-btn');
+  const sideBtn = document.getElementById('confirm-btn');
+  if (heroBtn.classList.contains('confirmed')) {
+    heroBtn.classList.remove('confirmed');
+    heroBtn.textContent = 'Confirmar minha presença';
+    sideBtn.classList.remove('confirmed');
+    sideBtn.textContent = 'Confirmar minha presença';
+  } else {
+    heroBtn.classList.add('confirmed');
+    heroBtn.textContent = '✓ Presença confirmada';
+    sideBtn.classList.add('confirmed');
+    sideBtn.textContent = 'Presença confirmada';
+    // Animar a barra avançando
+    const bar = document.querySelector('.av-bar-fill');
+    bar.style.width = '66%';
+    setTimeout(() => alert('🌟 Confirmação registrada!\n\nUm WhatsApp da Paula chega em alguns minutos com mais detalhes. O lugar dela na roda fica reservado com seu nome — sem fila, sem lista.'), 200);
+  }
+}
+
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.addEventListener('click', () => item.classList.toggle('open'));
+});
+</script>
+
+</body>
+</html>

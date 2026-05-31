@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing Hoje · Cuidado Contínuo · Estúdio Mais</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --green-care: #6b8e6f;
+    --red-alert: #c25a4a;
+    --shadow-soft: 0 8px 32px rgba(31, 26, 23, 0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  body { background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+  /* ============= MODE BAR (switcher 2 níveis) ============= */
+  .mode-bar { position: sticky; top: 0; left: 0; right: 0; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); z-index: 100; border-bottom: 1px solid var(--cream-deep); }
+  .mode-bar-inner { max-width: 1400px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .mode-toggle { background: var(--ink); border-radius: 100px; padding: 3px; display: flex; gap: 2px; }
+  .mode-btn { background: transparent; border: none; padding: 7px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; color: rgba(244,236,226,0.5); cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; transition: all 0.2s; }
+  .mode-btn.active { background: var(--gold); color: var(--ink); }
+  .mode-btn:not(.active):hover { color: var(--gold-soft); }
+  .mode-divider { width: 1px; height: 22px; background: var(--cream-deep); }
+  .sub-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .sub-btn { background: transparent; border: none; padding: 8px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; color: var(--ink-soft); cursor: pointer; }
+  .sub-btn.active { background: var(--rose-deep); color: white; }
+  .sub-btn:hover:not(.active) { background: var(--cream); color: var(--ink); }
+  .mode-user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; }
+  .mode-user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 13px; }
+
+  /* ============= CONTEÚDO ============= */
+  .stage { padding: 24px 32px 60px; max-width: 1400px; margin: 0 auto; }
+
+  .prof-header { margin-bottom: 24px; }
+  .prof-greeting { font-size: 14px; color: var(--ink-soft); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .prof-name { font-size: 32px; font-weight: 600; color: var(--ink); letter-spacing: -0.5px; }
+  .prof-date { font-size: 14px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* Stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: white; padding: 18px; border-radius: 18px; box-shadow: var(--shadow-soft); }
+  .stat-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 600; color: var(--ink); letter-spacing: -0.5px; }
+  .stat-suffix { font-size: 13px; color: var(--ink-soft); font-weight: 400; margin-left: 2px; }
+  .stat-delta { font-size: 11px; margin-top: 4px; font-weight: 700; }
+  .stat-delta.up { color: var(--green-care); }
+
+  .prof-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; margin-top: 16px; }
+  @media (max-width: 1100px) { .prof-grid { grid-template-columns: 1fr; } }
+
+  /* Briefing */
+  .briefing-card { background: white; border-radius: 24px; padding: 28px; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
+  .briefing-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--cream-deep); }
+  .briefing-title { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; color: var(--rose-deep); }
+  .briefing-counter { background: var(--rose-deep); color: white; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; }
+  .action-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--cream); cursor: pointer; transition: background 0.2s; }
+  .action-item:last-child { border-bottom: none; }
+  .action-item:hover { background: var(--cream); padding-left: 8px; padding-right: 8px; border-radius: 12px; }
+  .action-priority { width: 4px; background: var(--red-alert); align-self: stretch; border-radius: 4px; margin-right: 4px; }
+  .action-priority.med { background: var(--gold); }
+  .action-priority.low { background: var(--green-care); }
+  .action-content { flex: 1; }
+  .action-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .action-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+  .action-context { display: inline-block; font-size: 11px; color: var(--rose-deep); background: #fdf5f7; padding: 3px 9px; border-radius: 8px; margin-top: 6px; font-weight: 600; }
+  .action-cta { background: var(--ink); color: white; border: none; padding: 8px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; align-self: center; white-space: nowrap; }
+  .action-cta.outline { background: transparent; color: var(--ink); border: 1.5px solid var(--cream-deep); }
+
+  /* Score card */
+  .score-card { background: linear-gradient(135deg, #1f1a17, #5a4f47); color: white; border-radius: 24px; padding: 28px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .score-card::before { content: ""; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(184,153,104,0.3), transparent 70%); border-radius: 50%; }
+  .score-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+  .score-value { font-size: 56px; font-weight: 200; letter-spacing: -2px; line-height: 1; }
+  .score-suffix { font-size: 22px; opacity: 0.5; }
+  .score-trend { font-size: 12px; color: var(--gold-soft); margin-top: 6px; font-weight: 600; }
+  .score-breakdown { margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; }
+  .score-row-label { opacity: 0.7; }
+  .score-row-value { font-weight: 700; }
+
+  .memory-card { background: white; border-radius: 24px; padding: 24px; box-shadow: var(--shadow-soft); }
+  .memory-title { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; color: var(--rose-deep); margin-bottom: 16px; }
+  .memory-item { padding: 12px 0; border-bottom: 1px solid var(--cream); font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .memory-item:last-child { border-bottom: none; }
+  .memory-item strong { color: var(--ink); }
+
+  .annotation { background: #fef9e7; border-left: 3px solid var(--gold); padding: 14px 18px; border-radius: 0 14px 14px 0; font-size: 13px; color: var(--ink-soft); margin: 16px 0; line-height: 1.5; }
+  .annotation strong { color: var(--ink); }
+
+  .footer-note { text-align: center; color: var(--ink-soft); font-size: 12px; padding: 30px 20px; line-height: 1.6; }
+  .footer-note strong { color: var(--rose-deep); }
+
+  /* ============= SCORE CHIP + POPOVER (persistente em todas as telas profissionais) ============= */
+  .score-chip{position:relative;background:linear-gradient(135deg,var(--ink),#8a6f3d);color:var(--gold);border:1px solid rgba(184,153,104,0.4);border-radius:100px;padding:6px 12px;display:flex;align-items:center;gap:6px;cursor:pointer;transition:all 0.15s;font-weight:700;font-size:12px;}
+  .score-chip:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(184,153,104,0.3);}
+  .score-chip-star{font-size:13px;animation:starpulse 3s infinite;}
+  @keyframes starpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+  .score-chip-value{font-family:"Cormorant Garamond",Georgia,serif;font-size:15px;line-height:1;letter-spacing:-0.5px;color:var(--cream);}
+  .score-chip-trend{color:#9bb89e;font-size:10px;font-weight:700;}
+  .score-popover{position:fixed;top:62px;right:24px;width:340px;background:linear-gradient(135deg,#1f1a17,#5a4f47);color:var(--cream);border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,0.5);z-index:200;display:none;}
+  .score-popover.show{display:block;animation:popoverIn 0.2s ease;}
+  @keyframes popoverIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  .score-pop-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .score-pop-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);font-weight:700;}
+  .score-pop-close{background:transparent;border:none;color:rgba(244,236,226,0.5);font-size:18px;cursor:pointer;line-height:1;}
+  .score-pop-big{text-align:center;margin-bottom:14px;}
+  .score-pop-num{font-family:"Cormorant Garamond",Georgia,serif;font-size:60px;font-weight:600;line-height:1;letter-spacing:-2px;color:var(--cream);}
+  .score-pop-max{font-size:22px;color:var(--gold-soft);}
+  .score-pop-sub{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);font-weight:700;margin-top:4px;}
+  .score-pop-prize{background:rgba(184,153,104,0.15);border:1px solid rgba(184,153,104,0.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;}
+  .score-pop-prize-tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);font-weight:700;}
+  .score-pop-prize-val{font-family:"Cormorant Garamond",Georgia,serif;font-size:24px;font-weight:600;color:var(--gold);line-height:1;margin-top:4px;}
+  .score-pop-kpis{margin-bottom:14px;}
+  .score-pop-kpi{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:11px;}
+  .score-pop-kpi-name{opacity:0.8;}
+  .score-pop-kpi-bar{width:80px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin:0 8px;}
+  .score-pop-kpi-fill{height:100%;background:linear-gradient(90deg,var(--gold-soft),var(--gold));}
+  .score-pop-kpi-val{font-weight:700;color:var(--gold-soft);font-size:11px;}
+  .score-pop-cta{display:block;width:100%;background:var(--gold);color:var(--ink);border:none;padding:11px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<!-- ============= SWITCHER 2 NÍVEIS ============= -->
+<nav class="mode-bar">
+  <div class="mode-bar-inner">
+    <div class="mode-toggle">
+      <button class="mode-btn" onclick="window.location.href='index.html'">👤 Cliente</button>
+      <button class="mode-btn active">💼 Profissional</button>
+    </div>
+    <div class="mode-divider"></div>
+    <div class="sub-nav">
+      <button class="sub-btn active">💼 Briefing Hoje</button>
+      <button class="sub-btn" onclick="window.location.href='dashboard.html'">📊 Pipeline</button>
+      <button class="sub-btn" onclick="window.location.href='score-detalhe.html'">⭐ Score</button>
+      <button class="sub-btn" onclick="window.location.href='colunistas.html?from=prof'">📰 Diário</button>
+    </div>
+    <button class="score-chip" onclick="toggleScore(event)" title="Seu Score de Cuidado">
+      <span class="score-chip-star">⭐</span>
+      <span class="score-chip-value">94</span>
+      <span class="score-chip-trend">↑6</span>
+    </button>
+    <div class="mode-user">
+      <div class="mode-user-avatar">L</div>
+      <div>
+        <div style="font-weight:600;">Lene Souza</div>
+        <div style="font-size:10px;color:var(--ink-soft);">Center Norte</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- SCORE POPOVER (compartilhado) -->
+<div class="score-popover" id="score-popover">
+  <div class="score-pop-header">
+    <div class="score-pop-title">⭐ Score · Maio 2026</div>
+    <button class="score-pop-close" onclick="document.getElementById('score-popover').classList.remove('show')">✕</button>
+  </div>
+  <div class="score-pop-big">
+    <div class="score-pop-num">94<span class="score-pop-max">/100</span></div>
+    <div class="score-pop-sub">✦ Topo da unidade · +6 vs abril</div>
+  </div>
+  <div class="score-pop-prize">
+    <div class="score-pop-prize-tag">🏆 Prêmio do mês desbloqueado</div>
+    <div class="score-pop-prize-val">R$ 1.000</div>
+  </div>
+  <div class="score-pop-kpis">
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">🎯 Execução</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:96%;"></div></div><span class="score-pop-kpi-val">96%</span></div>
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">💝 Relacionamento</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:94%;"></div></div><span class="score-pop-kpi-val">94%</span></div>
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">💰 Vendas</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:88%;"></div></div><span class="score-pop-kpi-val">88%</span></div>
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">🌟 Co-Criação</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:100%;"></div></div><span class="score-pop-kpi-val">100%</span></div>
+  </div>
+  <button class="score-pop-cta" onclick="window.location.href='score-detalhe.html'">Ver Score completo →</button>
+</div>
+
+<script>
+function toggleScore(e){e.stopPropagation();document.getElementById('score-popover').classList.toggle('show');}
+document.addEventListener('click',e=>{const pop=document.getElementById('score-popover');if(pop&&!pop.contains(e.target)&&!e.target.closest('.score-chip'))pop.classList.remove('show');});
+</script>
+
+<div class="stage">
+
+  <div class="prof-header">
+    <div class="prof-greeting">Bom dia, segunda-feira · 28 de maio</div>
+    <div class="prof-name">Lene Souza ✦</div>
+    <div class="prof-date">Designer · Unidade Center Norte · 18 clientes ativas no Cuidado Contínuo</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-label">Score de Cuidado</div>
+      <div class="stat-value">94<span class="stat-suffix">/100</span></div>
+      <div class="stat-delta up">↑ 6 vs semana passada</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Ações hoje</div>
+      <div class="stat-value">5<span class="stat-suffix">/5 sugeridas</span></div>
+      <div class="stat-delta up">100% executado ontem</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">NPS médio (30d)</div>
+      <div class="stat-value">9.4</div>
+      <div class="stat-delta up">↑ 0.3</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Recompras mês</div>
+      <div class="stat-value">4<span class="stat-suffix">/8 meta</span></div>
+      <div class="stat-delta up">50%</div>
+    </div>
+  </div>
+
+  <div class="prof-grid">
+    <div>
+      <div class="briefing-card">
+        <div class="briefing-header">
+          <div class="briefing-title">🔔 Suas ações hoje</div>
+          <div class="briefing-counter">5 pendentes</div>
+        </div>
+
+        <div class="action-item">
+          <div class="action-priority"></div>
+          <div class="action-content">
+            <div class="action-title">Confirmar cortesia da Beatriz</div>
+            <div class="action-desc">D+8 do Design. App ofertou Tintura de Sobrancelha (custo R$ 3,47 / valor R$ 219,60). Ela ainda não escolheu horário. Mande mensagem leve perguntando se viu.</div>
+            <div class="action-context">JANELA MÁGICA · 12,6× chance de Premium</div>
+          </div>
+          <button class="action-cta" onclick="window.location.href='cliente-detalhe.html'">💬 Mensagem</button>
+        </div>
+
+        <div class="action-item">
+          <div class="action-priority"></div>
+          <div class="action-content">
+            <div class="action-title">Ligar para Rosana</div>
+            <div class="action-desc">Hidrolipo em D+5 com a Camila. Sistema espera desinchaço a partir de hoje. Ligar pra perguntar se ela já vê diferença.</div>
+            <div class="action-context">CUIDADO CLÍNICO · cadência por procedimento</div>
+          </div>
+          <button class="action-cta">📞 Ligar</button>
+        </div>
+
+        <div class="action-item">
+          <div class="action-priority med"></div>
+          <div class="action-content">
+            <div class="action-title">Mensagem para Maria</div>
+            <div class="action-desc">Aniversário do filho amanhã (você anotou na visita de 12/05). Manda um áudio curto desejando — sem CTA comercial.</div>
+            <div class="action-context">MEMÓRIA · ela contou na sessão 3</div>
+          </div>
+          <button class="action-cta">🎙️ Áudio</button>
+        </div>
+
+        <div class="action-item">
+          <div class="action-priority med"></div>
+          <div class="action-content">
+            <div class="action-title">Patrícia — Ponte 3 (decisão)</div>
+            <div class="action-desc">Sessão 11 de 12 do pacote. Próxima é a última. Hora de propor a evolução natural — Pacote Flex Beleza do Olhar (16 sessões, R$ 1.999,99) cobre próximo ano sem ela se preocupar com agendamento.</div>
+            <div class="action-context">PONTE 3 · UPSELL NATURAL</div>
+          </div>
+          <button class="action-cta">📋 Ver script</button>
+        </div>
+
+        <div class="action-item">
+          <div class="action-priority low"></div>
+          <div class="action-content">
+            <div class="action-title">Áudio de D+1 para Luiza</div>
+            <div class="action-desc">Fez Design ontem. Agradecer e confirmar que tá tudo bem. Foi atendimento dela como cliente nova.</div>
+            <div class="action-context">D+1 · ritual de boas-vindas</div>
+          </div>
+          <button class="action-cta outline">🎙️ Gravar</button>
+        </div>
+      </div>
+
+      <div class="briefing-card">
+        <div class="briefing-header">
+          <div class="briefing-title">📅 Próximas da sua semana (12)</div>
+          <div class="briefing-counter" onclick="window.location.href='dashboard.html'" style="cursor:pointer;">Ver pipeline completo →</div>
+        </div>
+        <div class="action-item">
+          <div class="action-priority low"></div>
+          <div class="action-content">
+            <div class="action-title">Terça · D+15 da Beatriz</div>
+            <div class="action-desc">Visita da Tintura de Sobrancelha. Preparar boas-vindas — primeira visita de retorno, abrir Ponte 1 (Mapa). Anotar queixas adicionais.</div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-priority low"></div>
+          <div class="action-content">
+            <div class="action-title">Quarta · NPS da semana</div>
+            <div class="action-desc">8 clientes da semana passada precisam responder. Sistema dispara automático. Verificar quem não respondeu até quinta.</div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="action-priority low"></div>
+          <div class="action-content">
+            <div class="action-title">Sexta · Reunião Score (Paula)</div>
+            <div class="action-desc">Revisar Score de Cuidado da semana com a gerente. Bônus paralelo se equipe inteira fechar ≥85.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="score-card">
+        <div class="score-label">Seu Score de Cuidado</div>
+        <div class="score-value">94<span class="score-suffix">/100</span></div>
+        <div class="score-trend">✦ Topo da equipe da unidade</div>
+
+        <div class="score-breakdown">
+          <div class="score-row"><span class="score-row-label">Ações executadas</span><span class="score-row-value">96%</span></div>
+          <div class="score-row"><span class="score-row-label">NPS dos seus contatos</span><span class="score-row-value">9.4</span></div>
+          <div class="score-row"><span class="score-row-label">Recompras geradas</span><span class="score-row-value">4 / mês</span></div>
+          <div class="score-row"><span class="score-row-label">Tempo médio de resposta</span><span class="score-row-value">42 min</span></div>
+          <div class="score-row"><span class="score-row-label">Cortesias D+15 aceitas</span><span class="score-row-value">82%</span></div>
+        </div>
+      </div>
+
+      <div class="memory-card">
+        <div class="memory-title">🧠 Memória das suas clientes hoje</div>
+        <div class="memory-item"><strong>Beatriz Almeida</strong> — quer "sobrancelha natural, não desenhada". Veio por indicação da Juliana.</div>
+        <div class="memory-item"><strong>Maria Pereira</strong> — filho Pedro, 7 anos, faz aniversário amanhã. Ela falou na sessão 3 que ele tá querendo aprender natação.</div>
+        <div class="memory-item"><strong>Rosana Lima</strong> — viagem pra Bahia em 22/06. Hidrolipo precisa estar com efeito visível até lá.</div>
+        <div class="memory-item"><strong>Patrícia Souza</strong> — medo de procedimento injetável. Ainda não fez nem Botox. Brow Lamination + Lash são portas seguras.</div>
+        <div class="memory-item"><strong>Luiza Cardoso</strong> — primeira cliente que veio pelo Painel Hormonal (descobriu pela Beatriz). Acompanhar com cuidado.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px;">
+    <div class="annotation">
+      <strong>🎯 O que essa tela está fazendo</strong><br>
+      A Lene não escolhe por onde começar o dia — o sistema diz. As 5 ações são priorizadas por <strong>impacto em LTV</strong>: cliente na Janela Mágica vem primeiro (12,6× de chance), cliente em recuperação clínica (Rosana hidrolipo) vem depois, ações de memória vêm em seguida. <strong>Cada ação executada vira sinal no CRM</strong> — quem cuida bem ganha Score, e Score (não venda bruta) vira base do bônus paralelo. Ranking por faturamento bruto (Proibição 2) substituído de fato.
+    </div>
+
+    <div class="annotation">
+      <strong>🧠 Por que isso resolve a "dependência de talento humano"</strong><br>
+      Hoje só a melhor consultora lembra dos detalhes (aniversário do filho, viagem, medos). O sistema agora <strong>lembra por todas</strong>. Profissional mediana, executando o briefing, vira no mínimo competente — porque o cuidado fica registrado e proposto. Top consultora ganha alavanca (atende mais clientes com mesma qualidade). E o que funciona vira <strong>template replicável</strong> nas outras unidades.
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  Cuidado Contínuo · Estúdio Mais · Modo Profissional · <strong>Briefing Hoje</strong><br>
+  Esta tela NÃO é acessível pela cliente. Privacidade absoluta.
+</div>
+
+</body>
+</html>

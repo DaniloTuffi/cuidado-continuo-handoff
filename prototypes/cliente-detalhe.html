@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elaine Wassermann · Perfil 360° · Estúdio Mais</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --green-care: #6b8e6f;
+    --red-alert: #c25a4a;
+    --shadow-card: 0 2px 8px rgba(31,26,23,0.05);
+    --shadow-strong: 0 16px 48px rgba(31,26,23,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  body { background: var(--cream); color: var(--ink); min-height: 100vh; }
+  .serif { font-family: "Cormorant Garamond", Georgia, serif; }
+
+  /* ============= MODE BAR ============= */
+  .mode-bar { position: sticky; top: 0; left: 0; right: 0; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); z-index: 100; border-bottom: 1px solid var(--cream-deep); }
+  .mode-bar-inner { max-width: 1400px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .mode-toggle { background: var(--ink); border-radius: 100px; padding: 3px; display: flex; gap: 2px; }
+  .mode-btn { background: transparent; border: none; padding: 7px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; color: rgba(244,236,226,0.5); cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; transition: all 0.2s; }
+  .mode-btn.active { background: var(--gold); color: var(--ink); }
+  .mode-btn:not(.active):hover { color: var(--gold-soft); }
+  .mode-divider { width: 1px; height: 22px; background: var(--cream-deep); }
+  .sub-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .sub-btn { background: transparent; border: none; padding: 8px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; color: var(--ink-soft); cursor: pointer; }
+  .sub-btn.active { background: var(--rose-deep); color: white; }
+  .sub-btn:hover:not(.active) { background: var(--cream); color: var(--ink); }
+  .mode-user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; }
+  .mode-user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 13px; }
+
+  /* TOPBAR legado — não usado */
+  .topbar {
+    background: white;
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 14px 32px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .back-btn {
+    border: none;
+    background: var(--cream);
+    padding: 10px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    letter-spacing: 0.3px;
+  }
+  .top-nav-links {
+    display: flex;
+    gap: 4px;
+  }
+  .top-nav-links button {
+    background: transparent;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .top-nav-links button:hover { background: var(--cream); }
+
+  .user-chip { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 13px; }
+
+  /* HERO */
+  .hero {
+    padding: 40px 32px 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 800px) { .hero { grid-template-columns: 1fr; } }
+
+  .hero-photo {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: var(--shadow-strong);
+    position: relative;
+    background: linear-gradient(135deg, #5a4f47, #1f1a17);
+  }
+  .hero-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+  .hero-photo-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-soft);
+    font-size: 120px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+  }
+
+  .hero-content { max-width: 720px; }
+  .hero-tier {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: var(--gold-soft);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .hero-role {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+  .hero-bio {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 580px;
+  }
+  .hero-actions { display: flex; gap: 10px; }
+  .hero-btn {
+    padding: 12px 22px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .hero-btn:hover { transform: translateY(-1px); }
+  .hero-btn.primary { background: var(--ink); color: white; }
+  .hero-btn.secondary { background: white; color: var(--ink); border: 1px solid var(--cream-deep); }
+  .hero-btn.wa { background: #25d366; color: white; }
+
+  /* STATS */
+  .stats-grid {
+    padding: 0 32px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 1100px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-value.gold { color: var(--gold-deep); }
+  .stat-suffix {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* TABS */
+  .tabs {
+    background: white;
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 0 32px;
+    display: flex;
+    gap: 28px;
+    max-width: 1280px;
+    margin: 0 auto;
+    overflow-x: auto;
+    position: sticky;
+    top: 60px;
+    z-index: 40;
+  }
+  .tab {
+    border: none;
+    background: transparent;
+    padding: 16px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--rose-deep);
+  }
+  .tab:hover:not(.active) { color: var(--ink); }
+
+  /* CONTENT */
+  .content {
+    padding: 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+  }
+  @media (max-width: 1000px) { .content { grid-template-columns: 1fr; } }
+
+  .section-h {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--rose-deep);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-h::before {
+    content: "";
+    width: 16px;
+    height: 1px;
+    background: var(--rose-deep);
+  }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 24px;
+  }
+  .card-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 14px;
+  }
+
+  /* Memória */
+  .memo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 700px) { .memo-grid { grid-template-columns: 1fr; } }
+  .memo-item {
+    padding: 14px;
+    border-left: 3px solid var(--gold-soft);
+    background: #faf7f1;
+    border-radius: 0 10px 10px 0;
+  }
+  .memo-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .memo-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .memo-text em {
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--cream-deep);
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 22px;
+  }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--rose-deep);
+  }
+  .timeline-item.gold::before { border-color: var(--gold); }
+  .timeline-item.green::before { border-color: var(--green-care); }
+  .timeline-date {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .timeline-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .timeline-tag {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-top: 6px;
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .timeline-tag.nps9 { background: #ecf2ed; color: #6b8e6f; }
+  .timeline-tag.nps10 { background: #d6e9d8; color: #4a6e4f; }
+
+  /* Antes/depois */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .ba-item {
+    aspect-ratio: 4/5;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-card);
+  }
+  .ba-item img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .ba-item-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(212,191,149,0.8);
+    font-size: 56px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+  }
+  .ba-bg-1 { background: linear-gradient(135deg, #5a4f47, #1f1a17); }
+  .ba-bg-2 { background: linear-gradient(135deg, #b89968, #5a4f47); }
+  .ba-bg-3 { background: linear-gradient(135deg, #c97d8e, #8a3a4f); }
+  .ba-bg-4 { background: linear-gradient(135deg, #d4bf95, #b89968); }
+  .ba-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(31,26,23,0.7);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* Sidebar */
+  .sidebar-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+  }
+  .sidebar-card.dark {
+    background: linear-gradient(135deg, #1f1a17, #5a4f47);
+    color: white;
+  }
+  .sidebar-title {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .sidebar-card.dark .sidebar-title { color: var(--gold-soft); }
+  .sidebar-line {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--cream-deep);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .sidebar-card.dark .sidebar-line { border-color: rgba(255,255,255,0.1); }
+  .sidebar-line:last-child { border-bottom: none; }
+  .sidebar-line strong { font-weight: 600; }
+  .sidebar-line span { color: var(--ink-soft); font-size: 12px; }
+  .sidebar-card.dark .sidebar-line span { color: rgba(244,236,226,0.7); }
+
+  /* Procedimentos */
+  .proc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .proc-card {
+    background: white;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid var(--cream-deep);
+    text-align: center;
+  }
+  .proc-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  .proc-name {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .proc-count {
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .proc-last {
+    margin-top: 6px;
+    font-size: 10px;
+    color: var(--gold-deep);
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    padding: 20px 28px;
+    border-left: 3px solid var(--gold);
+    background: #faf7f1;
+    margin: 0 0 20px;
+    border-radius: 0 12px 12px 0;
+  }
+  .pullquote-source {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    font-style: normal;
+    letter-spacing: 0.3px;
+  }
+
+  /* Coluna no Diário */
+  .diario-link {
+    background: linear-gradient(135deg, #1f1a17, #8a6f3d);
+    color: var(--cream);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .diario-link:hover { transform: translateY(-2px); }
+  .diario-link-tag {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .diario-link-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .diario-link-meta {
+    font-size: 11px;
+    opacity: 0.7;
+  }
+
+  /* Sidebar action button */
+  .sidebar-action {
+    width: 100%;
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+
+  /* Connections (clientes indicadas) */
+  .conn-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .conn-item {
+    text-align: center;
+    cursor: pointer;
+  }
+  .conn-avatar {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0 auto 6px;
+  }
+  .conn-avatar.rose { background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); }
+  .conn-name {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  /* ============= SCORE CHIP + POPOVER ============= */
+  .score-chip{position:relative;background:linear-gradient(135deg,var(--ink),#8a6f3d);color:var(--gold);border:1px solid rgba(184,153,104,0.4);border-radius:100px;padding:6px 12px;display:flex;align-items:center;gap:6px;cursor:pointer;transition:all 0.15s;font-weight:700;font-size:12px;}
+  .score-chip:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(184,153,104,0.3);}
+  .score-chip-star{font-size:13px;animation:starpulse 3s infinite;}
+  @keyframes starpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+  .score-chip-value{font-family:"Cormorant Garamond",Georgia,serif;font-size:15px;line-height:1;letter-spacing:-0.5px;color:var(--cream);}
+  .score-chip-trend{color:#9bb89e;font-size:10px;font-weight:700;}
+  .score-popover{position:fixed;top:62px;right:24px;width:340px;background:linear-gradient(135deg,#1f1a17,#5a4f47);color:var(--cream);border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,0.5);z-index:200;display:none;}
+  .score-popover.show{display:block;animation:popoverIn 0.2s ease;}
+  @keyframes popoverIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  .score-pop-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .score-pop-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);font-weight:700;}
+  .score-pop-close{background:transparent;border:none;color:rgba(244,236,226,0.5);font-size:18px;cursor:pointer;line-height:1;}
+  .score-pop-big{text-align:center;margin-bottom:14px;}
+  .score-pop-num{font-family:"Cormorant Garamond",Georgia,serif;font-size:60px;font-weight:600;line-height:1;letter-spacing:-2px;color:var(--cream);}
+  .score-pop-max{font-size:22px;color:var(--gold-soft);}
+  .score-pop-sub{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);font-weight:700;margin-top:4px;}
+  .score-pop-prize{background:rgba(184,153,104,0.15);border:1px solid rgba(184,153,104,0.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;}
+  .score-pop-prize-tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);font-weight:700;}
+  .score-pop-prize-val{font-family:"Cormorant Garamond",Georgia,serif;font-size:24px;font-weight:600;color:var(--gold);line-height:1;margin-top:4px;}
+  .score-pop-kpis{margin-bottom:14px;}
+  .score-pop-kpi{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:11px;}
+  .score-pop-kpi-name{opacity:0.8;}
+  .score-pop-kpi-bar{width:80px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin:0 8px;}
+  .score-pop-kpi-fill{height:100%;background:linear-gradient(90deg,var(--gold-soft),var(--gold));}
+  .score-pop-kpi-val{font-weight:700;color:var(--gold-soft);font-size:11px;}
+  .score-pop-cta{display:block;width:100%;background:var(--gold);color:var(--ink);border:none;padding:11px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
+
+  /* Hide all tabs except active */
+  .tab-content { display: none; }
+  .tab-content.active { display: grid; animation: fadeIn 0.3s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<nav class="mode-bar">
+  <div class="mode-bar-inner">
+    <div class="mode-toggle">
+      <button class="mode-btn" onclick="window.location.href='index.html'">👤 Cliente</button>
+      <button class="mode-btn active">💼 Profissional</button>
+    </div>
+    <div class="mode-divider"></div>
+    <div class="sub-nav">
+      <button class="sub-btn" onclick="window.location.href='briefing.html'">💼 Briefing Hoje</button>
+      <button class="sub-btn active" onclick="window.location.href='dashboard.html'">📊 Pipeline ▸ Elaine</button>
+      <button class="sub-btn" onclick="window.location.href='score-detalhe.html'">⭐ Score</button>
+      <button class="sub-btn" onclick="window.location.href='colunistas.html?from=prof'">📰 Diário</button>
+    </div>
+    <button class="score-chip" onclick="toggleScore(event)" title="Seu Score de Cuidado">
+      <span class="score-chip-star">⭐</span>
+      <span class="score-chip-value">94</span>
+      <span class="score-chip-trend">↑6</span>
+    </button>
+    <div class="mode-user">
+      <div class="mode-user-avatar">L</div>
+      <div>
+        <div style="font-weight:600;">Lene Souza</div>
+        <div style="font-size:10px;color:var(--ink-soft);">Center Norte</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- SCORE POPOVER -->
+<div class="score-popover" id="score-popover">
+  <div class="score-pop-header">
+    <div class="score-pop-title">⭐ Score · Maio 2026</div>
+    <button class="score-pop-close" onclick="document.getElementById('score-popover').classList.remove('show')">✕</button>
+  </div>
+  <div class="score-pop-big">
+    <div class="score-pop-num">94<span class="score-pop-max">/100</span></div>
+    <div class="score-pop-sub">✦ Topo da unidade · +6 vs abril</div>
+  </div>
+  <div class="score-pop-prize">
+    <div class="score-pop-prize-tag">🏆 Prêmio do mês desbloqueado</div>
+    <div class="score-pop-prize-val">R$ 1.000</div>
+  </div>
+  <div class="score-pop-kpis">
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">🎯 Execução</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:96%;"></div></div><span class="score-pop-kpi-val">96%</span></div>
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">💝 Relacionamento</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:94%;"></div></div><span class="score-pop-kpi-val">94%</span></div>
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">💰 Vendas</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:88%;"></div></div><span class="score-pop-kpi-val">88%</span></div>
+    <div class="score-pop-kpi"><span class="score-pop-kpi-name">🌟 Co-Criação</span><div class="score-pop-kpi-bar"><div class="score-pop-kpi-fill" style="width:100%;"></div></div><span class="score-pop-kpi-val">100%</span></div>
+  </div>
+  <button class="score-pop-cta" onclick="window.location.href='score-detalhe.html'">Ver Score completo →</button>
+</div>
+
+<script>
+function toggleScore(e){e.stopPropagation();document.getElementById('score-popover').classList.toggle('show');}
+document.addEventListener('click',e=>{const pop=document.getElementById('score-popover');if(pop&&!pop.contains(e.target)&&!e.target.closest('.score-chip'))pop.classList.remove('show');});
+</script>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo">
+    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" alt="Elaine" onerror="this.style.display='none'">
+    <div class="hero-photo-fallback">E</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tier">✨ Constelação · há 6 anos</div>
+    <h1 class="hero-name">Elaine Wassermann</h1>
+    <div class="hero-role">CEO · Pharma de capital fechado · 47 anos · São Paulo</div>
+    <p class="hero-bio">"Lidero uma farma com 800 colaboradores. Em casa, dois filhos e um marido cirurgião. No Estúdio Mais, sou só Elaine — a mulher que quer entender o próprio rosto antes de pedir a próxima coisa."</p>
+    <div class="hero-actions">
+      <button class="hero-btn primary" onclick="alert('Abrindo chat assinado pela Lene…')">💬 Chat in-app</button>
+      <button class="hero-btn wa" onclick="alert('Enviando WhatsApp: \\'Elaine, deixei uma mensagem no app pra você ✨\\'')">📲 WhatsApp</button>
+      <button class="hero-btn secondary" onclick="alert('Gravar áudio assinado…')">🎙️ Áudio</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-grid">
+  <div class="stat">
+    <div class="stat-label">LTV total</div>
+    <div class="stat-value gold">R$ 287k</div>
+    <div class="stat-suffix">6 anos de relação</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Visitas</div>
+    <div class="stat-value">141</div>
+    <div class="stat-suffix">média 24/ano</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">NPS médio</div>
+    <div class="stat-value" style="color:var(--green-care);">9,8</div>
+    <div class="stat-suffix">35 avaliações</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Indicações</div>
+    <div class="stat-value">11</div>
+    <div class="stat-suffix">7 viraram cliente</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Eventos</div>
+    <div class="stat-value">9</div>
+    <div class="stat-suffix">2 conduziu</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Colunas Diário</div>
+    <div class="stat-value">12</div>
+    <div class="stat-suffix">4.2k seguidoras</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" data-tab="overview">Visão geral</button>
+  <button class="tab" data-tab="visits">Histórico de visitas</button>
+  <button class="tab" data-tab="memory">Memória completa</button>
+  <button class="tab" data-tab="procedures">Procedimentos</button>
+  <button class="tab" data-tab="diario">Diário & Eventos</button>
+  <button class="tab" data-tab="conn">Conexões</button>
+</div>
+
+<!-- TAB: VISÃO GERAL -->
+<div class="content tab-content active" id="tab-overview">
+  <!-- Coluna principal -->
+  <div>
+
+    <div class="pullquote">
+      "Demorei seis anos pra confiar que cuidar do meu corpo não é vaidade — é a primeira reunião do meu dia."
+      <div class="pullquote-source">— Elaine, anotação na sessão de 14/05/2026</div>
+    </div>
+
+    <div class="card">
+      <div class="section-h">Memória resumida</div>
+      <div class="memo-grid">
+        <div class="memo-item">
+          <div class="memo-label">Família</div>
+          <div class="memo-text">Casada há 22 anos com <strong>Marcelo</strong> (cirurgião). Filhos: <strong>Bruna (19)</strong> indo pra Stanford e <strong>Pedro (14)</strong> nadador competitivo.</div>
+        </div>
+        <div class="memo-item">
+          <div class="memo-label">Trabalho</div>
+          <div class="memo-text">Comandou IPO em 2024 e fechou. Hoje farma de capital fechado com <strong>800 colaboradores</strong>. Próximo projeto: expansão LATAM.</div>
+        </div>
+        <div class="memo-item">
+          <div class="memo-label">Receios estéticos</div>
+          <div class="memo-text">Detesta "rosto puxado". Confia em bioestimulador (Sculptra 3× ao ano) mas <em>jamais aceitou preenchimento labial</em>.</div>
+        </div>
+        <div class="memo-item">
+          <div class="memo-label">Preferências</div>
+          <div class="memo-text">Horários antes das 8h. Champagne pré-procedimento (Veuve, brut). Música clássica baixa. Não permite celular na sala.</div>
+        </div>
+        <div class="memo-item">
+          <div class="memo-label">Saúde geral</div>
+          <div class="memo-text">Pré-menopausa diagnosticada em fev/2026. Reposição hormonal sob dra. Carolina (gineco). Usa o <strong>Painel Hormonal do app</strong> diariamente.</div>
+        </div>
+        <div class="memo-item">
+          <div class="memo-label">Datas marcadas</div>
+          <div class="memo-text">Aniversário <strong>23/setembro</strong>. Filha sai pra Stanford em <strong>agosto 2026</strong>. Marcelo gosta de Sculptra antes do aniversário dele (12/julho).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-h">Antes / Depois — Sculptra Facial (último ciclo)</div>
+      <div class="ba-grid">
+        <div class="ba-item ba-bg-1">
+          <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80" alt="" onerror="this.style.display='none'">
+          <div class="ba-item-fallback">E</div>
+          <div class="ba-label">15/02/2026 · D-0</div>
+        </div>
+        <div class="ba-item ba-bg-3">
+          <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80" alt="" onerror="this.style.display='none'">
+          <div class="ba-item-fallback">E</div>
+          <div class="ba-label">15/05/2026 · D+90</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--ink-soft);margin-top:12px;line-height:1.6;">Resultado documentado pela própria Elaine no app. Comentário em D+90: <em>"finalmente meu rosto e meu cargo se encontraram. Obrigada Lene."</em></p>
+    </div>
+
+    <div class="card">
+      <div class="section-h">Linha do tempo (últimos 90 dias)</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">25/05/2026 · 3 dias atrás</div>
+          <div class="timeline-title">Encontro Constelação Maio — co-anfitriã</div>
+          <div class="timeline-desc">Conduziu painel "Carreira e cuidado de si" com Sofia Mendes e Camila Botta. 18 mulheres presentes.</div>
+          <span class="timeline-tag">EVENTO</span>
+        </div>
+        <div class="timeline-item gold">
+          <div class="timeline-date">14/05/2026 · 2 semanas</div>
+          <div class="timeline-title">Sessão Sculptra retoque + Ultraformer pápebras</div>
+          <div class="timeline-desc">2h15. Ticket R$ 8.420. Marcelo apareceu pra buscar — você ofereceu café espresso, ele lembrou seu nome.</div>
+          <span class="timeline-tag nps10">NPS 10</span>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">02/05/2026 · 1 mês</div>
+          <div class="timeline-title">Publicou coluna nº 12 no Diário</div>
+          <div class="timeline-desc">"Liderar sem pedir desculpas" — 542 ♡, 89 💬, mais lida da edição 38.</div>
+          <span class="timeline-tag">DIÁRIO</span>
+        </div>
+        <div class="timeline-item green">
+          <div class="timeline-date">15/04/2026 · 6 semanas</div>
+          <div class="timeline-title">Programa 360° renovado · 12 meses</div>
+          <div class="timeline-desc">Pacote anual fechado com sua coordenação. Inclui nutri mensal + dermato trimestral + dois eventos.</div>
+          <span class="timeline-tag nps9">NPS 9</span>
+        </div>
+        <div class="timeline-item gold">
+          <div class="timeline-date">23/03/2026 · 9 semanas</div>
+          <div class="timeline-title">Indicação convertida — Daniela Cortez</div>
+          <div class="timeline-desc">Daniela vinha em terapia pra ela na época do diagnóstico SOP. Hoje cliente Trilha (em formação Constelação).</div>
+          <span class="timeline-tag">INDICAÇÃO</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div>
+    <div class="sidebar-card dark">
+      <div class="sidebar-title">Tier · Constelação</div>
+      <div style="margin-top:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:8px;letter-spacing:0.5px;">
+          <span>Início → Caminho → Trilha</span>
+          <span style="color:var(--gold-soft);font-weight:700;">→ Constelação ✨</span>
+        </div>
+        <div style="height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;">
+          <div style="width:100%;height:100%;background:linear-gradient(90deg,var(--gold-soft),var(--gold));"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px;font-size:12px;color:rgba(244,236,226,0.85);line-height:1.6;">
+        Cliente Constelação tem acesso a eventos exclusivos, áudio pessoal mensal da consultora, prioridade absoluta de agenda e cortesias trimestrais sem alarde.
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Próximas ações sugeridas</div>
+      <div class="sidebar-line">
+        <div>
+          <strong>Hoje · áudio aniversário Pedro</strong>
+          <div style="font-size:11px;color:var(--ink-soft);">Filho faz 14 anos amanhã</div>
+        </div>
+        <button style="background:var(--ink);color:white;border:none;padding:6px 10px;border-radius:100px;font-size:10px;font-weight:700;cursor:pointer;">🎙️</button>
+      </div>
+      <div class="sidebar-line">
+        <div>
+          <strong>Em 7d · agendar Sculptra</strong>
+          <div style="font-size:11px;color:var(--ink-soft);">Marcelo aniversário 12/jul</div>
+        </div>
+        <button style="background:var(--cream);color:var(--ink);border:none;padding:6px 10px;border-radius:100px;font-size:10px;font-weight:700;cursor:pointer;">📅</button>
+      </div>
+      <div class="sidebar-line">
+        <div>
+          <strong>Em 14d · convite painel CEOs</strong>
+          <div style="font-size:11px;color:var(--ink-soft);">Edição julho do Diário</div>
+        </div>
+        <button style="background:var(--cream);color:var(--ink);border:none;padding:6px 10px;border-radius:100px;font-size:10px;font-weight:700;cursor:pointer;">✉️</button>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Painel Hormonal · esta semana</div>
+      <div class="sidebar-line">
+        <div>Fase do ciclo</div>
+        <span><strong>Perimenopausa</strong></span>
+      </div>
+      <div class="sidebar-line">
+        <div>Sono médio</div>
+        <span>6h12 (↓ 14min)</span>
+      </div>
+      <div class="sidebar-line">
+        <div>Energia diária</div>
+        <span>7,8 / 10</span>
+      </div>
+      <div class="sidebar-line">
+        <div>Aderência homecare</div>
+        <span style="color:var(--green-care);"><strong>94%</strong></span>
+      </div>
+    </div>
+
+    <div class="diario-link" onclick="window.location.href='coluna.html'">
+      <div class="diario-link-tag">📰 Última coluna · 02/05</div>
+      <div class="diario-link-title">"Liderar sem pedir desculpas"</div>
+      <div class="diario-link-meta">542 ♡  ·  89 💬  ·  102 ↗</div>
+    </div>
+
+    <button class="sidebar-action" onclick="window.location.href='perfil-colunista.html'">Ver perfil colunista →</button>
+  </div>
+</div>
+
+<!-- Outras tabs (estáticas — placeholder) -->
+<div class="content tab-content" id="tab-visits">
+  <div style="grid-column: 1/-1;">
+    <div class="card">
+      <div class="section-h">Histórico completo · 141 visitas</div>
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">Listagem completa de todas as visitas seria mostrada aqui, com colunas: data, procedimento, profissional, ticket, NPS, comentário, foto. Filtros por ano/procedimento/unidade.</p>
+    </div>
+  </div>
+</div>
+
+<div class="content tab-content" id="tab-memory">
+  <div style="grid-column: 1/-1;">
+    <div class="card">
+      <div class="section-h">Memória completa — 6 anos de notas</div>
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;margin-bottom:20px;">Cada visita gera notas. Cada interação WhatsApp/chat alimenta. Cada coluna no Diário cita. Aqui mora a memória integral que faz o sistema lembrar — pra Lene não precisar.</p>
+      <div class="memo-grid">
+        <div class="memo-item"><div class="memo-label">Conquistas importantes</div><div class="memo-text">IPO frustrado em 2024 — falou em 3 sessões. Hoje aceita que foi a melhor coisa.</div></div>
+        <div class="memo-item"><div class="memo-label">Relações</div><div class="memo-text">Amiga próxima: Helena Toledo (cliente nossa também). Saem juntas pra eventos do Diário.</div></div>
+        <div class="memo-item"><div class="memo-label">Política comunicação</div><div class="memo-text">Não receber push aos sábados. Liga apenas se for clínico crítico.</div></div>
+        <div class="memo-item"><div class="memo-label">Conteúdo curtido</div><div class="memo-text">Adora os áudios da Lene. Não responde stories. Lê o Diário inteiro toda semana.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content tab-content" id="tab-procedures">
+  <div style="grid-column: 1/-1;">
+    <div class="card">
+      <div class="section-h">Procedimentos realizados · 6 anos</div>
+      <div class="proc-grid">
+        <div class="proc-card"><div class="proc-icon">💎</div><div class="proc-name">Sculptra Facial</div><div class="proc-count">18 sessões</div><div class="proc-last">Última · 14/05</div></div>
+        <div class="proc-card"><div class="proc-icon">⚡</div><div class="proc-name">Ultraformer Full Face</div><div class="proc-count">6 sessões</div><div class="proc-last">Última · 02/02</div></div>
+        <div class="proc-card"><div class="proc-icon">💉</div><div class="proc-name">Botox 100UI</div><div class="proc-count">24 sessões</div><div class="proc-last">Última · 14/05</div></div>
+        <div class="proc-card"><div class="proc-icon">✨</div><div class="proc-name">Skin Booster</div><div class="proc-count">14 sessões</div><div class="proc-last">Última · 22/04</div></div>
+        <div class="proc-card"><div class="proc-icon">🧴</div><div class="proc-name">Limpeza Coreana</div><div class="proc-count">36 sessões</div><div class="proc-last">Última · 25/05</div></div>
+        <div class="proc-card"><div class="proc-icon">🌹</div><div class="proc-name">Drenagem facial</div><div class="proc-count">42 sessões</div><div class="proc-last">Recorrente</div></div>
+        <div class="proc-card"><div class="proc-icon">👁️</div><div class="proc-name">Brow Lamination</div><div class="proc-count">11 sessões</div><div class="proc-last">Última · 02/05</div></div>
+        <div class="proc-card"><div class="proc-icon">💄</div><div class="proc-name">Q-Plus Glow</div><div class="proc-count">8 sessões</div><div class="proc-last">Última · 14/05</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content tab-content" id="tab-diario">
+  <div>
+    <div class="card">
+      <div class="section-h">12 colunas publicadas no Diário</div>
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;margin-bottom:20px;">Elaine é a colunista mais lida do Diário Estúdio Mais. Tema central: <em>liderança feminina sem desculpa</em>.</p>
+      <div class="diario-link" onclick="window.location.href='coluna.html'" style="margin-bottom:12px;">
+        <div class="diario-link-tag">📰 Edição 38 · 02/05/2026</div>
+        <div class="diario-link-title">"Liderar sem pedir desculpas"</div>
+        <div class="diario-link-meta">542 ♡  ·  89 💬  ·  102 ↗</div>
+      </div>
+      <div class="diario-link" style="background:linear-gradient(135deg,#5a4f47,#b89968);margin-bottom:12px;">
+        <div class="diario-link-tag">📰 Edição 37 · 18/04/2026</div>
+        <div class="diario-link-title">"O preço de dizer não em conselho"</div>
+        <div class="diario-link-meta">389 ♡  ·  56 💬  ·  78 ↗</div>
+      </div>
+      <div class="diario-link" style="background:linear-gradient(135deg,#1f1a17,#5a4f47);">
+        <div class="diario-link-tag">📰 Edição 36 · 04/04/2026</div>
+        <div class="diario-link-title">"Mãe-CEO: o paradoxo que ninguém te conta"</div>
+        <div class="diario-link-meta">624 ♡  ·  142 💬  ·  198 ↗</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="sidebar-card">
+      <div class="sidebar-title">Eventos que conduziu</div>
+      <div class="sidebar-line"><div><strong>Maio · Carreira & cuidado</strong><div style="font-size:11px;color:var(--ink-soft);">Co-anfitriã, 18 vagas</div></div></div>
+      <div class="sidebar-line"><div><strong>Mar · Mulheres em IPO</strong><div style="font-size:11px;color:var(--ink-soft);">Anfitriã solo, 22 vagas</div></div></div>
+    </div>
+    <div class="sidebar-card">
+      <div class="sidebar-title">Próximos eventos</div>
+      <div class="sidebar-line"><div><strong>12/jun · Liderar e cuidar</strong><div style="font-size:11px;color:var(--ink-soft);">Co-anfitriã com Sofia</div></div></div>
+      <div class="sidebar-line"><div><strong>02/jul · Lançamento Diário 1 ano</strong><div style="font-size:11px;color:var(--ink-soft);">Convidada especial</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="content tab-content" id="tab-conn">
+  <div>
+    <div class="card">
+      <div class="section-h">Clientes que ela indicou (11 → 7 ativas)</div>
+      <div class="conn-grid">
+        <div class="conn-item"><div class="conn-avatar rose">D</div><div class="conn-name">Daniela Cortez</div><div style="font-size:10px;color:var(--green-care);font-weight:700;margin-top:2px;">CONSTELAÇÃO</div></div>
+        <div class="conn-item"><div class="conn-avatar">H</div><div class="conn-name">Helena Toledo</div><div style="font-size:10px;color:var(--gold-deep);font-weight:700;margin-top:2px;">TRILHA</div></div>
+        <div class="conn-item"><div class="conn-avatar rose">R</div><div class="conn-name">Renata Vilela</div><div style="font-size:10px;color:var(--gold-deep);font-weight:700;margin-top:2px;">TRILHA</div></div>
+        <div class="conn-item"><div class="conn-avatar">J</div><div class="conn-name">Juliana Costa</div><div style="font-size:10px;color:var(--gold-deep);font-weight:700;margin-top:2px;">TRILHA</div></div>
+        <div class="conn-item"><div class="conn-avatar rose">M</div><div class="conn-name">Marília Tavares</div><div style="font-size:10px;color:var(--ink-soft);font-weight:700;margin-top:2px;">CAMINHO</div></div>
+        <div class="conn-item"><div class="conn-avatar">A</div><div class="conn-name">Amanda Lobo</div><div style="font-size:10px;color:var(--ink-soft);font-weight:700;margin-top:2px;">INÍCIO</div></div>
+        <div class="conn-item"><div class="conn-avatar rose">C</div><div class="conn-name">Camila Botta</div><div style="font-size:10px;color:var(--ink-soft);font-weight:700;margin-top:2px;">INÍCIO</div></div>
+        <div class="conn-item"><div class="conn-avatar">B</div><div class="conn-name">Beatriz Almeida</div><div style="font-size:10px;color:var(--ink-soft);font-weight:700;margin-top:2px;">INÍCIO</div></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="sidebar-card">
+      <div class="sidebar-title">Rede de proximidade</div>
+      <div class="sidebar-line"><div>Eventos juntas</div><span><strong>Helena</strong> · 5 vezes</span></div>
+      <div class="sidebar-line"><div>Conduziram painel</div><span><strong>Sofia</strong> · 2 vezes</span></div>
+      <div class="sidebar-line"><div>Conexão de Diário</div><span><strong>Daniela, Marília</strong></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 220, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

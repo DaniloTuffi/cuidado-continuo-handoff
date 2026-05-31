@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diário Estúdio Mais · Colunistas</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --shadow-soft: 0 4px 16px rgba(31, 26, 23, 0.06);
+    --shadow-strong: 0 24px 60px rgba(31, 26, 23, 0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  .serif { font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif; }
+
+  /* TOP MASTHEAD */
+  .masthead {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--gold);
+  }
+  .masthead-brand {
+    display: flex;
+    flex-direction: column;
+  }
+  .masthead-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .masthead-title {
+    font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    font-style: italic;
+  }
+  .masthead-nav {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .masthead-nav a {
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    cursor: pointer;
+  }
+  .masthead-nav a:hover { opacity: 1; }
+  .masthead-nav a.active { opacity: 1; border-bottom: 1.5px solid var(--gold); padding-bottom: 4px; }
+  .masthead-cta {
+    background: var(--gold);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* DATE BAR */
+  .datebar {
+    background: var(--cream-deep);
+    padding: 8px 32px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* HERO — coluna em destaque */
+  .hero {
+    padding: 50px 32px 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
+
+  .hero-image {
+    aspect-ratio: 5/6;
+    background: linear-gradient(135deg, #1f1a17 0%, #5a4f47 50%, #8a6f3d 100%);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-strong);
+  }
+  .hero-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(212, 191, 149, 0.4), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(138, 58, 79, 0.3), transparent 60%);
+  }
+  .hero-image-portrait {
+    position: absolute;
+    inset: 15%;
+    background: rgba(244, 236, 226, 0.05);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-soft);
+    font-size: 80px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    border: 1px solid rgba(212, 191, 149, 0.15);
+  }
+  .hero-image-label {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    color: var(--gold-soft);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .hero-content .hero-category {
+    color: var(--gold-deep);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-content .hero-category::before {
+    content: "";
+    width: 30px;
+    height: 1.5px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    font-size: 54px;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  @media (max-width: 700px) { .hero-title { font-size: 38px; } }
+  .hero-deck {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 24px;
+    max-width: 480px;
+  }
+  .hero-byline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+  .hero-byline strong { color: var(--ink); }
+  .byline-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* CATEGORIES */
+  .categories {
+    background: white;
+    border-top: 1px solid var(--cream-deep);
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 14px 32px;
+    overflow-x: auto;
+  }
+  .categories-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .cat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  .cat-chip {
+    background: var(--cream);
+    border: 1px solid var(--cream-deep);
+    color: var(--ink);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .cat-chip:hover { background: var(--ink); color: var(--cream); }
+  .cat-chip.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  /* GRID DE COLUNAS RECENTES */
+  .section {
+    padding: 50px 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--cream-deep);
+    padding-bottom: 12px;
+  }
+  .section-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .section-link {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .section-link::after { content: " →"; color: var(--gold-deep); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  @media (min-width: 700px) and (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+
+  /* CARD DE COLUNA */
+  .post {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .post:hover { transform: translateY(-2px); }
+  .post-image {
+    aspect-ratio: 4/3;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .post-image .img-init {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 48px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+  }
+  .img-1 { background: linear-gradient(135deg, #8a3a4f, #c97d8e); }
+  .img-2 { background: linear-gradient(135deg, #1f1a17, #5a4f47); }
+  .img-3 { background: linear-gradient(135deg, #b89968, #8a6f3d); }
+  .img-4 { background: linear-gradient(135deg, #5a4f47, #c97d8e); }
+  .img-5 { background: linear-gradient(135deg, #c97d8e, #b89968); }
+  .img-6 { background: linear-gradient(135deg, #8a6f3d, #1f1a17); }
+  .img-7 { background: linear-gradient(135deg, #6b8e6f, #1f1a17); }
+  .img-8 { background: linear-gradient(135deg, #8a3a4f, #1f1a17); }
+  .img-9 { background: linear-gradient(135deg, #d4bf95, #8a3a4f); }
+
+  .post-category {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .post-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .post-deck {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .post-byline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .post-byline-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--cream-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 12px;
+  }
+  .post-byline strong { color: var(--ink); }
+  .post-meta {
+    margin-top: 12px;
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.5px;
+  }
+  .post-meta span::before { margin-right: 4px; }
+
+  /* COLUNISTAS — ROW */
+  .colunistas-section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 60px 32px;
+  }
+  .colunistas-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .colunistas-section .section-title { color: var(--cream); }
+  .colunistas-section .section-head { border-bottom-color: rgba(244, 236, 226, 0.15); }
+  .colunistas-section .section-link { color: var(--gold-soft); }
+
+  .colunistas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 1000px) { .colunistas-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) { .colunistas-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .colunista {
+    text-align: center;
+    cursor: pointer;
+  }
+  .colunista-avatar {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 64px;
+    font-style: italic;
+    color: var(--gold-soft);
+    border: 2px solid var(--gold);
+    background: linear-gradient(135deg, rgba(184,153,104,0.2), rgba(31,26,23,0.4));
+    transition: transform 0.2s;
+  }
+  .colunista:hover .colunista-avatar { transform: scale(1.05); }
+  .colunista-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--cream);
+  }
+  .colunista-role {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 600;
+  }
+  .colunista-count {
+    margin-top: 8px;
+    font-size: 10px;
+    color: rgba(244,236,226,0.5);
+    letter-spacing: 0.5px;
+  }
+
+  /* EVENTOS CONSTELAÇÃO */
+  .eventos {
+    background: var(--cream);
+    padding: 60px 32px;
+  }
+  .eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  @media (max-width: 800px) { .eventos-grid { grid-template-columns: 1fr; } }
+
+  .evento {
+    background: white;
+    border-radius: 8px;
+    padding: 28px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .evento-date {
+    flex-shrink: 0;
+    width: 80px;
+    text-align: center;
+  }
+  .evento-date-day {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--rose-deep);
+  }
+  .evento-date-month {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-weight: 700;
+  }
+  .evento-body { flex: 1; }
+  .evento-tag {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .evento-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+  .evento-info {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .evento-cta {
+    background: var(--ink);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* APPLY CTA */
+  .apply-cta {
+    background: linear-gradient(135deg, var(--rose-deep), var(--rose-soft));
+    color: white;
+    padding: 60px 32px;
+    text-align: center;
+  }
+  .apply-cta-inner { max-width: 720px; margin: 0 auto; }
+  .apply-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.8;
+    margin-bottom: 16px;
+  }
+  .apply-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .apply-deck {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.95;
+  }
+  .apply-btn {
+    background: white;
+    color: var(--rose-deep);
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* RATIONALE */
+  .rationale {
+    background: var(--cream-deep);
+    padding: 40px 32px;
+  }
+  .rationale-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .rationale-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .rationale-body {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .rationale-body strong { color: var(--ink); }
+
+  /* FOOTER */
+  .pagefoot {
+    background: var(--ink);
+    color: var(--gold-soft);
+    padding: 30px 32px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= MODE BAR (switcher 2 níveis) ============= -->
+<nav style="position:sticky;top:0;left:0;right:0;background:white;box-shadow:0 2px 12px rgba(0,0,0,0.05);z-index:100;border-bottom:1px solid var(--cream-deep);">
+  <div style="max-width:1400px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="background:var(--ink);border-radius:100px;padding:3px;display:flex;gap:2px;">
+      <button id="mode-client-btn" onclick="window.location.href='index.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">👤 Cliente</button>
+      <button id="mode-prof-btn" onclick="window.location.href='briefing.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">💼 Profissional</button>
+    </div>
+    <div style="width:1px;height:22px;background:var(--cream-deep);"></div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+      <button id="sub-home" style="background:transparent;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;">🏠 Casa</button>
+      <button style="background:var(--rose-deep);color:white;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;">📰 Diário</button>
+    </div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
+      <button class="masthead-cta">Quero ser colunista</button>
+    </div>
+  </div>
+</nav>
+
+<!-- MASTHEAD editorial -->
+<header class="masthead" style="background:var(--ink);">
+  <div class="masthead-brand">
+    <div class="masthead-eyebrow">Estúdio Mais</div>
+    <div class="masthead-title">Diário</div>
+  </div>
+  <nav class="masthead-nav">
+    <a class="active">Colunistas</a>
+    <a>Carreira</a>
+    <a>Saúde</a>
+    <a>Maternidade</a>
+    <a>Estilo</a>
+    <a onclick="window.location.href='evento.html'" style="cursor:pointer;">Encontros</a>
+  </nav>
+  <button class="masthead-cta" style="visibility:hidden;">Quero ser colunista</button>
+</header>
+
+<script>
+  // Detectar modo de origem via URL param
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('from') || 'client';
+    const activeBtn = document.getElementById('mode-' + mode + '-btn');
+    if (activeBtn) {
+      activeBtn.style.background = 'var(--gold)';
+      activeBtn.style.color = 'var(--ink)';
+    }
+    const subHome = document.getElementById('sub-home');
+    if (mode === 'client') {
+      subHome.textContent = '🏠 Casa';
+      subHome.onclick = () => window.location.href = 'index.html';
+    } else {
+      subHome.textContent = '💼 Briefing Hoje';
+      subHome.onclick = () => window.location.href = 'briefing.html';
+    }
+  })();
+</script>
+
+<div class="datebar">Quinta-feira · 28 de maio de 2026 · Edição nº 38</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-image" onclick="window.location.href='coluna.html'" style="cursor:pointer;">
+    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&q=80" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:8px;" onerror="this.style.display='none'">
+    <div class="hero-image-portrait" style="position:absolute;z-index:2;background:rgba(31,26,23,0.3);">E</div>
+    <div class="hero-image-label" style="z-index:3;">
+      <span>Foto · Studio Wassermann</span>
+      <span>Vol. 38</span>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-category">Coluna em destaque · Liderança</div>
+    <h1 class="hero-title">Liderar sem pedir desculpas</h1>
+    <p class="hero-deck">"Construir uma farma de capital fechado em 2026 como mulher e mãe foi escolher carregar dois mundos ao mesmo tempo. Aqui escrevo o que aprendi — e o que ainda erro."</p>
+    <div class="hero-byline" onclick="window.location.href='perfil-colunista.html'" style="cursor:pointer;">
+      <div class="byline-avatar"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'">E</div>
+      <div>
+        <div><strong>Elaine Wassermann</strong></div>
+        <div>CEO · Cliente Constelação · 6 anos no Estúdio Mais</div>
+      </div>
+    </div>
+    <button class="hero-cta" onclick="window.location.href='coluna.html'">Ler a coluna →</button>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<div class="categories">
+  <div class="categories-inner">
+    <span class="cat-label">Categorias</span>
+    <button class="cat-chip active">Todas</button>
+    <button class="cat-chip">Carreira</button>
+    <button class="cat-chip">Maternidade</button>
+    <button class="cat-chip">Saúde Feminina</button>
+    <button class="cat-chip">Direito</button>
+    <button class="cat-chip">Arquitetura</button>
+    <button class="cat-chip">Estilo</button>
+    <button class="cat-chip">Joalheria</button>
+    <button class="cat-chip">Mindset</button>
+    <button class="cat-chip">Ciência</button>
+    <button class="cat-chip">Mãe 60+</button>
+  </div>
+</div>
+
+<!-- POSTS RECENTES -->
+<section class="section">
+  <div class="section-head">
+    <h2 class="section-title">Colunas recentes</h2>
+    <a class="section-link">Ver todas</a>
+  </div>
+  <div class="grid">
+
+    <article class="post">
+      <div class="post-image img-2"><div class="img-init">A</div></div>
+      <div class="post-category">Ciência da Pele</div>
+      <h3 class="post-title">O que a sua pele tenta te contar (e a gente não escuta)</h3>
+      <p class="post-deck">"Manchas, oleosidade súbita, queda de cabelo: a pele é o primeiro órgão a sinalizar mudança hormonal. Eis o que olhamos no consultório."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">A</div>
+        <div><strong>Dra. Ana Carolina Vega</strong> · Dermatologista</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 184</span>
+        <span>💬 23</span>
+        <span>↗ 41</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-1"><div class="img-init">D</div></div>
+      <div class="post-category">Saúde Feminina</div>
+      <h3 class="post-title">SOP, autoestima e o espelho dos 30</h3>
+      <p class="post-deck">"O diagnóstico foi um divisor. Não pela doença, mas pelo que ele revelou sobre como eu me cuidava — ou não."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">D</div>
+        <div><strong>Daniela Cortez</strong> · Cliente Constelação</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 327</span>
+        <span>💬 89</span>
+        <span>↗ 102</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-3"><div class="img-init">M</div></div>
+      <div class="post-category">Saúde Feminina</div>
+      <h3 class="post-title">O corpo que você não conhece</h3>
+      <p class="post-deck">"Mais de 60% das mulheres que atendi nunca souberam onde fica o colo do útero. Vamos começar pela anatomia que ninguém te contou."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">M</div>
+        <div><strong>Dra. Marília Tavares</strong> · Ginecologista</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 245</span>
+        <span>💬 56</span>
+        <span>↗ 67</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-4"><div class="img-init">S</div></div>
+      <div class="post-category">Carreira</div>
+      <h3 class="post-title">Construir sem esperar permissão</h3>
+      <p class="post-deck">"Pivotamos quatro vezes em três anos. Cada pivô doeu — mas o que dói mais é esperar a sociedade dizer 'agora pode'."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">S</div>
+        <div><strong>Sofia Mendes</strong> · CEO · Startup tech</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 198</span>
+        <span>💬 34</span>
+        <span>↗ 51</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-5"><div class="img-init">C</div></div>
+      <div class="post-category">Joalheria</div>
+      <h3 class="post-title">Joias contam o que palavras escondem</h3>
+      <p class="post-deck">"Trabalho com mulheres que escolhem peças por motivos que elas mesmas demoram pra entender. Eis três histórias que mudaram a forma como vendo joias."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">C</div>
+        <div><strong>Camila Botta</strong> · Tiffany Pinheiros</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 156</span>
+        <span>💬 28</span>
+        <span>↗ 33</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-6"><div class="img-init">J</div></div>
+      <div class="post-category">Arquitetura</div>
+      <h3 class="post-title">A casa que olha de volta pra você</h3>
+      <p class="post-deck">"Projetei meu apartamento como projeto antes de me projetar como mulher. Hoje, projeto casas pra mulheres que finalmente decidiram quem são."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">J</div>
+        <div><strong>Juliana Costa</strong> · Arquiteta</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 213</span>
+        <span>💬 41</span>
+        <span>↗ 47</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-7"><div class="img-init">V</div></div>
+      <div class="post-category">Mãe 60+</div>
+      <h3 class="post-title">A vó que não desistiu do espelho</h3>
+      <p class="post-deck">"Nasceu meu primeiro neto na semana passada. E pela primeira vez em dez anos olhei pro espelho e me reconheci."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">V</div>
+        <div><strong>Verônica Saito</strong> · 62 anos</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 412</span>
+        <span>💬 127</span>
+        <span>↗ 198</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-8"><div class="img-init">A</div></div>
+      <div class="post-category">Direito</div>
+      <h3 class="post-title">Direitos que toda mulher deveria saber antes dos 30</h3>
+      <p class="post-deck">"Atendo mulheres por separação há 12 anos. Eis o que eu desejaria que cada uma soubesse antes de assinar o primeiro contrato — de qualquer natureza."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">A</div>
+        <div><strong>Dra. Amanda Lobo</strong> · Advogada</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 287</span>
+        <span>💬 71</span>
+        <span>↗ 89</span>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-image img-9"><div class="img-init">R</div></div>
+      <div class="post-category">Joalheria</div>
+      <h3 class="post-title">A peça que minha cliente comprou pra perdoar a mãe</h3>
+      <p class="post-deck">"Foram dezessete anos sem se falarem. Quando voltaram, ela quis uma joia que dissesse o que a boca não conseguia."</p>
+      <div class="post-byline">
+        <div class="post-byline-avatar">R</div>
+        <div><strong>Renata Vilela</strong> · Joalheira Higienópolis</div>
+      </div>
+      <div class="post-meta">
+        <span>♡ 542</span>
+        <span>💬 156</span>
+        <span>↗ 234</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- COLUNISTAS -->
+<section class="colunistas-section">
+  <div class="colunistas-inner">
+    <div class="section-head">
+      <h2 class="section-title">Conheça as colunistas</h2>
+      <a class="section-link">Ver todas (37)</a>
+    </div>
+    <div class="colunistas-grid">
+
+      <div class="colunista">
+        <div class="colunista-avatar">E</div>
+        <div class="colunista-name">Elaine Wassermann</div>
+        <div class="colunista-role">CEO Pharma</div>
+        <div class="colunista-count">12 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">A</div>
+        <div class="colunista-name">Dra. Ana Carolina</div>
+        <div class="colunista-role">Dermatologista</div>
+        <div class="colunista-count">8 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">M</div>
+        <div class="colunista-name">Dra. Marília Tavares</div>
+        <div class="colunista-role">Ginecologista</div>
+        <div class="colunista-count">6 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">A</div>
+        <div class="colunista-name">Dra. Amanda Lobo</div>
+        <div class="colunista-role">Advogada</div>
+        <div class="colunista-count">9 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">J</div>
+        <div class="colunista-name">Juliana Costa</div>
+        <div class="colunista-role">Arquiteta</div>
+        <div class="colunista-count">5 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">S</div>
+        <div class="colunista-name">Sofia Mendes</div>
+        <div class="colunista-role">CEO Startup</div>
+        <div class="colunista-count">7 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">C</div>
+        <div class="colunista-name">Camila Botta</div>
+        <div class="colunista-role">Joalheira</div>
+        <div class="colunista-count">4 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">V</div>
+        <div class="colunista-name">Verônica Saito</div>
+        <div class="colunista-role">Mãe 60+</div>
+        <div class="colunista-count">11 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">D</div>
+        <div class="colunista-name">Daniela Cortez</div>
+        <div class="colunista-role">Saúde Feminina</div>
+        <div class="colunista-count">3 colunas</div>
+      </div>
+
+      <div class="colunista">
+        <div class="colunista-avatar">R</div>
+        <div class="colunista-name">Renata Vilela</div>
+        <div class="colunista-role">Joalheira</div>
+        <div class="colunista-count">6 colunas</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EVENTOS CONSTELAÇÃO -->
+<section class="eventos">
+  <div style="max-width: 1280px; margin: 0 auto;">
+    <div class="section-head">
+      <h2 class="section-title">Encontros Constelação</h2>
+      <a class="section-link">Ver agenda completa</a>
+    </div>
+  </div>
+
+  <div class="eventos-grid">
+
+    <div class="evento">
+      <div class="evento-date">
+        <div class="evento-date-day">12</div>
+        <div class="evento-date-month">Junho</div>
+      </div>
+      <div class="evento-body">
+        <div class="evento-tag">Painel · 19h00 · Center Norte</div>
+        <h3 class="evento-title">Liderar e cuidar de si — uma conversa entre CEOs</h3>
+        <p class="evento-info">Com Elaine Wassermann, Sofia Mendes e mais 3 lideranças. Drinks, escuta e troca real. Vagas limitadas a 18 mulheres.</p>
+        <button class="evento-cta">Confirmar presença</button>
+      </div>
+    </div>
+
+    <div class="evento">
+      <div class="evento-date">
+        <div class="evento-date-day">23</div>
+        <div class="evento-date-month">Junho</div>
+      </div>
+      <div class="evento-body">
+        <div class="evento-tag">Workshop · 14h00 · Cidade Jardim</div>
+        <h3 class="evento-title">O ciclo, a pele e o procedimento certo</h3>
+        <p class="evento-info">Workshop conduzido por Dra. Ana Carolina (dermato) e Dra. Marília (gineco). Cliente sai com mapa hormonal próprio.</p>
+        <button class="evento-cta">Garantir vaga</button>
+      </div>
+    </div>
+
+    <div class="evento">
+      <div class="evento-date">
+        <div class="evento-date-day">02</div>
+        <div class="evento-date-month">Julho</div>
+      </div>
+      <div class="evento-body">
+        <div class="evento-tag">Lançamento · 20h00 · Paulista</div>
+        <h3 class="evento-title">Edição especial do Diário · 1 ano</h3>
+        <p class="evento-info">Celebração de aniversário com lançamento da edição impressa. Todas as colunistas convidadas. Cortesias exclusivas.</p>
+        <button class="evento-cta">Receber convite</button>
+      </div>
+    </div>
+
+    <div class="evento">
+      <div class="evento-date">
+        <div class="evento-date-day">19</div>
+        <div class="evento-date-month">Julho</div>
+      </div>
+      <div class="evento-body">
+        <div class="evento-tag">Mesa redonda · 19h30 · Morumbi</div>
+        <h3 class="evento-title">Mulher 60+ e o espelho</h3>
+        <p class="evento-info">Encontro inspirado na coluna mais lida da plataforma. Verônica Saito modera. Vagas limitadas a clientes 55+.</p>
+        <button class="evento-cta">Inscrever-se</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- APPLY CTA -->
+<section class="apply-cta">
+  <div class="apply-cta-inner">
+    <div class="apply-eyebrow">Para clientes Constelação e convidadas</div>
+    <h2 class="apply-title">Você tem o que escrever</h2>
+    <p class="apply-deck">O Diário é da casa, mas a voz é sua. Procuramos mulheres que tenham vivido algo que valha ser dito — em qualquer área, em qualquer fase. Não pedimos perfeição. Pedimos verdade.</p>
+    <button class="apply-btn">Quero me candidatar</button>
+  </div>
+</section>
+
+<!-- RATIONALE -->
+<section class="rationale">
+  <div class="rationale-inner">
+    <div class="rationale-title">🧠 Por que o Diário existe (estratégia)</div>
+    <p class="rationale-body">
+      O Cuidado Contínuo precisa de uma <strong>razão emocional não-comercial</strong> pra cliente abrir o app diariamente. Push de cuidado pós-procedimento funciona pra cliente em jornada ativa — mas e a Premium consolidada (Constelação) que já fez tudo? <strong>O Diário é a resposta.</strong>
+      <br><br>
+      Cliente que <strong>escreve</strong> uma coluna passa horas dentro do app. Cliente que <strong>lê</strong> outra cliente gera tempo de exposição genuíno — sem CTA, sem oferta, sem desconto. <strong>Princípio Arnault preservado.</strong>
+      <br><br>
+      <strong>3 efeitos secundários</strong>: (1) reconhecimento social que dinheiro não compra — a cliente vira referência pra outras; (2) network real entre mulheres do mesmo tier, criando comunidade que protege LTV; (3) <strong>conteúdo orgânico SEO</strong> que atrai novas clientes pra base de aquisição (lances editoriais, não anúncios).
+      <br><br>
+      Cliente que vira colunista nunca mais sai. Cliente que lê colunista pensa "essa marca é diferente." <strong>É o moat editorial que o Cucinelli faria.</strong>
+    </p>
+  </div>
+</section>
+
+<footer class="pagefoot">
+  Diário Estúdio Mais · Edição nº 38 · Volume V · Maio 2026
+</footer>
+
+<script>
+// Linkar todos os posts pra abrir a coluna aberta
+document.querySelectorAll('article.post').forEach(post => {
+  post.addEventListener('click', () => window.location.href = 'coluna.html');
+});
+
+// Linkar todas as colunistas pra abrir perfil
+document.querySelectorAll('.colunista').forEach(c => {
+  c.addEventListener('click', () => window.location.href = 'perfil-colunista.html');
+});
+
+// Linkar todos os eventos pra abrir evento
+document.querySelectorAll('.evento .evento-cta, .evento .evento-body').forEach(b => {
+  b.addEventListener('click', (e) => {
+    e.stopPropagation();
+    window.location.href = 'evento.html';
+  });
+});
+
+// Botão Quero ser colunista
+document.querySelectorAll('.masthead-cta, .apply-btn').forEach(b => {
+  b.addEventListener('click', () => alert('🌟 Candidatura recebida!\n\nA Paula vai te chamar no app pra uma conversa rápida sobre seu tema. Cada candidatura é tratada individualmente.'));
+});
+
+// Categorias filtrando (visual feedback)
+document.querySelectorAll('.cat-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>

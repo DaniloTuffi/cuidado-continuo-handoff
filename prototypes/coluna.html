@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liderar sem pedir desculpas · Diário Estúdio Mais</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --shadow-card: 0 4px 16px rgba(31,26,23,0.06);
+    --shadow-strong: 0 24px 60px rgba(31,26,23,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .serif { font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif; }
+
+  /* MASTHEAD (simples — pra leitura) */
+  .reading-bar {
+    background: white;
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .reading-back {
+    border: none;
+    background: var(--cream);
+    padding: 10px 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    letter-spacing: 0.3px;
+  }
+  .reading-brand {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .reading-brand span {
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: block;
+    font-family: -apple-system, sans-serif;
+  }
+  .reading-actions {
+    display: flex;
+    gap: 6px;
+  }
+  .reading-actions button {
+    background: transparent;
+    border: 1px solid var(--cream-deep);
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .reading-actions button:hover { background: var(--cream); }
+
+  /* HERO */
+  .article-hero {
+    padding: 60px 32px 30px;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .article-category {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .article-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 64px;
+    font-weight: 600;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    margin-bottom: 22px;
+    color: var(--ink);
+  }
+  @media (max-width: 700px) { .article-title { font-size: 42px; } }
+  .article-deck {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .article-byline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .byline-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #5a4f47, #1f1a17);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-soft);
+    font-weight: 700;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-style: italic;
+  }
+  .byline-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .byline-info { text-align: left; font-size: 14px; }
+  .byline-info strong { display: block; font-weight: 600; }
+  .byline-info span { color: var(--ink-soft); font-size: 12px; }
+  .article-meta {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .article-meta span { margin: 0 6px; }
+
+  /* COVER */
+  .article-cover {
+    max-width: 1100px;
+    margin: 30px auto 50px;
+    padding: 0 32px;
+  }
+  .cover-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-strong);
+    background: linear-gradient(135deg, #1f1a17, #5a4f47 50%, #8a6f3d);
+    position: relative;
+  }
+  .cover-img img { width: 100%; height: 100%; object-fit: cover; }
+  .cover-credit {
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  /* ARTICLE BODY */
+  .article-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px 60px;
+    font-family: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    font-size: 21px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .article-body p {
+    margin-bottom: 28px;
+  }
+  .article-body p:first-of-type::first-letter {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 80px;
+    float: left;
+    line-height: 0.85;
+    padding-right: 12px;
+    padding-top: 6px;
+    font-weight: 600;
+    color: var(--rose-deep);
+  }
+  .article-body h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin: 50px 0 20px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .article-body strong { font-weight: 600; }
+  .article-body em { font-style: italic; }
+  .article-body blockquote {
+    margin: 40px -20px;
+    padding: 24px 32px;
+    background: var(--cream-deep);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    font-size: 26px;
+    line-height: 1.4;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .article-body blockquote .cite {
+    display: block;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    font-style: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: -apple-system, sans-serif;
+  }
+
+  /* REACTIONS BAR */
+  .reactions {
+    max-width: 680px;
+    margin: 20px auto 0;
+    padding: 24px 32px;
+    border-top: 1px solid var(--cream-deep);
+    border-bottom: 1px solid var(--cream-deep);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .reactions-group { display: flex; gap: 8px; }
+  .reaction-btn {
+    background: var(--cream);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .reaction-btn:hover { background: var(--cream-deep); transform: scale(1.02); }
+  .reaction-btn.active { background: var(--rose-deep); color: white; }
+  .reaction-btn .count { font-size: 12px; opacity: 0.8; }
+
+  /* AUTHOR BOX */
+  .author-box {
+    max-width: 680px;
+    margin: 50px auto;
+    padding: 0 32px;
+  }
+  .author-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    box-shadow: var(--shadow-card);
+  }
+  @media (max-width: 600px) { .author-card { flex-direction: column; text-align: center; } }
+  .author-photo {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #5a4f47, #1f1a17);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-soft);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 48px;
+    font-style: italic;
+  }
+  .author-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .author-info { flex: 1; }
+  .author-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .author-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .author-bio {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .author-actions { display: flex; gap: 8px; }
+  .author-btn {
+    padding: 10px 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+  }
+  .author-btn.primary { background: var(--ink); color: white; }
+  .author-btn.secondary { background: var(--cream); color: var(--ink); }
+
+  /* COMMENTS */
+  .comments {
+    max-width: 680px;
+    margin: 50px auto;
+    padding: 0 32px;
+  }
+  .comments-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .comments-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .comment {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--cream-deep);
+    display: flex;
+    gap: 14px;
+  }
+  .comment:last-of-type { border-bottom: none; }
+  .comment-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .comment-avatar.rose { background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); }
+  .comment-body { flex: 1; }
+  .comment-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .comment-name { font-weight: 600; font-size: 14px; }
+  .comment-tier {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+  }
+  .comment-time {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-left: auto;
+  }
+  .comment-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .comment-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .comment-actions span { cursor: pointer; }
+  .comment-actions span:hover { color: var(--ink); }
+
+  .comment-form {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .comment-form input {
+    flex: 1;
+    border: 1px solid var(--cream-deep);
+    background: var(--cream);
+    padding: 12px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    outline: none;
+  }
+  .comment-form input:focus { border-color: var(--rose-deep); }
+  .comment-form button {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+
+  /* RELATED */
+  .related {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 60px 32px;
+    margin-top: 50px;
+  }
+  .related-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .related-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    letter-spacing: -0.5px;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 800px) { .related-grid { grid-template-columns: 1fr; } }
+  .related-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .related-card:hover { transform: translateY(-2px); }
+  .related-img {
+    aspect-ratio: 4/3;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    background-size: cover;
+    background-position: center;
+  }
+  .rel-1 { background: linear-gradient(135deg, #8a3a4f, #c97d8e); }
+  .rel-2 { background: linear-gradient(135deg, #b89968, #5a4f47); }
+  .rel-3 { background: linear-gradient(135deg, #1f1a17, #c97d8e); }
+  .related-cat {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .related-card-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .related-author {
+    font-size: 12px;
+    color: rgba(244,236,226,0.7);
+  }
+
+  /* FOOTER */
+  .pagefoot {
+    background: var(--ink);
+    color: var(--gold-soft);
+    padding: 30px 32px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+</style>
+</head>
+<body>
+
+<!-- SWITCHER 2 NÍVEIS -->
+<nav style="position:sticky;top:0;left:0;right:0;background:white;box-shadow:0 2px 12px rgba(0,0,0,0.05);z-index:100;border-bottom:1px solid var(--cream-deep);">
+  <div style="max-width:1400px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="background:var(--ink);border-radius:100px;padding:3px;display:flex;gap:2px;">
+      <button id="mode-client-btn" onclick="window.location.href='index.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">👤 Cliente</button>
+      <button id="mode-prof-btn" onclick="window.location.href='briefing.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">💼 Profissional</button>
+    </div>
+    <div style="width:1px;height:22px;background:var(--cream-deep);"></div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+      <button id="sub-home" style="background:transparent;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;">🏠 Casa</button>
+      <button onclick="window.location.href='colunistas.html'" style="background:var(--rose-deep);color:white;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;">📰 Diário ▸ Coluna</button>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:6px;">
+      <button class="reading-back" onclick="window.location.href='colunistas.html'">← Diário</button>
+      <button style="background:transparent;border:1px solid var(--cream-deep);width:38px;height:38px;border-radius:50%;font-size:14px;cursor:pointer;" title="Salvar">🔖</button>
+      <button style="background:transparent;border:1px solid var(--cream-deep);width:38px;height:38px;border-radius:50%;font-size:14px;cursor:pointer;" title="Compartilhar">↗</button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    const ref = document.referrer;
+    let mode = 'client';
+    if (ref.includes('briefing.html') || ref.includes('dashboard.html') || ref.includes('cliente-detalhe.html')) mode = 'prof';
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from')) mode = params.get('from');
+    const activeBtn = document.getElementById('mode-' + mode + '-btn');
+    if (activeBtn) { activeBtn.style.background = 'var(--gold)'; activeBtn.style.color = 'var(--ink)'; }
+    const subHome = document.getElementById('sub-home');
+    if (mode === 'client') { subHome.textContent = '🏠 Casa'; subHome.onclick = () => window.location.href = 'index.html'; }
+    else { subHome.textContent = '💼 Briefing'; subHome.onclick = () => window.location.href = 'briefing.html'; }
+  })();
+</script>
+
+<article>
+
+  <header class="article-hero">
+    <div class="article-category">Liderança · Coluna em destaque</div>
+    <h1 class="article-title">Liderar sem pedir desculpas</h1>
+    <p class="article-deck">"Demorei seis anos pra parar de começar reuniões com 'desculpa, só uma observação'. Foi a coisa mais cara que aprendi."</p>
+    <div class="article-byline">
+      <div class="byline-avatar"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80" alt="" onerror="this.style.display='none'">E</div>
+      <div class="byline-info">
+        <strong>Elaine Wassermann</strong>
+        <span>CEO · Cliente Constelação</span>
+      </div>
+    </div>
+    <div class="article-meta">
+      <span>2 de maio · 2026</span>·
+      <span>11 min de leitura</span>·
+      <span>Edição 38</span>
+    </div>
+  </header>
+
+  <div class="article-cover">
+    <div class="cover-img">
+      <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1600&q=80" alt="" onerror="this.style.display='none'">
+    </div>
+    <div class="cover-credit">Foto · Studio Wassermann por Ana Mariz · 2026</div>
+  </div>
+
+  <div class="article-body">
+
+    <p>Demorei seis anos pra entender que cada vez que eu começava uma reunião dizendo "desculpa, só uma observação rápida", eu estava cobrando de mim mesma um pedágio que nenhum dos meus pares masculinos pagava. Eles entravam, falavam, decidiam. Eu entrava, me desculpava, falava e ainda assim era ouvida pela metade.</p>
+
+    <p>Em 2024, depois do IPO frustrado que virou a manchete que eu não queria — "CEO mulher segura recuo de R$ 800 milhões" — passei três meses sem aparecer em lugar nenhum. Não foi luto. Foi cansaço de explicar.</p>
+
+    <p>Foi naquele período que comecei a escrever esta coluna. E foi naquele período que entendi a distância entre <em>desculpar-se por existir</em> e <em>existir sem perdão</em>.</p>
+
+    <h2>O pedágio invisível</h2>
+
+    <p>Existe um custo psíquico em ser a única mulher na sala que ninguém te explica antes de você sentar. Você passa metade da reunião decidindo se vai falar. A outra metade, se vai falar suave o suficiente pra não parecer "agressiva". E sobra zero minuto pra realmente pensar no problema que te trouxe ali.</p>
+
+    <p>Multiplique esse padrão por <strong>dez anos</strong> em qualquer carreira de alta responsabilidade e você terá uma mulher exausta antes dos 45. Não porque trabalhou demais. Porque <em>traduziu demais</em>.</p>
+
+    <blockquote>
+      "Cada 'desculpa, só pra alinhar' é uma reverência ao silêncio. A diferença entre liderar e administrar é parar de fazer essas reverências."
+      <span class="cite">— Anotação no Diário, março 2025</span>
+    </blockquote>
+
+    <h2>O que mudou (e o que não mudou)</h2>
+
+    <p>Não acordei brava. Não escrevi um manifesto. O que aconteceu foi mais sutil: comecei a observar quanto da minha energia diária era performance e quanto era pensamento. A proporção me assustou.</p>
+
+    <p>Hoje, na reunião com os bancos pela nova rodada, eu entro, cumprimento, sento, e abro com a questão. Sem caminho prévio. Sem amaciamento. Os homens na sala às vezes franzem a testa. Eu deixo franzir. <strong>Não devo amabilidade gratuita pra quem não tá pagando ela.</strong></p>
+
+    <p>O que não mudou: continuo gentil com quem merece, continuo escutando antes de decidir, continuo errando e voltando. Continuo, sobretudo, profundamente conectada com o que importa pra mim. Mas parei de pedir licença pra trazer o que importa.</p>
+
+    <h2>Por que escrevo isso aqui</h2>
+
+    <p>O Estúdio Mais foi onde, durante seis anos, eu sentei numa cadeira uma vez por mês e ninguém perguntou de quem era a empresa. Perguntavam se eu tinha dormido bem. Se a Bruna tava ansiosa com a Stanford. Se eu queria espresso ou champagne — sem julgar a resposta. Aprendi, em silêncio, que <em>ser tratada como pessoa</em> também é forma de cuidado político.</p>
+
+    <p>A Lene, minha designer há três anos, uma vez me disse: "Elaine, você não fala muito hoje, tá bem?". E ficou. Sem CTA. Sem proposta de upgrade. Sem nada. Foi a primeira pessoa naquele dia que me viu sem me cobrar resposta. Eu chorei calado durante o procedimento. Ela fingiu não ver.</p>
+
+    <p>É por isso que eu escrevo aqui. Porque o lugar onde uma mulher é tratada como pessoa é o lugar onde ela aprende, lentamente, que pode ser pessoa em outros lugares também. Inclusive na sala de reunião.</p>
+
+    <blockquote>
+      "Cuidar de si não é vaidade. É a primeira reunião do dia — aquela onde você lembra que existe antes de ter de produzir."
+      <span class="cite">— Trecho citado por Helena Toledo no encontro de maio</span>
+    </blockquote>
+
+    <h2>Pra quem está começando</h2>
+
+    <p>Não vou escrever uma lista de cinco passos. As listas mentem. O que posso dizer é o seguinte, e é tudo que eu gostaria de ter ouvido aos 32 anos:</p>
+
+    <p>Você não deve desculpas pelo espaço que ocupa. Você não deve sorrisos pra desarmar a sala. Você não deve <em>tradução</em> da sua decisão pra que pareça menos sua. Você deve, sim, presença. Atenção. Trabalho de verdade. Mas isso é com qualquer profissional adulto, independente do gênero.</p>
+
+    <p>E quando o cansaço chegar — porque ele chega — saiba reconhecer que parte dele não é trabalho. É <em>tradução acumulada</em>. Pra essa parte, não tem PowerPoint. Tem cadeira, espelho, silêncio, alguém que olhe pra você sem cobrar resposta.</p>
+
+    <p>Eu tive a sorte de encontrar essa cadeira. Espero que você encontre a sua — em qualquer lugar que ela esteja.</p>
+
+    <p style="text-align:center;margin-top:50px;font-size:18px;color:var(--ink-soft);font-style:italic;">— E.W.</p>
+
+  </div>
+
+  <!-- REACTIONS -->
+  <div class="reactions">
+    <div class="reactions-group">
+      <button class="reaction-btn active" id="btn-love" onclick="incrementLike()">♡ <span class="count" id="like-count">542</span></button>
+      <button class="reaction-btn">🔖 Salvar</button>
+      <button class="reaction-btn">↗ <span class="count">102</span></button>
+    </div>
+    <div class="reactions-group">
+      <button class="reaction-btn">💬 89 comentários</button>
+    </div>
+  </div>
+
+  <!-- AUTHOR BOX -->
+  <div class="author-box">
+    <div class="author-card">
+      <div class="author-photo"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80" alt="" onerror="this.style.display='none'">E</div>
+      <div class="author-info">
+        <div class="author-label">Sobre a colunista</div>
+        <div class="author-name">Elaine Wassermann</div>
+        <p class="author-bio">CEO de farma de capital fechado em São Paulo. Cliente Estúdio Mais há 6 anos. Tier Constelação. 12 colunas publicadas no Diário. Tema central: liderança feminina sem desculpa.</p>
+        <div class="author-actions">
+          <button class="author-btn primary" onclick="window.location.href='perfil-colunista.html'">Ver perfil completo</button>
+          <button class="author-btn secondary">Seguir +</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMENTS -->
+  <div class="comments">
+    <div class="comments-header">
+      <h3 class="comments-title">89 comentários</h3>
+      <button style="border:none;background:transparent;font-size:12px;font-weight:700;color:var(--ink-soft);letter-spacing:0.5px;text-transform:uppercase;cursor:pointer;">Mais curtidos ▾</button>
+    </div>
+
+    <div class="comment-form">
+      <input type="text" placeholder="Escreva o que você sentiu lendo…" />
+      <button>Publicar</button>
+    </div>
+
+    <div class="comment">
+      <div class="comment-avatar rose">D</div>
+      <div class="comment-body">
+        <div class="comment-head">
+          <span class="comment-name">Daniela Cortez</span>
+          <span class="comment-tier">CONSTELAÇÃO</span>
+          <span class="comment-time">há 2 dias</span>
+        </div>
+        <div class="comment-text">Elaine, esse "tradução acumulada" me atravessou. Tô há três anos pedindo desculpa pra existir em consultoria estratégica. Vou levar esse texto pra minha mesa de quinta. Obrigada.</div>
+        <div class="comment-actions">
+          <span>♡ 87</span>
+          <span>↳ Responder</span>
+          <span>Salvar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment">
+      <div class="comment-avatar">H</div>
+      <div class="comment-body">
+        <div class="comment-head">
+          <span class="comment-name">Helena Toledo</span>
+          <span class="comment-tier">TRILHA</span>
+          <span class="comment-time">há 3 dias</span>
+        </div>
+        <div class="comment-text">A Lene fingindo não ver você chorar foi o trecho que ficou comigo. Existe uma economia inteira do que <em>não se diz</em> e a gente nunca aprendeu a precificar. Vou compartilhar no nosso WhatsApp do conselho.</div>
+        <div class="comment-actions">
+          <span>♡ 54</span>
+          <span>↳ Responder</span>
+          <span>Salvar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment">
+      <div class="comment-avatar">M</div>
+      <div class="comment-body">
+        <div class="comment-head">
+          <span class="comment-name">Dra. Marília Tavares</span>
+          <span class="comment-tier">CAMINHO</span>
+          <span class="comment-time">há 4 dias</span>
+        </div>
+        <div class="comment-text">No consultório, vejo o que você descreve materializado em níveis de cortisol. Tradução acumulada é doença orgânica. Obrigada por nomear, Elaine. Vou usar com permissão na próxima palestra.</div>
+        <div class="comment-actions">
+          <span>♡ 41</span>
+          <span>↳ Responder</span>
+          <span>Salvar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment">
+      <div class="comment-avatar rose">S</div>
+      <div class="comment-body">
+        <div class="comment-head">
+          <span class="comment-name">Sofia Mendes</span>
+          <span class="comment-tier">TRILHA</span>
+          <span class="comment-time">há 5 dias</span>
+        </div>
+        <div class="comment-text">Vou esperar você no painel dia 12. Tenho uma história que combina exatamente com isso pra puxar lá. Te aguardo.</div>
+        <div class="comment-actions">
+          <span>♡ 38</span>
+          <span>↳ Responder</span>
+          <span>Salvar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment">
+      <div class="comment-avatar">A</div>
+      <div class="comment-body">
+        <div class="comment-head">
+          <span class="comment-name">Dra. Amanda Lobo</span>
+          <span class="comment-tier">INÍCIO</span>
+          <span class="comment-time">há 1 semana</span>
+        </div>
+        <div class="comment-text">Sou cliente nova daqui — vim hoje pra ler depois que minha cliente me indicou. Vocês entenderam o que é diferente nessa casa. Que conjunto.</div>
+        <div class="comment-actions">
+          <span>♡ 29</span>
+          <span>↳ Responder</span>
+          <span>Salvar</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px;">
+      <button style="background:transparent;border:1px solid var(--cream-deep);padding:12px 24px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;cursor:pointer;">Ver mais 84 comentários</button>
+    </div>
+  </div>
+
+</article>
+
+<!-- RELATED -->
+<section class="related">
+  <div class="related-inner">
+    <h2 class="related-title">Leia também</h2>
+    <div class="related-grid">
+
+      <article class="related-card" onclick="window.location.href='colunistas.html'">
+        <div class="related-img rel-1"></div>
+        <div class="related-cat">Saúde Feminina</div>
+        <h3 class="related-card-title">SOP, autoestima e o espelho dos 30</h3>
+        <div class="related-author">Daniela Cortez · 327 ♡</div>
+      </article>
+
+      <article class="related-card" onclick="window.location.href='colunistas.html'">
+        <div class="related-img rel-2"></div>
+        <div class="related-cat">Carreira</div>
+        <h3 class="related-card-title">Construir sem esperar permissão</h3>
+        <div class="related-author">Sofia Mendes · 198 ♡</div>
+      </article>
+
+      <article class="related-card" onclick="window.location.href='colunistas.html'">
+        <div class="related-img rel-3"></div>
+        <div class="related-cat">Mãe 60+</div>
+        <h3 class="related-card-title">A vó que não desistiu do espelho</h3>
+        <div class="related-author">Verônica Saito · 412 ♡</div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<footer class="pagefoot">
+  Diário Estúdio Mais · Edição 38 · Volume V · Maio 2026
+</footer>
+
+<script>
+function incrementLike() {
+  const btn = document.getElementById('btn-love');
+  const count = document.getElementById('like-count');
+  if (btn.classList.contains('liked')) {
+    btn.classList.remove('liked', 'active');
+    count.textContent = parseInt(count.textContent) - 1;
+  } else {
+    btn.classList.add('liked', 'active');
+    count.textContent = parseInt(count.textContent) + 1;
+  }
+}
+// Liked já vem ativo (placeholder de "essa Lene gostou")
+document.getElementById('btn-love').classList.add('liked');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elaine Wassermann · Diário Estúdio Mais</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-deep: #8a6f3d;
+    --shadow-card: 0 4px 16px rgba(31,26,23,0.06);
+    --shadow-strong: 0 24px 60px rgba(31,26,23,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  body { background: var(--cream); color: var(--ink); }
+  .serif { font-family: "Cormorant Garamond", Georgia, serif; }
+
+  .reading-bar {
+    background: white;
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .reading-back {
+    border: none;
+    background: var(--cream);
+    padding: 10px 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .reading-brand {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .reading-brand span {
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: block;
+    font-family: -apple-system, sans-serif;
+  }
+
+  /* HERO */
+  .profile-hero {
+    background: linear-gradient(135deg, #1f1a17 0%, #5a4f47 60%, #8a6f3d 100%);
+    color: var(--cream);
+    padding: 70px 32px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-hero::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,191,149,0.2), transparent 70%);
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 700px) { .hero-inner { grid-template-columns: 1fr; text-align: center; } }
+  .profile-photo {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--gold);
+    box-shadow: var(--shadow-strong);
+    background: linear-gradient(135deg, #5a4f47, #1f1a17);
+    position: relative;
+    margin: 0 auto;
+  }
+  .profile-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+  .profile-photo-fb {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold-soft);
+    font-size: 90px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+  }
+
+  .profile-tier {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .profile-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 56px;
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 700px) { .profile-name { font-size: 38px; } }
+  .profile-role {
+    font-size: 15px;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+  .profile-bio {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.55;
+    color: rgba(244,236,226,0.9);
+    margin-bottom: 24px;
+    max-width: 580px;
+  }
+  .profile-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .profile-btn {
+    padding: 12px 22px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .profile-btn:hover { transform: translateY(-1px); }
+  .profile-btn.primary {
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .profile-btn.secondary {
+    background: rgba(244,236,226,0.15);
+    color: var(--cream);
+    border: 1px solid rgba(244,236,226,0.3);
+  }
+  .profile-btn.outline {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(244,236,226,0.4);
+  }
+  .profile-btn.followed { background: var(--green-care); color: white; }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: white;
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 18px 32px;
+  }
+  .stats-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 800px) { .stats-inner { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 500px) { .stats-inner { grid-template-columns: repeat(2, 1fr); } }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+  }
+  .stat-num.gold { color: var(--gold-deep); }
+  .stat-lbl {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-top: 4px;
+  }
+
+  /* TABS */
+  .tabs {
+    background: white;
+    border-bottom: 1px solid var(--cream-deep);
+    padding: 0 32px;
+    display: flex;
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: sticky;
+    top: 60px;
+    z-index: 40;
+    overflow-x: auto;
+  }
+  .tab {
+    border: none;
+    background: transparent;
+    padding: 16px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab.active { color: var(--ink); border-bottom-color: var(--rose-deep); }
+  .tab:hover:not(.active) { color: var(--ink); }
+
+  /* CONTENT */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.3s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Coluna list */
+  .col-list { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 700px) { .col-list { grid-template-columns: 1fr; } }
+  .col-post {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: var(--shadow-card);
+  }
+  .col-post:hover { transform: translateY(-3px); }
+  .col-post-img {
+    aspect-ratio: 16/9;
+    background-size: cover;
+    background-position: center;
+  }
+  .cp-1 { background: linear-gradient(135deg, #8a3a4f, #c97d8e); }
+  .cp-2 { background: linear-gradient(135deg, #5a4f47, #b89968); }
+  .cp-3 { background: linear-gradient(135deg, #1f1a17, #8a6f3d); }
+  .cp-4 { background: linear-gradient(135deg, #c97d8e, #b89968); }
+  .cp-5 { background: linear-gradient(135deg, #5a4f47, #1f1a17); }
+  .cp-6 { background: linear-gradient(135deg, #8a3a4f, #5a4f47); }
+  .col-post-body { padding: 18px; }
+  .col-post-meta {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .col-post-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .col-post-deck {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .col-post-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  /* Eventos */
+  .event-card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  @media (max-width: 600px) { .event-card { flex-direction: column; text-align: center; } }
+  .event-date {
+    flex-shrink: 0;
+    text-align: center;
+    width: 70px;
+  }
+  .event-date-d {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--rose-deep);
+  }
+  .event-date-m {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .event-body { flex: 1; }
+  .event-role {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .event-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .event-info {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* Conexões */
+  .conn-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 800px) { .conn-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 500px) { .conn-grid { grid-template-columns: repeat(3, 1fr); } }
+  .conn-card {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .conn-card:hover { transform: translateY(-2px); }
+  .conn-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 28px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    margin: 0 auto 10px;
+  }
+  .conn-avatar.rose { background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); }
+  .conn-avatar.dark { background: linear-gradient(135deg, #5a4f47, #1f1a17); color: var(--gold-soft); }
+  .conn-card-name {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+  .conn-card-role {
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+  }
+  .about-h {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 16px;
+  }
+  .about-line {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--cream-deep);
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+  .about-line:last-child { border-bottom: none; }
+  .about-line span { color: var(--ink-soft); }
+  .about-line strong { font-weight: 600; }
+  .about-quote {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 19px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink);
+    padding: 18px 24px;
+    border-left: 3px solid var(--gold);
+    background: var(--cream-deep);
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 18px;
+  }
+</style>
+</head>
+<body>
+
+<!-- SWITCHER 2 NÍVEIS -->
+<nav style="position:sticky;top:0;left:0;right:0;background:white;box-shadow:0 2px 12px rgba(0,0,0,0.05);z-index:100;border-bottom:1px solid var(--cream-deep);">
+  <div style="max-width:1400px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="background:var(--ink);border-radius:100px;padding:3px;display:flex;gap:2px;">
+      <button id="mode-client-btn" onclick="window.location.href='index.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">👤 Cliente</button>
+      <button id="mode-prof-btn" onclick="window.location.href='briefing.html'" style="background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;color:rgba(244,236,226,0.5);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;">💼 Profissional</button>
+    </div>
+    <div style="width:1px;height:22px;background:var(--cream-deep);"></div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+      <button id="sub-home" style="background:transparent;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;">🏠 Casa</button>
+      <button onclick="window.location.href='colunistas.html'" style="background:var(--rose-deep);color:white;border:none;padding:8px 14px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;">📰 Diário ▸ Perfil</button>
+    </div>
+    <div style="margin-left:auto;">
+      <button class="reading-back" onclick="window.location.href='colunistas.html'">← Diário</button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    const ref = document.referrer;
+    let mode = 'client';
+    if (ref.includes('briefing.html') || ref.includes('dashboard.html') || ref.includes('cliente-detalhe.html')) mode = 'prof';
+    const activeBtn = document.getElementById('mode-' + mode + '-btn');
+    if (activeBtn) { activeBtn.style.background = 'var(--gold)'; activeBtn.style.color = 'var(--ink)'; }
+    const subHome = document.getElementById('sub-home');
+    if (mode === 'client') { subHome.textContent = '🏠 Casa'; subHome.onclick = () => window.location.href = 'index.html'; }
+    else { subHome.textContent = '💼 Briefing'; subHome.onclick = () => window.location.href = 'briefing.html'; }
+  })();
+</script>
+
+<!-- HERO -->
+<section class="profile-hero">
+  <div class="hero-inner">
+    <div class="profile-photo">
+      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&q=80" alt="" onerror="this.style.display='none'">
+      <div class="profile-photo-fb">E</div>
+    </div>
+    <div>
+      <div class="profile-tier">✨ Cliente Constelação · há 6 anos</div>
+      <h1 class="profile-name">Elaine Wassermann</h1>
+      <div class="profile-role">CEO · Pharma de capital fechado · 47 anos · São Paulo</div>
+      <p class="profile-bio">"Lidero uma farma com 800 colaboradores. Em casa, dois filhos e um marido cirurgião. No Diário escrevo sobre o que aprendi — e o que ainda erro — pra outras mulheres que também não foram ensinadas a parar de pedir desculpas."</p>
+      <div class="profile-actions">
+        <button class="profile-btn primary" id="follow-btn" onclick="toggleFollow()">+ Seguir</button>
+        <button class="profile-btn secondary">💬 Conversar</button>
+        <button class="profile-btn outline">✉️ Convidar pra evento</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">Colunas</div></div>
+    <div class="stat-item"><div class="stat-num gold">4.2k</div><div class="stat-lbl">Seguidoras</div></div>
+    <div class="stat-item"><div class="stat-num">3.8k</div><div class="stat-lbl">Curtidas totais</div></div>
+    <div class="stat-item"><div class="stat-num">6</div><div class="stat-lbl">Eventos conduzidos</div></div>
+    <div class="stat-item"><div class="stat-num">11</div><div class="stat-lbl">Indicações</div></div>
+    <div class="stat-item"><div class="stat-num">R$ 287k</div><div class="stat-lbl">LTV total</div></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" data-tab="cols">12 colunas</button>
+  <button class="tab" data-tab="events">Eventos</button>
+  <button class="tab" data-tab="conn">Conexões (37)</button>
+  <button class="tab" data-tab="about">Sobre</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- TAB COLUNAS -->
+  <div class="tab-content active" id="tab-cols">
+    <div class="col-list">
+
+      <article class="col-post" onclick="window.location.href='coluna.html'">
+        <div class="col-post-img cp-1"></div>
+        <div class="col-post-body">
+          <div class="col-post-meta">Liderança · Edição 38 · em destaque</div>
+          <div class="col-post-title">Liderar sem pedir desculpas</div>
+          <div class="col-post-deck">"Demorei seis anos pra parar de começar reuniões com 'desculpa, só uma observação'."</div>
+          <div class="col-post-stats">
+            <span>♡ 542</span><span>💬 89</span><span>↗ 102</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="col-post">
+        <div class="col-post-img cp-2"></div>
+        <div class="col-post-body">
+          <div class="col-post-meta">Carreira · Edição 37</div>
+          <div class="col-post-title">O preço de dizer não em conselho</div>
+          <div class="col-post-deck">"Aprendi a dizer 'não' depois de aceitar três compromissos que destruíram meu mês."</div>
+          <div class="col-post-stats">
+            <span>♡ 389</span><span>💬 56</span><span>↗ 78</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="col-post">
+        <div class="col-post-img cp-3"></div>
+        <div class="col-post-body">
+          <div class="col-post-meta">Maternidade · Edição 36</div>
+          <div class="col-post-title">Mãe-CEO: o paradoxo que ninguém te conta</div>
+          <div class="col-post-deck">"Achei que sucesso compensaria a ausência. Compensou em parte. A outra parte só os filhos podem te ensinar."</div>
+          <div class="col-post-stats">
+            <span>♡ 624</span><span>💬 142</span><span>↗ 198</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="col-post">
+        <div class="col-post-img cp-4"></div>
+        <div class="col-post-body">
+          <div class="col-post-meta">Liderança · Edição 35</div>
+          <div class="col-post-title">Quando o IPO frustrou — e o que descobri</div>
+          <div class="col-post-deck">"Em 2024 eu tomei a decisão que virou manchete. Hoje sei que foi a melhor coisa que aconteceu."</div>
+          <div class="col-post-stats">
+            <span>♡ 712</span><span>💬 156</span><span>↗ 234</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="col-post">
+        <div class="col-post-img cp-5"></div>
+        <div class="col-post-body">
+          <div class="col-post-meta">Saúde Feminina · Edição 34</div>
+          <div class="col-post-title">A perimenopausa que ninguém me explicou</div>
+          <div class="col-post-deck">"Aos 46 anos descobri que metade dos meus sintomas tinha um nome. Por que nenhuma médica tinha falado antes?"</div>
+          <div class="col-post-stats">
+            <span>♡ 487</span><span>💬 124</span><span>↗ 167</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="col-post">
+        <div class="col-post-img cp-6"></div>
+        <div class="col-post-body">
+          <div class="col-post-meta">Mindset · Edição 33</div>
+          <div class="col-post-title">Sobre o silêncio que cuida</div>
+          <div class="col-post-deck">"Existe um cuidado político em ser tratada como pessoa sem ter que justificar nada antes."</div>
+          <div class="col-post-stats">
+            <span>♡ 298</span><span>💬 48</span><span>↗ 62</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <button style="background:transparent;border:1px solid var(--cream-deep);padding:14px 28px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;">Ver as outras 6 colunas →</button>
+    </div>
+  </div>
+
+  <!-- TAB EVENTOS -->
+  <div class="tab-content" id="tab-events">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin-bottom:20px;">Próximos eventos que Elaine conduz</h3>
+    <div class="event-card" onclick="window.location.href='evento.html'" style="cursor:pointer;">
+      <div class="event-date">
+        <div class="event-date-d">12</div>
+        <div class="event-date-m">Junho</div>
+      </div>
+      <div class="event-body">
+        <div class="event-role">Co-anfitriã · 19h · Center Norte</div>
+        <div class="event-title">Liderar e cuidar de si — conversa entre CEOs</div>
+        <div class="event-info">Com Sofia Mendes e mais 3 lideranças. 18 vagas — 11 já confirmadas.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-date">
+        <div class="event-date-d">02</div>
+        <div class="event-date-m">Julho</div>
+      </div>
+      <div class="event-body">
+        <div class="event-role">Convidada especial · 20h · Paulista</div>
+        <div class="event-title">Edição especial do Diário · 1 ano</div>
+        <div class="event-info">Lançamento da edição impressa. Cortesias exclusivas.</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin:36px 0 20px;">Eventos anteriores</h3>
+    <div class="event-card" style="opacity:0.75;">
+      <div class="event-date">
+        <div class="event-date-d">25</div>
+        <div class="event-date-m">Maio</div>
+      </div>
+      <div class="event-body">
+        <div class="event-role">Co-anfitriã · concluído</div>
+        <div class="event-title">Encontro Constelação Maio — Carreira & cuidado</div>
+        <div class="event-info">Painel com Sofia Mendes e Camila Botta. 18 mulheres presentes. NPS 9,7.</div>
+      </div>
+    </div>
+    <div class="event-card" style="opacity:0.75;">
+      <div class="event-date">
+        <div class="event-date-d">15</div>
+        <div class="event-date-m">Março</div>
+      </div>
+      <div class="event-body">
+        <div class="event-role">Anfitriã solo · concluído</div>
+        <div class="event-title">Mulheres em IPO — o que aprendi</div>
+        <div class="event-info">Talk íntimo com 22 mulheres. 14 participantes voltaram pra outros eventos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB CONEXÕES -->
+  <div class="tab-content" id="tab-conn">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin-bottom:20px;">Rede de Elaine no Estúdio Mais</h3>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:28px;">Outras colunistas e clientes Constelação/Trilha com quem Elaine se conecta — eventos juntos, indicações cruzadas, painéis de Diário, mensagens trocadas no app.</p>
+
+    <div class="conn-grid">
+      <div class="conn-card" onclick="window.location.href='colunistas.html'">
+        <div class="conn-avatar rose">D</div>
+        <div class="conn-card-name">Daniela Cortez</div>
+        <div class="conn-card-role">Indicada por Elaine</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar dark">H</div>
+        <div class="conn-card-name">Helena Toledo</div>
+        <div class="conn-card-role">Amiga próxima</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar rose">S</div>
+        <div class="conn-card-name">Sofia Mendes</div>
+        <div class="conn-card-role">Co-anfitriã</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar">M</div>
+        <div class="conn-card-name">Marília Tavares</div>
+        <div class="conn-card-role">Ginecologista</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar dark">A</div>
+        <div class="conn-card-name">Ana Carolina</div>
+        <div class="conn-card-role">Dermato</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar rose">C</div>
+        <div class="conn-card-name">Camila Botta</div>
+        <div class="conn-card-role">Joalheira</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar">R</div>
+        <div class="conn-card-name">Renata Vilela</div>
+        <div class="conn-card-role">Indicada</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar dark">J</div>
+        <div class="conn-card-name">Juliana Costa</div>
+        <div class="conn-card-role">Arquiteta</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar rose">V</div>
+        <div class="conn-card-name">Verônica Saito</div>
+        <div class="conn-card-role">Mentora</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar">A</div>
+        <div class="conn-card-name">Amanda Lobo</div>
+        <div class="conn-card-role">Indicada</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar dark">B</div>
+        <div class="conn-card-name">Beatriz Almeida</div>
+        <div class="conn-card-role">Indicada</div>
+      </div>
+      <div class="conn-card">
+        <div class="conn-avatar rose">+</div>
+        <div class="conn-card-name">+26 conexões</div>
+        <div class="conn-card-role">Ver todas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB SOBRE -->
+  <div class="tab-content" id="tab-about">
+    <div class="about-grid">
+      <div>
+        <div class="about-card">
+          <div class="about-h">Em pé de igualdade</div>
+          <div class="about-quote">
+            "Lidero porque trabalhei. Cuido de mim porque escolhi. As duas coisas não são contraditórias. Elas se sustentam."
+          </div>
+          <p style="font-size:14px;color:var(--ink-soft);line-height:1.7;">
+            Elaine entrou no Estúdio Mais em 2020, por indicação. Começou com pacote básico, evoluiu para Cuidado, e há 4 anos é nossa cliente Constelação mais ativa. Seis anos depois, é também a colunista mais lida do Diário — porque escreve do mesmo lugar de onde lidera: <strong>sem desculpa, sem pressa de agradar, sem deixar de cuidar</strong>.
+          </p>
+          <p style="font-size:14px;color:var(--ink-soft);line-height:1.7;margin-top:14px;">
+            Adora os áudios da Lene. Não responde stories. Lê o Diário inteiro toda semana. Não permite celular na sala de procedimento. Champagne pré-procedimento — Veuve, brut. Música clássica baixa. Filha vai pra Stanford em agosto.
+          </p>
+        </div>
+      </div>
+      <div>
+        <div class="about-card">
+          <div class="about-h">Trajetória</div>
+          <div class="about-line"><span>Estúdio Mais desde</span><strong>2020</strong></div>
+          <div class="about-line"><span>Tier atual</span><strong>Constelação ✨</strong></div>
+          <div class="about-line"><span>Visitas totais</span><strong>141</strong></div>
+          <div class="about-line"><span>LTV</span><strong>R$ 287k</strong></div>
+          <div class="about-line"><span>NPS médio</span><strong>9,8</strong></div>
+          <div class="about-line"><span>Indicações ativas</span><strong>7</strong></div>
+          <div class="about-line"><span>Unidade habitual</span><strong>Center Norte</strong></div>
+          <div class="about-line"><span>Designer</span><strong>Lene Souza</strong></div>
+        </div>
+
+        <div class="about-card" style="margin-top:16px;">
+          <div class="about-h">Áreas de coluna</div>
+          <div class="about-line"><span>Liderança</span><strong>5</strong></div>
+          <div class="about-line"><span>Maternidade</span><strong>3</strong></div>
+          <div class="about-line"><span>Saúde feminina</span><strong>2</strong></div>
+          <div class="about-line"><span>Carreira</span><strong>1</strong></div>
+          <div class="about-line"><span>Mindset</span><strong>1</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer style="background:var(--ink);color:var(--gold-soft);padding:30px;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;">
+  Diário Estúdio Mais · Perfil de Colunista
+</footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+function toggleFollow() {
+  const btn = document.getElementById('follow-btn');
+  if (btn.classList.contains('followed')) {
+    btn.classList.remove('followed');
+    btn.textContent = '+ Seguir';
+  } else {
+    btn.classList.add('followed');
+    btn.textContent = '✓ Seguindo';
+  }
+}
+</script>
+
+</body>
+</html>
