@@ -1,0 +1,254 @@
+================================================================================
+MENSAGEM PARA STEINHAUSER · CUIDADO CONTÍNUO · PRÓXIMOS PASSOS
+================================================================================
+
+Hari,
+
+tudo certo? Subi no GitHub um pacote completo do Cuidado Contínuo com tudo
+que faltava pra fechar a tese: 7 PRs prontos pra você revisar e mergear no
+estudio-mais. Já cuidei pra usar o schema real (employee_details + appointments
+date+start_time + package_sessions + units), respeitando o padrão do
+monorepo (useTheme/useAuth/expo-router/SECURITY DEFINER).
+
+Link único do pacote:
+→ https://github.com/DaniloTuffi/cuidado-continuo-handoff
+
+Doc obrigatória de leitura antes de tocar em qualquer migration:
+→ INTEGRACAO_BELLE.md (na raiz do repo, explica como Belle ETL feeds as
+  features novas)
+
+
+================================================================================
+RESUMO DO PACOTE
+================================================================================
+
+15 migrations SQL (00150 a 00165 — aplicação ordenada)
+3 arquivos TypeScript do decision-engine (Janela Mágica + R7 + dispatch)
+15 telas mobile TSX (Modo Profissional + Cliente)
+3 páginas web Next.js (dashboard admin)
+1 edge function Deno (IA 24/7 com Claude Sonnet 4.5)
+Helper compartilhado de queries (mobile-tsx/lib/cuidado-continuo-queries.ts)
+
+
+================================================================================
+ORDEM DE IMPLEMENTAÇÃO SUGERIDA (4 SPRINTS · ~6-8 SEMANAS)
+================================================================================
+
+SPRINT 1 · DESTRAVA PILOTO CENTER NORTE (1 semana)
+--------------------------------------------------
+1. Aplicar migrations em DEV (não prod ainda):
+   - 00158_pipeline_functions.sql
+   - 00162_cuidado_continuo_schema_fixes.sql (esta é a chave — reconcilia tudo
+     com schema real do Belle, ALTER TABLE aditivos sem destruir)
+2. Mergear PR 4 (mobile-tsx/components/score-chip + employee/briefing + pipeline + score)
+3. Atualizar apps/mobile/app/(employee)/_layout.tsx adicionando rotas novas
+4. Testar fluxo:
+   - Criar cliente teste, agendar Design de Sobrancelha
+   - Marcar appointment.status = completed
+   - Confirmar que trigger appointment_completion criou client_protocol_progress
+   - Login como employee → ver Briefing
+5. Configurar BELLE_API_TOKEN_CENTER_NORTE no Vercel
+6. Escrever scripts/belle-etl/sync/04-multi-store-sync.ts seguindo padrão
+   dos scripts 01, 02, 03 (já existentes)
+7. Cron rodando appointments + vendas fluindo do Belle Center Norte
+
+
+SPRINT 2 · CLIENTE + CO-CRIAÇÃO (2 semanas)
+--------------------------------------------
+8. Mergear PR 6 (employee/client-360 + bug-report + idea-submit)
+9. Mergear PR 10 (client/casa-do-cuidado) substituindo ou estendendo o
+   portal.tsx atual do cliente
+10. Aplicar migration 00161_client_memory_facts.sql
+11. Escrever cron decision-engine em apps/web/app/api/cron/decision-engine
+    rodando a cada 1h (use vercel.json crons):
+
+    Para cada cliente ativa nas units configuradas:
+      - Coletar signals (appointments recentes, protocolo ativo, churn risk)
+      - DecisionEngine.nextBestAction(signals)
+      - Se action != do_nothing: INSERT em decision_actions_queue
+
+12. Validar Janela Mágica D+8 do Design de Beatriz:
+    - decision_actions_queue recebe linha com payload Tintura
+    - Aparece no Briefing Hoje da Lene
+    - Cliente vê banner na Casa do Cuidado
+
+
+SPRINT 3 · DIÁRIO + IA (2 semanas)
+-----------------------------------
+13. Aplicar migrations 00159 (diario schema) + 00160 (diario RLS) +
+    00164 (ai conversations) + 00165 (self assessments)
+14. Mergear PR 5 (4 telas do Diário) + PR 9 (ai-care-chat + self-assessment)
+15. Deploy edge function:
+    cd supabase/functions && supabase functions deploy ai-care-respond
+16. Setar secrets:
+    supabase secrets set ANTHROPIC_API_KEY=<chave da org>
+17. Seed 5-10 colunas iniciais do Diário (clientes Constelação reais que
+    aceitarem — Danilo pode fazer follow-up presencial)
+18. Configurar push notifications via OneSignal pra:
+    - Lembrete de análise doméstica D+5 e D+15
+    - Nova mensagem da IA escalada
+
+
+SPRINT 4 · TIERS + WEB ADMIN (1 sprint)
+----------------------------------------
+19. Aplicar migration 00163 (tiers + pool + video consultations)
+20. Mergear PR 7 (web admin: score-de-cuidado + pipeline + cuidado-continuo-cliente)
+21. Mergear PR 8 (client/cuidado-continuo/choose-tier)
+22. Configurar Asaas:
+    - Criar produto recorrente "Cuidado R$ 200/mês"
+    - Criar produto recorrente "Programa 360° R$ 500/mês"
+    - Webhook em apps/web/app/api/asaas/webhook que sincroniza status
+      pra client_cc_subscriptions
+23. Configurar Daily.co (ou Whereby/Zoom):
+    - Account + API key
+    - Quando consulta agendada → criar room → preencher
+      cc_video_consultations.video_room_url
+24. Recrutar pool inicial:
+    - 1 nutricionista (atende clientes Cuidado + 360°)
+    - 1 dermatologista (só 360°)
+    - 1 médica do protocolo (só 360°)
+    - 1 personal/fisio dermatofuncional (só 360°)
+25. Validação jurídica ANS/CFM da consulta médica online (advogado
+    especialista em saúde digital — orçamento ~R$ 15-30k)
+
+
+================================================================================
+CHECKLIST DE VALIDAÇÃO PRÉ-PRODUÇÃO
+================================================================================
+
+Antes de release público pra Center Norte, validar:
+
+[ ] Criar cliente teste no Belle, sincronizar pro Supabase
+[ ] Agendar appointment Design de Sobrancelha com Lene (employee teste)
+[ ] Marcar status = completed
+[ ] Confirmar client_protocol_progress criado (trigger 00162)
+[ ] Confirmar protocol-progress.tsx (já existente) renderiza ações D+1
+[ ] Em D+8 simulado (UPDATE appointment.date = CURRENT_DATE - 8):
+    - Rodar manualmente o cron decision-engine
+    - Confirmar decision_actions_queue recebe dispatch_courtesy com
+      payload da Tintura de Sobrancelha
+    - Login como cliente → ver banner na Casa do Cuidado
+    - Login como Lene → ver no Briefing Hoje
+[ ] Cliente teste responde análise doméstica com pain = 8:
+    - Trigger 00165 cria alert_team em decision_actions_queue
+    - Lene vê alerta vermelho no Briefing
+[ ] Cliente abre chat IA, escreve "tô com muita dor":
+    - Edge function ai-care-respond marca escalation_status = requested
+    - Empilha ação alert_team
+    - Lene vê na fila
+[ ] Cliente assina Tier Cuidado:
+    - Webhook Asaas chega
+    - client_cc_subscriptions status = active
+    - Cliente vê em /cuidado-continuo/active
+[ ] Admin/manager loga em /painel-interno/score-de-cuidado:
+    - Vê ranking da unit dele
+    - Vê total de prêmios pagos no mês
+
+
+================================================================================
+PENDÊNCIAS EXTERNAS (não dependem de mim ou de você)
+================================================================================
+
+1. Token Belle por unidade
+   → Cada franqueada gera no painel dela e envia pro Danilo
+
+2. Asaas account configurado pra subscriptions recorrentes
+   → Já existe ou precisa configurar fluxo de subscription
+
+3. Daily.co (ou alternativa) pra vídeo das consultas dos Tiers pagos
+   → Conta + API key + webhook
+
+4. Validação jurídica da consulta médica online (CFM/ANS)
+   → Advogado especialista, antes do lançamento Tier 360°
+
+5. Pool de profissionais (nutri, dermato, médica, personal)
+   → Sourcing PJ pelo time de operações
+
+6. Revisão clínica final do Lote 3 Sobrancelha
+   → Designer sênior + enfermeira do Estúdio (Beneficios_Procedimentos_Lote3_Sobrancelha.md
+     foi compilado de fontes públicas, marcado "revisar com clínica")
+
+
+================================================================================
+DECISÕES QUE VÃO TE PERGUNTAR (já tenho recomendação)
+================================================================================
+
+Q: Diário Estúdio Mais — mobile (Expo) ou web (Next.js portal)?
+R: Mobile (Expo) — fiz nessa estrutura. Leitura longa cabe e mantém o app
+   sendo o canal principal. Versão web pode vir depois se SEO precisar.
+
+Q: Casa do Cuidado substitui o portal.tsx atual ou roda em paralelo?
+R: Substitui. O portal antigo já redireciona pra portal-home-client.tsx;
+   Casa do Cuidado é o novo home-client mais rico.
+
+Q: client-360.tsx substitui client-file.tsx?
+R: Pode estender em vez de substituir — abre uma nova rota
+   /(employee)/client-360 e linka do pipeline/briefing. O client-file
+   antigo continua funcionando pra fluxos legados.
+
+Q: Quem popula o Diário inicialmente?
+R: Danilo + Hari escrevem 3-5 colunas seed pra ter o que mostrar quando
+   primeiras clientes Constelação forem convidadas a participar.
+
+Q: Em qual tier mínimo um cliente vê eventos Constelação?
+R: Tier mínimo configurável no diario_events.min_tier. Recomendo começar
+   com 'trilha' (Trilha + Constelação veem) e ir expandindo conforme o
+   programa cresce.
+
+
+================================================================================
+MERGE STRATEGY SUGERIDA
+================================================================================
+
+Pra evitar conflitos e fazer revisão por etapas:
+
+1. Abre 1 PR por sprint (4 PRs grandes no fim) OU
+2. Abre 1 PR por componente (7 PRs menores)
+
+Sugiro a opção 2 pra você revisar feature por feature. Cada PR já tem
+descrição completa pré-redigida no histórico de commits do
+DaniloTuffi/cuidado-continuo-handoff — pode copiar/colar como body do PR
+no estudio-mais.
+
+Branch sugerida pra começar:
+    feat/cuidado-continuo-pr4-telas-mobile (PR 4 primeiro porque destrava piloto)
+
+
+================================================================================
+SE PRECISAR
+================================================================================
+
+- Toda a documentação estratégica está no Obsidian do Danilo (docs 41, 42,
+  43, 44 da pasta Estúdio Mais - Estratégia)
+- Protótipos visuais navegáveis:
+    https://danilotuffi.github.io/cuidado-continuo-handoff/prototypes/
+- PDF executivo do Conselho pra contexto estratégico:
+    conselho/Cuidado-Continuo-Modulos-Criados.pdf no repo
+
+Qualquer dúvida estrutural ou conceitual, chama o Danilo. Dúvida técnica
+sobre o pacote, pode me chamar (ou abrir issue no repo handoff que eu
+respondo via Claude Code).
+
+
+================================================================================
+TEMPO ESTIMADO TOTAL
+================================================================================
+
+Sprint 1: 1 semana    →   Center Norte rodando com Briefing + Pipeline
+Sprint 2: 2 semanas   →   Casa do Cuidado live + Co-criação ativa
+Sprint 3: 2 semanas   →   Diário publicando + IA respondendo
+Sprint 4: 1-2 sprints →   Tiers pagos rodando + Web admin
+
+TOTAL: 6-8 semanas até produção 100%.
+
+Resultado esperado em 12 meses (modelo conservador do doc 42):
+- Taxa Recompra 90d: 10% → 30-40%
+- Premium em formação: 49 → 200 por ano
+- Receita adicional: +R$ 11-13M/ano
+- ROI sobre investimento (R$ 300k): 35-40x
+
+
+Abraço e bom trabalho,
+Danilo
+
+================================================================================
