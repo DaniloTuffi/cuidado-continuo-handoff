@@ -105,20 +105,41 @@ CREATE TABLE IF NOT EXISTS public.clube_high_value_benefits (
 
 CREATE INDEX IF NOT EXISTS idx_chvb_client_active ON public.clube_high_value_benefits (client_id) WHERE is_active = true;
 
--- Trigger: client_packages.total_paid >= 10000 cria clube_high_value_benefits automático
+-- Trigger: client_packages com valor >= R$ 10k cria clube_high_value_benefits automático.
+-- Valor é resolvido na seguinte ordem de preferência (do mais preciso ao fallback):
+--   1. unit_prices.custom_price (preço da unidade onde a venda ocorreu)
+--   2. packages.price (preço de catálogo da franquia)
+--   3. payments.amount (se já tiver pagamento linkado)
 CREATE OR REPLACE FUNCTION public.create_high_value_benefits_trigger()
 RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER
 SET search_path = public, pg_catalog AS $$
 DECLARE
+  v_price_reais numeric;
   v_total_centavos integer;
   v_expiry timestamptz;
 BEGIN
-  -- Calcular valor pago em centavos (assumindo client_packages tem payment relacionado)
-  SELECT (NEW.total_sessions * COALESCE(p.average_price_per_session, 0))::integer * 100
-    INTO v_total_centavos
-    FROM public.packages p WHERE p.id = NEW.package_id;
+  -- Tenta unit_prices.custom_price primeiro (preço aplicado na unidade)
+  SELECT up.custom_price INTO v_price_reais
+    FROM public.unit_prices up
+    WHERE up.package_id = NEW.package_id
+      AND up.unit_id = NEW.unit_id
+    LIMIT 1;
 
-  IF v_total_centavos IS NULL OR v_total_centavos < 1000000 THEN
+  -- Fallback: preço de catálogo da franquia
+  IF v_price_reais IS NULL THEN
+    SELECT p.price INTO v_price_reais
+      FROM public.packages p WHERE p.id = NEW.package_id;
+  END IF;
+
+  -- Fallback final: amount do pagamento, se já linkado
+  IF v_price_reais IS NULL AND NEW.payment_id IS NOT NULL THEN
+    SELECT pay.amount INTO v_price_reais
+      FROM public.payments pay WHERE pay.id = NEW.payment_id;
+  END IF;
+
+  v_total_centavos := COALESCE((v_price_reais * 100)::integer, 0);
+
+  IF v_total_centavos < 1000000 THEN
     RETURN NEW;
   END IF;
 

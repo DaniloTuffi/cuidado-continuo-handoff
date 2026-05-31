@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clube das Madrinhas · Estúdio Mais</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --ink-warm: #3a2e2a;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --green-care: #6b8e6f;
+    --red-alert: #c25a4a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: linear-gradient(135deg, #2a2522 0%, #1f1a17 100%);
+    color: var(--cream);
+    min-height: 100vh;
+    padding: 30px 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .page-header {
+    max-width: 1480px; margin: 0 auto 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  }
+  .page-title {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 28px; font-weight: 600; letter-spacing: -0.5px;
+    color: var(--cream);
+  }
+  .page-title small {
+    display: block;
+    font-family: inherit;
+    font-size: 11px; letter-spacing: 3px; color: var(--gold-soft);
+    text-transform: uppercase; font-weight: 700; margin-bottom: 4px;
+  }
+  .screen-switcher {
+    display: flex; gap: 4px; background: rgba(255,255,255,0.06); padding: 4px; border-radius: 100px;
+  }
+  .screen-btn {
+    background: transparent; border: none; padding: 9px 16px; border-radius: 100px;
+    font-size: 11px; font-weight: 700; color: rgba(244,236,226,0.55);
+    letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+  }
+  .screen-btn.active { background: var(--gold); color: var(--ink); }
+  .screen-btn:not(.active):hover { color: var(--gold-soft); }
+
+  /* Phone gallery */
+  .gallery {
+    max-width: 1480px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 28px; align-items: start;
+  }
+
+  .phone {
+    background: var(--ink);
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 8px #0a0908, 0 0 0 9px #2a2522;
+    aspect-ratio: 9/19.5;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone[data-active="false"] { display: none; }
+
+  .phone-label {
+    position: absolute; top: -32px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; letter-spacing: 2px; color: var(--gold-soft); font-weight: 700; text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .phone-notch {
+    height: 24px;
+    display: flex; justify-content: center; align-items: flex-end; padding-bottom: 4px;
+    font-size: 10px; color: rgba(244,236,226,0.6); font-weight: 600;
+  }
+
+  .phone-header {
+    padding: 8px 18px 12px; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .phone-back { font-size: 18px; color: var(--cream); opacity: 0.7; }
+  .phone-title { font-size: 14px; font-weight: 600; color: var(--cream); }
+
+  .phone-body {
+    flex: 1; overflow-y: auto; padding-bottom: 24px;
+  }
+  .phone-body::-webkit-scrollbar { width: 4px; }
+  .phone-body::-webkit-scrollbar-thumb { background: rgba(184,153,104,0.3); border-radius: 2px; }
+
+  /* Shared content blocks */
+  .eyebrow {
+    font-size: 9px; letter-spacing: 2.5px; color: var(--gold-soft);
+    font-weight: 700; text-transform: uppercase; margin-bottom: 8px;
+  }
+
+  /* ============================
+     SCREEN 1: ENTRADA / CPF
+  ============================== */
+  .hero {
+    padding: 22px 22px 28px;
+  }
+  .hero-title {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 30px; font-weight: 600; letter-spacing: -1px;
+    color: var(--cream); line-height: 1.05; margin-bottom: 12px;
+  }
+  .hero-deck {
+    font-size: 12px; color: rgba(244,236,226,0.8); font-style: italic;
+    line-height: 1.55; margin-bottom: 20px;
+  }
+  .hero-stats { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
+  .hero-stat { flex: 1; }
+  .hero-stat-num { font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; font-weight: 600; color: var(--gold); letter-spacing: -1px; }
+  .hero-stat-label { font-size: 9px; letter-spacing: 1.5px; color: rgba(244,236,226,0.55); font-weight: 700; text-transform: uppercase; margin-top: 4px; }
+  .hero-divider { width: 1px; height: 32px; background: rgba(244,236,226,0.15); }
+
+  .cpf-box {
+    margin: 0 18px 18px;
+    padding: 18px;
+    background: rgba(212,191,149,0.08);
+    border: 1px solid rgba(212,191,149,0.2);
+    border-radius: 18px;
+  }
+  .cpf-label { font-size: 10px; letter-spacing: 2px; color: var(--gold-soft); font-weight: 700; margin-bottom: 6px; }
+  .cpf-help { font-size: 11px; color: rgba(244,236,226,0.8); line-height: 1.5; margin-bottom: 14px; }
+  .cpf-input {
+    width: 100%; padding: 14px; background: rgba(244,236,226,0.08);
+    border: 1px solid rgba(244,236,226,0.1);
+    color: var(--cream); font-size: 17px; letter-spacing: 2px; text-align: center;
+    border-radius: 10px; margin-bottom: 12px;
+    font-family: inherit;
+  }
+  .cpf-input::placeholder { color: rgba(244,236,226,0.3); }
+  .cpf-btn {
+    width: 100%; padding: 13px; background: var(--gold); color: var(--ink);
+    border: none; border-radius: 100px; font-weight: 700;
+    letter-spacing: 1.5px; font-size: 11px; cursor: pointer;
+    font-family: inherit;
+  }
+
+  .instituto-box {
+    margin: 0 18px 18px;
+    padding: 20px;
+    background: rgba(138,58,79,0.18);
+    border-radius: 18px;
+  }
+  .instituto-eyebrow { font-size: 9px; letter-spacing: 2px; color: var(--rose-soft); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+  .instituto-title {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 22px; font-weight: 600; color: var(--cream);
+    margin-bottom: 10px; line-height: 1.15; letter-spacing: -0.3px;
+  }
+  .instituto-text {
+    font-size: 11px; color: rgba(244,236,226,0.85); line-height: 1.6; margin-bottom: 16px;
+  }
+  .instituto-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .metric-box { padding: 12px; background: rgba(244,236,226,0.04); border-radius: 10px; }
+  .metric-num {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 20px; font-weight: 600; color: var(--gold); letter-spacing: -0.5px;
+  }
+  .metric-label { font-size: 8.5px; letter-spacing: 1px; color: rgba(244,236,226,0.6); font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+
+  .depo-mini {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid rgba(244,236,226,0.08);
+  }
+  .depo-mini:last-of-type { border-bottom: 0; }
+  .depo-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, #b89968, #8a6f3d);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-weight: 700; font-size: 14px; flex-shrink: 0;
+  }
+  .depo-name { font-size: 11.5px; color: var(--cream); font-weight: 600; }
+  .depo-quote { font-size: 10.5px; color: rgba(244,236,226,0.78); font-style: italic; margin-top: 2px; line-height: 1.4; }
+  .depo-status { font-size: 9px; color: var(--gold); font-weight: 600; margin-top: 4px; }
+
+  .instituto-cta {
+    display: block; margin-top: 14px; padding: 11px;
+    background: rgba(212,191,149,0.12);
+    border: 1px solid rgba(212,191,149,0.4);
+    color: var(--gold-soft); text-align: center;
+    border-radius: 100px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px;
+    text-decoration: none;
+  }
+
+  /* ============================
+     SCREEN 2: INSTITUTO
+  ============================== */
+  .instituto-hero {
+    padding: 24px 22px 28px;
+  }
+  .instituto-hero h1 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 32px; font-weight: 600; color: var(--cream);
+    letter-spacing: -1px; line-height: 1.05; margin-bottom: 12px;
+  }
+  .instituto-hero p {
+    font-size: 12px; color: rgba(244,236,226,0.85); font-style: italic;
+    line-height: 1.55; margin-bottom: 18px;
+  }
+
+  .how-section {
+    padding: 18px 22px; border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .how-section h3 {
+    font-size: 10px; letter-spacing: 2px; color: var(--rose-soft);
+    font-weight: 700; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .how-row {
+    display: flex; gap: 14px; margin-bottom: 16px;
+  }
+  .how-num {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 26px; font-weight: 600; color: var(--gold);
+    letter-spacing: -1px; width: 36px; flex-shrink: 0; line-height: 1;
+  }
+  .how-title { font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 3px; }
+  .how-text { font-size: 11px; color: rgba(244,236,226,0.8); line-height: 1.5; }
+
+  .depo-full {
+    margin: 12px 18px; padding: 16px;
+    background: rgba(244,236,226,0.06); border-radius: 14px;
+  }
+  .depo-head { display: flex; gap: 12px; margin-bottom: 12px; }
+  .depo-full .depo-avatar { width: 44px; height: 44px; font-size: 16px; }
+  .depo-meta { font-size: 9.5px; color: rgba(244,236,226,0.55); margin-top: 2px; }
+  .depo-year { font-size: 9px; color: var(--gold); font-weight: 700; margin-top: 2px; }
+  .depo-quote-big {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 18px; color: var(--cream); font-style: italic; font-weight: 600;
+    line-height: 1.3; margin-bottom: 10px; letter-spacing: -0.3px;
+  }
+  .depo-story { font-size: 11px; color: rgba(244,236,226,0.8); line-height: 1.55; margin-bottom: 12px; }
+  .depo-statusbox { border-left: 2px solid var(--gold); padding-left: 10px; margin-bottom: 10px; }
+  .depo-statusbox-label { font-size: 8px; letter-spacing: 2px; color: var(--gold); font-weight: 700; margin-bottom: 2px; }
+  .depo-statusbox-text { font-size: 11.5px; color: var(--cream); }
+
+  .footer-turma {
+    margin: 16px 18px 24px; padding: 18px;
+    background: rgba(184,153,104,0.18); border-radius: 16px;
+  }
+  .footer-turma-eyebrow { font-size: 9px; letter-spacing: 2px; color: var(--gold-soft); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+  .footer-turma-title {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 22px; font-weight: 600; color: var(--cream); margin-bottom: 8px; letter-spacing: -0.3px;
+  }
+  .footer-turma-text { font-size: 11px; color: rgba(244,236,226,0.85); line-height: 1.55; }
+
+  /* ============================
+     SCREEN 3: PAINEL (webview mock)
+  ============================== */
+  .stock-bar {
+    padding: 14px 18px;
+    background: rgba(212,191,149,0.08);
+    border-bottom: 1px solid rgba(212,191,149,0.2);
+  }
+  .stock-eyebrow { font-size: 9.5px; letter-spacing: 1.5px; color: var(--gold-soft); font-weight: 700; margin-bottom: 8px; }
+  .stock-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 11px; }
+  .stock-name { color: var(--cream); font-weight: 600; }
+  .stock-count { color: var(--gold); font-weight: 700; }
+  .stock-count.low { color: var(--red-alert); }
+
+  .webview-mock {
+    flex: 1; padding: 20px 18px 24px;
+    background: linear-gradient(180deg, #2a2522 0%, #1f1a17 100%);
+  }
+  .webview-mock h2 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 22px; font-weight: 600; color: var(--cream);
+    margin-bottom: 14px; letter-spacing: -0.5px;
+  }
+  .panel-card {
+    padding: 14px; background: rgba(244,236,226,0.04);
+    border: 1px solid rgba(212,191,149,0.15);
+    border-radius: 14px; margin-bottom: 10px;
+  }
+  .panel-card .pc-eyebrow { font-size: 9px; letter-spacing: 1.5px; color: var(--rose-soft); font-weight: 700; margin-bottom: 4px; }
+  .panel-card .pc-title { font-size: 13.5px; color: var(--cream); font-weight: 600; margin-bottom: 4px; }
+  .panel-card .pc-meta { font-size: 10.5px; color: rgba(244,236,226,0.6); margin-bottom: 8px; }
+  .panel-card .pc-price { display: flex; align-items: baseline; gap: 8px; }
+  .panel-card .pc-old { font-size: 11px; color: rgba(244,236,226,0.4); text-decoration: line-through; }
+  .panel-card .pc-new { font-size: 16px; color: var(--gold); font-weight: 700; }
+  .panel-card .pc-tag { display: inline-block; padding: 2px 8px; background: rgba(255,180,80,0.2); color: #f4d999; font-size: 9px; font-weight: 700; letter-spacing: 1px; border-radius: 100px; margin-bottom: 8px; }
+
+  .panel-section-h {
+    font-size: 9.5px; letter-spacing: 2px; color: var(--gold-soft);
+    font-weight: 700; text-transform: uppercase; margin: 16px 0 10px;
+  }
+
+  /* ============================
+     SCREEN 4: LIBERAR MADRINHA (profissional)
+  ============================== */
+  .pro-screen .phone-body { background: var(--cream); color: var(--ink); }
+  .pro-screen .phone-header { background: white; border-bottom: 1px solid var(--cream-deep); }
+  .pro-screen .phone-back, .pro-screen .phone-title { color: var(--ink); }
+
+  .client-card {
+    margin: 14px; padding: 14px; background: white;
+    border-radius: 16px; border: 1px solid var(--cream-deep);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .client-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 17px;
+  }
+  .client-name { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .client-meta { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
+
+  .intro-txt {
+    margin: 0 14px 14px; font-size: 12px; line-height: 1.55; color: var(--ink-soft); font-style: italic;
+  }
+  .intro-txt strong { font-style: normal; color: var(--rose-deep); }
+
+  .script-box {
+    margin: 0 14px 16px; padding: 16px; background: white;
+    border-radius: 14px; border: 1px solid var(--cream-deep);
+  }
+  .script-h { font-size: 9.5px; letter-spacing: 1.5px; color: var(--rose-deep); font-weight: 700; margin-bottom: 12px; }
+  .script-item { font-size: 11.5px; color: var(--ink); line-height: 1.5; margin-bottom: 8px; }
+
+  .pro-label { margin: 0 14px 6px; font-size: 11px; font-weight: 600; color: var(--ink); }
+  .pro-textarea {
+    width: calc(100% - 28px); margin: 0 14px 12px;
+    padding: 12px; border-radius: 10px; border: 1px solid var(--cream-deep);
+    background: white; font-size: 12px; color: var(--ink); resize: none; min-height: 60px;
+    font-family: inherit;
+  }
+  .pro-release-btn {
+    width: calc(100% - 28px); margin: 4px 14px 8px; padding: 14px;
+    background: var(--gold); color: var(--ink); border: none;
+    border-radius: 100px; font-weight: 700; letter-spacing: 1.5px; font-size: 11px;
+    font-family: inherit; cursor: pointer;
+  }
+  .pro-fineprint { margin: 0 14px 22px; font-size: 10.5px; color: var(--ink-soft); text-align: center; line-height: 1.4; }
+
+  .pro-hist-h {
+    margin: 0 14px 10px; font-size: 9.5px; letter-spacing: 1.5px; color: var(--rose-deep);
+    font-weight: 700; text-transform: uppercase;
+  }
+  .pro-hist-row {
+    margin: 0 14px; padding: 10px 0;
+    border-bottom: 1px solid var(--cream-deep);
+  }
+  .pro-hist-name { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+  .pro-hist-meta { font-size: 10px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* ============================
+     LEGENDA / NOTES
+  ============================== */
+  .notes {
+    max-width: 1480px; margin: 40px auto 20px;
+    padding: 24px; background: rgba(255,255,255,0.04);
+    border-radius: 20px; border: 1px solid rgba(255,255,255,0.06);
+  }
+  .notes h3 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 18px; color: var(--cream); margin-bottom: 14px; font-weight: 600;
+  }
+  .notes ul { list-style: none; }
+  .notes li {
+    padding: 8px 0; font-size: 12.5px; color: rgba(244,236,226,0.8); line-height: 1.55;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .notes li::before {
+    content: "·"; color: var(--gold); margin-right: 8px; font-weight: 700;
+  }
+  .notes li strong { color: var(--gold-soft); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .gallery { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <small>EXCLUSIVO · 360 MULHERES NO MUNDO</small>
+    <div class="page-title">Clube das Madrinhas · App Estúdio Mais</div>
+  </div>
+  <div class="screen-switcher">
+    <button class="screen-btn active" data-target="all">Tudo</button>
+    <button class="screen-btn" data-target="cpf">Entrada</button>
+    <button class="screen-btn" data-target="instituto">Instituto</button>
+    <button class="screen-btn" data-target="painel">Painel</button>
+    <button class="screen-btn" data-target="liberar">Profissional</button>
+  </div>
+</div>
+
+<div class="gallery">
+
+  <!-- ============================
+       SCREEN 1: ENTRADA (CPF check)
+  ============================== -->
+  <div class="phone" data-screen="cpf">
+    <div class="phone-label">CLIENTE · Entrada</div>
+    <div class="phone-notch">●</div>
+    <div class="phone-header">
+      <span class="phone-back">‹</span>
+      <span class="phone-title">Clube das Madrinhas</span>
+    </div>
+    <div class="phone-body">
+      <div class="hero">
+        <div class="eyebrow">Exclusivo · 360 mulheres no mundo</div>
+        <div class="hero-title">Clube das<br>Madrinhas</div>
+        <div class="hero-deck">
+          "Uma camada do Estúdio Mais que pouca gente vê. Madrinhas têm acesso a estoques limitados, pré-lançamentos, e acompanhamento próximo. E parte do que pagam financia mulheres do Instituto."
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">360</div>
+            <div class="hero-stat-label">Madrinhas ativas</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">47</div>
+            <div class="hero-stat-label">Na fila de espera</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cpf-box">
+        <div class="cpf-label">JÁ É MADRINHA?</div>
+        <div class="cpf-help">Digite seu CPF — se você já tem acesso ou foi liberada por uma profissional, eu reconheço.</div>
+        <input type="text" class="cpf-input" placeholder="000.000.000-00" value="324.567.890-12"/>
+        <button class="cpf-btn">VERIFICAR ACESSO</button>
+      </div>
+
+      <div class="instituto-box">
+        <div class="instituto-eyebrow">O que ninguém te contou ainda</div>
+        <div class="instituto-title">Parte do que você paga forma uma mulher.</div>
+        <div class="instituto-text">O Instituto Estúdio Mais forma esteticistas, biomédicas e nutricionistas em vulnerabilidade — gratuitamente. Cada Madrinha co-financia uma vaga.</div>
+
+        <div class="instituto-metrics">
+          <div class="metric-box">
+            <div class="metric-num">127</div>
+            <div class="metric-label">Alunas formadas</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-num">R$ 2,4M</div>
+            <div class="metric-label">Doado ao Instituto</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-num">40</div>
+            <div class="metric-label">Turma atual</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-num">Set/26</div>
+            <div class="metric-label">Próxima turma</div>
+          </div>
+        </div>
+
+        <div class="depo-mini">
+          <div class="depo-avatar">R</div>
+          <div>
+            <div class="depo-name">Renata Silva</div>
+            <div class="depo-quote">"Vim do abrigo. Hoje sou esteticista no Center Norte."</div>
+            <div class="depo-status">Formada em 2024 · Estúdio Mais</div>
+          </div>
+        </div>
+        <div class="depo-mini">
+          <div class="depo-avatar">C</div>
+          <div>
+            <div class="depo-name">Camila Andrade</div>
+            <div class="depo-quote">"Não acreditava que existia formação gratuita assim."</div>
+            <div class="depo-status">Formada em 2025 · clínica própria</div>
+          </div>
+        </div>
+
+        <a href="#" class="instituto-cta">CONHECER O INSTITUTO →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SCREEN 2: INSTITUTO
+  ============================== -->
+  <div class="phone" data-screen="instituto">
+    <div class="phone-label">CLIENTE · Instituto</div>
+    <div class="phone-notch">●</div>
+    <div class="phone-header">
+      <span class="phone-back">‹</span>
+      <span class="phone-title">Instituto</span>
+    </div>
+    <div class="phone-body">
+      <div class="instituto-hero">
+        <div class="eyebrow">Instituto Estúdio Mais</div>
+        <h1>O cuidado que vira ofício.</h1>
+        <p>Há 4 anos, formamos mulheres em situação de vulnerabilidade nas áreas onde o Estúdio Mais atua: estética, biomedicina, nutrição. Gratuitamente. Sem retorno financeiro pra rede.</p>
+
+        <div class="instituto-metrics">
+          <div class="metric-box">
+            <div class="metric-num">127</div>
+            <div class="metric-label">Alunas formadas</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-num">R$ 2,4M</div>
+            <div class="metric-label">Total doado</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-num">40</div>
+            <div class="metric-label">Turma atual</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-num">Set/26</div>
+            <div class="metric-label">Próxima turma</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-section">
+        <h3>COMO FUNCIONA</h3>
+        <div class="how-row">
+          <div class="how-num">01</div>
+          <div>
+            <div class="how-title">Madrinhas co-financiam vagas</div>
+            <div class="how-text">Parte da receita do Clube vai pro fundo do Instituto. Não é doação à parte — é embutido.</div>
+          </div>
+        </div>
+        <div class="how-row">
+          <div class="how-num">02</div>
+          <div>
+            <div class="how-title">Seleção de candidatas</div>
+            <div class="how-text">Duas vezes ao ano. Mulheres acima de 18 anos, comprovadamente em vulnerabilidade.</div>
+          </div>
+        </div>
+        <div class="how-row">
+          <div class="how-num">03</div>
+          <div>
+            <div class="how-title">Formação de 12 meses</div>
+            <div class="how-text">Curso técnico + prática nas unidades do Estúdio Mais. Bolsa-auxílio inclusa.</div>
+          </div>
+        </div>
+        <div class="how-row">
+          <div class="how-num">04</div>
+          <div>
+            <div class="how-title">Empregabilidade</div>
+            <div class="how-text">As que se destacam entram no quadro. As demais saem com CRBM/Conselho ativo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 18px 22px 10px;">
+        <h3 style="font-size: 10px; letter-spacing: 2px; color: var(--rose-soft); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">DEPOIMENTOS</h3>
+      </div>
+
+      <div class="depo-full">
+        <div class="depo-head">
+          <div class="depo-avatar">R</div>
+          <div style="flex: 1;">
+            <div class="depo-name">Renata Silva</div>
+            <div class="depo-meta">26 anos · São Paulo · Estética</div>
+            <div class="depo-year">Formada em 2024</div>
+          </div>
+        </div>
+        <div class="depo-quote-big">"Vim do abrigo. Hoje sou esteticista no Center Norte."</div>
+        <div class="depo-story">Conheci o Instituto quando ainda morava em casa de passagem. Disseram que tinha um curso técnico, gratuito, com bolsa. Achei mentira. Fui ver. Era verdade. Hoje tenho carteira assinada, alugo meu apê, e estou pagando faculdade de fisioterapia.</div>
+        <div class="depo-statusbox">
+          <div class="depo-statusbox-label">HOJE</div>
+          <div class="depo-statusbox-text">Esteticista titular · Center Norte · Salário R$ 4.200 + comissão</div>
+        </div>
+      </div>
+
+      <div class="depo-full">
+        <div class="depo-head">
+          <div class="depo-avatar">C</div>
+          <div style="flex: 1;">
+            <div class="depo-name">Camila Andrade</div>
+            <div class="depo-meta">31 anos · Guarulhos · Biomedicina</div>
+            <div class="depo-year">Formada em 2025</div>
+          </div>
+        </div>
+        <div class="depo-quote-big">"Abri minha clínica em 6 meses depois de formar."</div>
+        <div class="depo-story">Eu já tinha 2 filhos quando soube do Instituto. Trabalhava de diarista. Hoje minha clínica atende 40 mulheres por semana no bairro. O Estúdio Mais não cobrou nada de mim. Sei que cada cliente do Clube que passou aqui no Center Norte ajudou a pagar isso.</div>
+        <div class="depo-statusbox">
+          <div class="depo-statusbox-label">HOJE</div>
+          <div class="depo-statusbox-text">Clínica própria · Guarulhos · 40 atendimentos/semana</div>
+        </div>
+      </div>
+
+      <div class="footer-turma">
+        <div class="footer-turma-eyebrow">Próxima turma</div>
+        <div class="footer-turma-title">40 vagas · setembro 2026</div>
+        <div class="footer-turma-text">Cada Madrinha do Clube co-financia em média 0,3 vaga por ano. Quando você passa pelo procedimento, alguém entra na formação.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SCREEN 3: PAINEL (webview mock)
+  ============================== -->
+  <div class="phone" data-screen="painel">
+    <div class="phone-label">CLIENTE · Painel Madrinhas</div>
+    <div class="phone-notch">●</div>
+    <div class="phone-header">
+      <span class="phone-back">‹</span>
+      <span class="phone-title">Painel das Madrinhas</span>
+    </div>
+    <div class="phone-body">
+      <div class="stock-bar">
+        <div class="stock-eyebrow">🔥 ESTOQUES DESTE MÊS · CENTER NORTE</div>
+        <div class="stock-row">
+          <span class="stock-name">Botox Premium · 100u</span>
+          <span class="stock-count low">Restam 2 de 8</span>
+        </div>
+        <div class="stock-row">
+          <span class="stock-name">Tintura PRP Capilar</span>
+          <span class="stock-count">Restam 5 de 12</span>
+        </div>
+        <div class="stock-row">
+          <span class="stock-name">Bioestimulador Sculptra</span>
+          <span class="stock-count">Restam 7 de 15</span>
+        </div>
+      </div>
+
+      <div class="webview-mock">
+        <h2>Pré-lançamentos</h2>
+        <div class="panel-card">
+          <span class="pc-tag">CHEGA EM JUNHO</span>
+          <div class="pc-eyebrow">EXCLUSIVO MADRINHAS</div>
+          <div class="pc-title">Tratamento Skin Reset 3.0</div>
+          <div class="pc-meta">Reserva antecipada · -25% pré-venda</div>
+          <div class="pc-price">
+            <span class="pc-old">R$ 4.200</span>
+            <span class="pc-new">R$ 3.150</span>
+          </div>
+        </div>
+
+        <div class="panel-section-h">Descontos da semana</div>
+        <div class="panel-card">
+          <div class="pc-eyebrow">SÓ MADRINHAS</div>
+          <div class="pc-title">Pacote Sobrancelha Premium</div>
+          <div class="pc-meta">6 sessões · validade 6 meses</div>
+          <div class="pc-price">
+            <span class="pc-old">R$ 1.800</span>
+            <span class="pc-new">R$ 1.200</span>
+          </div>
+        </div>
+        <div class="panel-card">
+          <div class="pc-eyebrow">SÓ MADRINHAS</div>
+          <div class="pc-title">Limpeza Profunda + Hidratação</div>
+          <div class="pc-meta">Sessão única · esta semana</div>
+          <div class="pc-price">
+            <span class="pc-old">R$ 450</span>
+            <span class="pc-new">R$ 280</span>
+          </div>
+        </div>
+
+        <div class="panel-section-h">Seu acompanhamento</div>
+        <div class="panel-card" style="background: rgba(107,142,111,0.12); border-color: rgba(107,142,111,0.3);">
+          <div class="pc-eyebrow" style="color: #a8c5ab;">HIGH VALUE · ATIVO</div>
+          <div class="pc-title">Consulta médica online</div>
+          <div class="pc-meta">1 disponível · agende quando quiser</div>
+          <div style="margin-top: 8px; padding: 8px 12px; background: rgba(107,142,111,0.2); border-radius: 100px; display: inline-block; font-size: 10px; font-weight: 700; color: #a8c5ab;">AGENDAR →</div>
+        </div>
+        <div class="panel-card" style="background: rgba(107,142,111,0.12); border-color: rgba(107,142,111,0.3);">
+          <div class="pc-eyebrow" style="color: #a8c5ab;">HIGH VALUE · ATIVO</div>
+          <div class="pc-title">Consultas com nutri</div>
+          <div class="pc-meta">11 de 12 restantes · próxima 06/jun</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SCREEN 4: LIBERAR MADRINHA (profissional)
+  ============================== -->
+  <div class="phone pro-screen" data-screen="liberar">
+    <div class="phone-label">PROFISSIONAL · Liberar Madrinha</div>
+    <div class="phone-notch" style="color: rgba(31,26,23,0.5);">●</div>
+    <div class="phone-header">
+      <span class="phone-back">‹</span>
+      <span class="phone-title">Liberar Madrinha</span>
+    </div>
+    <div class="phone-body">
+      <div class="client-card">
+        <div class="client-avatar">M</div>
+        <div>
+          <div class="client-name">Marina Oliveira</div>
+          <div class="client-meta">Cuidado · 8 visitas · R$ 4.230</div>
+        </div>
+      </div>
+
+      <div class="intro-txt">
+        Você está prestes a liberar uma <strong>exceção da fila</strong> pro Clube das Madrinhas. Essa é uma decisão sua. Use bem.
+      </div>
+
+      <div class="script-box">
+        <div class="script-h">📜 ANTES DE LIBERAR · LEMBRA</div>
+        <div class="script-item">· Conta a história das Madrinhas. Por que existe. O que muda pra cliente.</div>
+        <div class="script-item">· Menciona o Instituto Estúdio Mais. Cita 1 aluna pelo nome (Renata, Camila, etc).</div>
+        <div class="script-item">· Não fecha venda neste momento. Libera o acesso, deixa ela ver. Decisão dela.</div>
+        <div class="script-item">· Se ela fechar pacote ≥ R$ 10k, acompanhamento médico/nutri ativa automático.</div>
+      </div>
+
+      <div class="pro-label">Por que essa cliente, hoje? (opcional)</div>
+      <textarea class="pro-textarea" placeholder="Ex: Cliente desde 2022, pediu informações sobre acompanhamento médico hoje.">Cliente desde 2022. Hoje perguntou sobre o Painel Hormonal e demonstrou interesse em consulta médica.</textarea>
+
+      <button class="pro-release-btn">LIBERAR ACESSO À MADRINHA</button>
+      <div class="pro-fineprint">A cliente entra com status "invited" por 12 meses. Se ela fechar pacote ≥ R$ 10k vira "active" automático.</div>
+
+      <div style="margin-top: 24px;">
+        <div class="pro-hist-h">SUAS LIBERAÇÕES NOS ÚLTIMOS 30 DIAS</div>
+        <div class="pro-hist-row">
+          <div class="pro-hist-name">Beatriz Souza</div>
+          <div class="pro-hist-meta">15 de mai · status: active · pacote R$ 12.400</div>
+        </div>
+        <div class="pro-hist-row">
+          <div class="pro-hist-name">Júlia Mendes</div>
+          <div class="pro-hist-meta">22 de mai · status: invited · ainda decidindo</div>
+        </div>
+        <div class="pro-hist-row">
+          <div class="pro-hist-name">Larissa Pinto</div>
+          <div class="pro-hist-meta">28 de mai · status: invited · agendou 1ª avaliação</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="notes">
+  <h3>Mapeamento Protótipo → Arquivos TSX no app</h3>
+  <ul>
+    <li><strong>Entrada · CPF</strong> → <code>mobile-tsx/client/clube-madrinhas/index.tsx</code> — chama RPC <code>verify_cpf_madrinha(p_cpf)</code>, encontra status, oferece fila se não-membro</li>
+    <li><strong>Instituto</strong> → <code>mobile-tsx/client/clube-madrinhas/instituto.tsx</code> — lê de <code>instituto_depoimentos</code> + <code>instituto_metrics</code> com RLS pública</li>
+    <li><strong>Painel</strong> → <code>mobile-tsx/client/clube-madrinhas/painel.tsx</code> — WebView do Flask via JWT pass-through + barra de estoques de <code>clube_stock_visibility</code></li>
+    <li><strong>Profissional libera</strong> → <code>mobile-tsx/employee/liberar-madrinha.tsx</code> — upsert em <code>clube_madrinhas_membership</code> com <code>entry_type=manual_professional</code>, expira em 12 meses</li>
+    <li><strong>Trigger automático</strong> em <code>client_packages</code>: compra ≥ R$ 10k cria registro em <code>clube_high_value_benefits</code> com 1 médica + 12 nutri + 52 revisões de prato, e promove a Madrinha pra <code>active</code></li>
+  </ul>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.screen-btn');
+  const phones = document.querySelectorAll('.phone');
+  buttons.forEach(b => b.addEventListener('click', () => {
+    buttons.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    const t = b.dataset.target;
+    phones.forEach(p => {
+      p.dataset.active = (t === 'all' || p.dataset.screen === t) ? 'true' : 'false';
+    });
+  }));
+  // CPF mask
+  const cpf = document.querySelector('.cpf-input');
+  if (cpf) {
+    cpf.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9) v = `${v.slice(0,3)}.${v.slice(3,6)}.${v.slice(6,9)}-${v.slice(9)}`;
+      else if (v.length > 6) v = `${v.slice(0,3)}.${v.slice(3,6)}.${v.slice(6)}`;
+      else if (v.length > 3) v = `${v.slice(0,3)}.${v.slice(3)}`;
+      e.target.value = v;
+    });
+  }
+</script>
+
+</body>
+</html>
