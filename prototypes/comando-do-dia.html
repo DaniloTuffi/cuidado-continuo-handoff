@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comando do Dia · Estúdio Mais</title>
+<style>
+  :root {
+    --rose-deep: #8a3a4f;
+    --rose-soft: #c97d8e;
+    --rose-tint: #fdf5f7;
+    --cream: #f4ece2;
+    --cream-deep: #e9dfd0;
+    --paper: #faf7f1;
+    --ink: #1f1a17;
+    --ink-soft: #5a4f47;
+    --gold: #b89968;
+    --gold-soft: #d4bf95;
+    --gold-tint: #fff4e0;
+    --green-care: #6b8e6f;
+    --green-tint: #ecf2ed;
+    --red-alert: #c25a4a;
+    --red-tint: #fef0ed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: linear-gradient(135deg, #2a2522 0%, #1f1a17 100%);
+    color: var(--cream);
+    min-height: 100vh;
+    padding: 30px 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header da página */
+  .page-header { max-width: 1480px; margin: 0 auto 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .page-title { font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; font-weight: 600; letter-spacing: -0.5px; color: var(--cream); }
+  .page-title small { display: block; font-family: inherit; font-size: 11px; letter-spacing: 3px; color: var(--gold-soft); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+
+  /* Gallery */
+  .gallery { max-width: 1480px; margin: 0 auto; display: grid; grid-template-columns: 380px 380px; gap: 32px; justify-content: center; align-items: start; }
+
+  .phone {
+    background: var(--paper);
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 8px #0a0908, 0 0 0 9px #2a2522;
+    aspect-ratio: 9/19.5;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-label { position: absolute; top: -32px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 2px; color: var(--gold-soft); font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+
+  .phone-notch { height: 22px; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 3px; font-size: 9px; color: rgba(31,26,23,0.4); font-weight: 600; background: white; }
+
+  .phone-body { flex: 1; overflow-y: auto; }
+  .phone-body::-webkit-scrollbar { width: 4px; }
+  .phone-body::-webkit-scrollbar-thumb { background: rgba(184,153,104,0.3); border-radius: 2px; }
+
+  /* Greeting header */
+  .greeting { padding: 20px 18px 12px; background: white; border-bottom: 1px solid var(--cream-deep); }
+  .greeting-eyebrow { font-size: 9px; letter-spacing: 1.5px; color: var(--ink-soft); font-weight: 700; text-transform: uppercase; }
+  .greeting-name { font-family: "Cormorant Garamond", Georgia, serif; font-size: 30px; font-weight: 600; color: var(--ink); letter-spacing: -1px; margin-top: 2px; }
+  .greeting-role { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* Stats row */
+  .stats { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; padding: 12px 14px; background: white; border-bottom: 1px solid var(--cream-deep); }
+  .stat { background: var(--paper); border-radius: 10px; padding: 8px 6px; text-align: center; }
+  .stat.hot { background: var(--rose-deep); }
+  .stat-label { font-size: 8px; letter-spacing: 0.8px; color: var(--ink-soft); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+  .stat.hot .stat-label { color: rgba(244,236,226,0.85); }
+  .stat-value { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .stat.hot .stat-value { color: var(--cream); }
+
+  /* Section */
+  .section { background: white; margin: 10px 14px; border-radius: 16px; border: 1px solid var(--cream-deep); padding: 14px; }
+  .section-eyebrow { font-size: 9px; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 4px; color: var(--rose-deep); }
+  .section-eyebrow.gold { color: var(--gold); }
+  .section-eyebrow.green { color: var(--green-care); }
+  .section-eyebrow.red { color: var(--red-alert); }
+  .section-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--cream-deep); }
+
+  /* Strategy card */
+  .strat-card { background: var(--paper); border-radius: 12px; padding: 12px; margin-bottom: 8px; border: 1px solid var(--cream-deep); }
+  .strat-head { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .strat-time { font-size: 16px; font-weight: 700; color: var(--rose-deep); width: 50px; }
+  .strat-info { flex: 1; }
+  .strat-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .strat-meta { font-size: 10px; color: var(--ink-soft); margin-top: 2px; }
+  .strat-hint { background: rgba(138,58,79,0.08); padding: 8px 10px; border-radius: 7px; margin-bottom: 6px; }
+  .strat-hint-label { font-size: 8px; letter-spacing: 1.2px; color: var(--rose-deep); font-weight: 700; margin-bottom: 2px; }
+  .strat-hint-text { font-size: 11px; color: var(--ink); line-height: 1.4; }
+  .strat-memory { font-size: 10px; color: var(--ink-soft); font-style: italic; margin-top: 4px; line-height: 1.35; }
+  .strat-upsell { font-size: 10px; color: var(--gold); font-weight: 600; margin-top: 8px; padding: 7px 9px; background: rgba(184,153,104,0.1); border-radius: 6px; }
+
+  /* Row generic (follow-up etc) */
+  .row { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--cream-deep); }
+  .row:last-child { border-bottom: 0; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--rose-soft), var(--rose-deep)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .avatar.gold { background: linear-gradient(135deg, var(--gold-soft), var(--gold)); color: var(--ink); }
+  .row-info { flex: 1; min-width: 0; }
+  .row-name { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .row-meta { font-size: 10px; color: var(--ink-soft); margin-top: 2px; }
+  .row-suggestion { font-size: 11px; color: var(--rose-deep); font-style: italic; margin: 4px 0; line-height: 1.4; }
+  .row-memory { font-size: 10px; color: var(--ink-soft); font-style: italic; margin-top: 3px; }
+  .row-cta { font-size: 16px; align-self: center; }
+
+  /* Golden window card destaque */
+  .golden-card { background: var(--rose-tint); border: 1px solid var(--rose-soft); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+  .golden-memory { font-size: 11px; color: var(--rose-deep); font-style: italic; margin-top: 4px; }
+  .golden-ok { font-size: 10px; color: var(--green-care); font-weight: 700; margin-top: 4px; }
+  .golden-btn { background: var(--rose-deep); color: white; padding: 11px; border-radius: 100px; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-top: 10px; cursor: pointer; transition: background .2s; }
+  .golden-btn:hover { background: #6e2e3f; }
+
+  /* Danger card */
+  .danger-card { background: var(--red-tint); border-radius: 11px; padding: 11px; margin-bottom: 8px; }
+  .danger-urgency { font-size: 10px; color: var(--red-alert); font-weight: 700; letter-spacing: 0.5px; margin: 4px 0; }
+
+  /* Gift card */
+  .gift-card { display: flex; gap: 10px; background: var(--gold-tint); border: 1px solid #f4d999; border-radius: 11px; padding: 11px; margin-bottom: 8px; align-items: flex-start; }
+  .gift-reason { font-size: 10px; color: #8a6f3d; font-weight: 700; margin-top: 4px; }
+  .gift-suggestion { font-size: 11px; color: var(--ink); margin-top: 2px; }
+
+  /* Promo banner */
+  .promo-banner { background: var(--green-tint); border-radius: 10px; padding: 11px; margin-bottom: 10px; }
+  .promo-body { font-size: 11.5px; color: #3a2e2a; line-height: 1.45; }
+  .promo-end { font-size: 9px; color: var(--green-care); font-weight: 700; margin-top: 6px; letter-spacing: 0.5px; }
+
+  /* Action item (decision engine) */
+  .action-item { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--cream-deep); }
+  .action-item:last-child { border: 0; }
+  .priority-bar { width: 3px; border-radius: 2px; }
+  .priority-bar.high { background: var(--red-alert); }
+  .priority-bar.med { background: var(--gold); }
+  .priority-bar.low { background: var(--green-care); }
+  .action-info { flex: 1; }
+  .action-title { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .action-desc { font-size: 10px; color: var(--ink-soft); margin-top: 2px; line-height: 1.35; }
+  .action-context { display: inline-block; margin-top: 5px; font-size: 8px; letter-spacing: 0.5px; font-weight: 700; color: var(--rose-deep); background: var(--rose-tint); padding: 2px 6px; border-radius: 4px; }
+
+  /* Nav buttons */
+  .nav-row { display: flex; gap: 8px; padding: 10px 14px 20px; }
+  .nav-btn { flex: 1; background: white; border-radius: 12px; padding: 14px 8px; text-align: center; border: 1px solid var(--cream-deep); }
+  .nav-icon { font-size: 22px; display: block; }
+  .nav-label { font-size: 11px; font-weight: 700; color: var(--ink); margin-top: 4px; }
+
+  /* ============================================================
+     MODAL DO SCRIPT (Janela de Ouro)
+  ============================================================ */
+  .script-modal {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 8px #0a0908, 0 0 0 9px #2a2522;
+    aspect-ratio: 9/19.5;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .script-modal .phone-notch { background: var(--ink); color: rgba(244,236,226,0.4); }
+
+  .script-header { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; gap: 12px; align-items: center; }
+  .script-close { width: 32px; height: 32px; border-radius: 16px; background: rgba(255,255,255,0.08); display: flex; justify-content: center; align-items: center; color: var(--cream); font-size: 16px; cursor: pointer; flex-shrink: 0; }
+  .script-eyebrow { font-size: 9px; letter-spacing: 2px; color: var(--gold); font-weight: 700; margin-bottom: 2px; }
+  .script-title { font-family: "Cormorant Garamond", Georgia, serif; font-size: 22px; font-weight: 600; color: var(--cream); letter-spacing: -0.3px; }
+  .script-sub { font-size: 11px; color: rgba(244,236,226,0.6); margin-top: 2px; }
+
+  .script-body { flex: 1; overflow-y: auto; padding: 14px 16px; }
+  .script-body::-webkit-scrollbar { width: 4px; }
+  .script-body::-webkit-scrollbar-thumb { background: rgba(184,153,104,0.3); border-radius: 2px; }
+
+  .principles-box { background: rgba(184,153,104,0.12); padding: 12px; border-radius: 12px; margin-bottom: 12px; }
+  .principles-title { font-size: 9px; letter-spacing: 1.5px; color: var(--gold-soft); font-weight: 700; margin-bottom: 8px; }
+  .principle-item { font-size: 11px; color: var(--cream); line-height: 1.5; margin-bottom: 4px; }
+
+  .memory-box { background: rgba(138,58,79,0.18); border-left: 3px solid var(--rose-soft); padding: 12px; border-radius: 0 12px 12px 0; margin-bottom: 14px; }
+  .memory-label { font-size: 9px; letter-spacing: 1.5px; color: var(--rose-soft); font-weight: 700; margin-bottom: 4px; }
+  .memory-text { font-size: 13px; color: var(--cream); font-style: italic; line-height: 1.4; }
+
+  .phase-block { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .phase-block:last-of-type { border-bottom: 0; }
+  .phase-header { display: flex; justify-content: space-between; padding: 12px 0; cursor: pointer; }
+  .phase-name { font-size: 10px; letter-spacing: 1.5px; color: var(--gold-soft); font-weight: 700; }
+  .phase-toggle { font-size: 16px; color: var(--gold-soft); font-weight: 300; }
+  .phase-lines { padding-bottom: 14px; display: none; }
+  .phase-block.open .phase-lines { display: block; }
+  .phase-block.open .phase-toggle { transform: rotate(45deg); }
+  .script-line { font-size: 12px; color: var(--cream); font-style: italic; line-height: 1.5; padding-left: 8px; border-left: 2px solid rgba(184,153,104,0.4); margin-bottom: 6px; }
+
+  .status-box-alert { background: rgba(194,90,74,0.18); padding: 12px; border-radius: 10px; margin-top: 12px; }
+  .status-text-alert { color: #e09e8e; font-size: 11px; font-weight: 700; text-align: center; }
+
+  .script-footer { display: flex; gap: 6px; padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .cta { flex: 1; padding: 11px 6px; border-radius: 100px; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; color: white; }
+  .cta.audio { background: var(--rose-deep); }
+  .cta.text { background: var(--ink-soft); }
+  .cta.return { background: var(--gold); color: var(--ink); }
+  .cta.courtesy { background: var(--green-care); }
+
+  /* Legenda */
+  .notes { max-width: 1480px; margin: 40px auto 20px; padding: 24px; background: rgba(255,255,255,0.04); border-radius: 20px; border: 1px solid rgba(255,255,255,0.06); }
+  .notes h3 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; color: var(--cream); margin-bottom: 14px; font-weight: 600; }
+  .notes ul { list-style: none; }
+  .notes li { padding: 8px 0; font-size: 12.5px; color: rgba(244,236,226,0.8); line-height: 1.55; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .notes li::before { content: "·"; color: var(--gold); margin-right: 8px; font-weight: 700; }
+  .notes li strong { color: var(--gold-soft); font-weight: 600; }
+  .notes code { color: var(--gold-soft); font-family: ui-monospace, Menlo, monospace; font-size: 11px; }
+
+  @media (max-width: 880px) {
+    .gallery { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <small>MODO PROFISSIONAL · 1ª TELA AO LOGAR</small>
+    <div class="page-title">Comando do Dia · App Estúdio Mais</div>
+  </div>
+</div>
+
+<div class="gallery">
+
+  <!-- ============================================================
+       PHONE 1: BRIEFING (Comando do Dia)
+  ============================================================ -->
+  <div class="phone">
+    <div class="phone-label">PROFISSIONAL · Briefing</div>
+    <div class="phone-notch">●</div>
+    <div class="phone-body">
+
+      <!-- Greeting -->
+      <div class="greeting">
+        <div class="greeting-eyebrow">BOM DIA · QUARTA-FEIRA, 10 DE JUNHO</div>
+        <div class="greeting-name">Lene ✦</div>
+        <div class="greeting-role">Esteticista Sênior · Center Norte</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Score</div><div class="stat-value">87/100</div></div>
+        <div class="stat"><div class="stat-label">Hoje</div><div class="stat-value">6 clientes</div></div>
+        <div class="stat"><div class="stat-label">Follow-up</div><div class="stat-value">4</div></div>
+        <div class="stat hot"><div class="stat-label">Janela ⚡</div><div class="stat-value">2</div></div>
+      </div>
+
+      <!-- 1. ESTRATÉGIA -->
+      <div class="section">
+        <div class="section-eyebrow">PREPARAR ANTES DE ELAS CHEGAREM</div>
+        <div class="section-title">🎯 Estratégia · Quem vem hoje</div>
+
+        <div class="strat-card">
+          <div class="strat-head">
+            <div class="strat-time">09:00</div>
+            <div class="strat-info">
+              <div class="strat-name">Marina Oliveira</div>
+              <div class="strat-meta">Brow Design Premium · 8ª visita · Premium</div>
+            </div>
+          </div>
+          <div class="strat-hint">
+            <div class="strat-hint-label">ESTRATÉGIA</div>
+            <div class="strat-hint-text">JANELA MÁGICA · 12,6× chance de Premium se sair daqui com retorno marcado</div>
+          </div>
+          <div class="strat-memory">🧠 Filha Helena (7 anos) faz balé · apresentação no dia 22</div>
+          <div class="strat-memory">🧠 Mencionou ansiedade com o trabalho — escutar primeiro</div>
+          <div class="strat-upsell">💡 Sem pacote ativo · sugerir Pacote Cuidado Contínuo</div>
+        </div>
+
+        <div class="strat-card">
+          <div class="strat-head">
+            <div class="strat-time">10:30</div>
+            <div class="strat-info">
+              <div class="strat-name">Patrícia Lemos</div>
+              <div class="strat-meta">Limpeza Profunda · 1ª visita · —</div>
+            </div>
+          </div>
+          <div class="strat-hint">
+            <div class="strat-hint-label">ESTRATÉGIA</div>
+            <div class="strat-hint-text">PRIMEIRA VISITA · foco em vínculo, NUNCA empurra venda na 1ª</div>
+          </div>
+          <div class="strat-memory">🧠 Indicação da Júlia Mendes · perfume Chanel ela ama</div>
+        </div>
+
+        <div class="strat-card">
+          <div class="strat-head">
+            <div class="strat-time">14:00</div>
+            <div class="strat-info">
+              <div class="strat-name">Beatriz Souza</div>
+              <div class="strat-meta">Botox manutenção · 18ª visita · Constelação</div>
+            </div>
+          </div>
+          <div class="strat-hint">
+            <div class="strat-hint-label">ESTRATÉGIA</div>
+            <div class="strat-hint-text">HIGH SPENDER · trate como Madrinha · conversa pessoal antes de qualquer coisa</div>
+          </div>
+          <div class="strat-memory">🧠 Cachorro Pituco foi operado semana passada</div>
+        </div>
+      </div>
+
+      <!-- 2. FOLLOW-UP -->
+      <div class="section">
+        <div class="section-eyebrow">MENSAGEM AINDA HOJE</div>
+        <div class="section-title">💬 Follow-up · 4 clientes de ontem</div>
+
+        <div class="row">
+          <div class="avatar">C</div>
+          <div class="row-info">
+            <div class="row-name">Carla Mendonça</div>
+            <div class="row-meta">Brow Design Premium · 18h atrás</div>
+            <div class="row-suggestion">"Oi, Carla! Como tá o desenho? Já desinflamou tudo?"</div>
+            <div class="row-memory">🧠 Tinha dúvida sobre eyebrow tinting</div>
+          </div>
+          <div class="row-cta">💬</div>
+        </div>
+
+        <div class="row">
+          <div class="avatar">R</div>
+          <div class="row-info">
+            <div class="row-name">Rafaela Cunha</div>
+            <div class="row-meta">Botox 100u · 20h atrás</div>
+            <div class="row-suggestion">"Rafaela, como tá sentindo a região? Comer e dormir tranquila?"</div>
+          </div>
+          <div class="row-cta">💬</div>
+        </div>
+
+        <div class="row">
+          <div class="avatar">J</div>
+          <div class="row-info">
+            <div class="row-name">Júlia Mendes</div>
+            <div class="row-meta">Limpeza Profunda · 22h atrás</div>
+            <div class="row-suggestion">"Júlia, a pele já desceu da reação? Tá sentindo macia?"</div>
+            <div class="row-memory">🧠 Indicou a Patrícia (vem hoje 10:30)</div>
+          </div>
+          <div class="row-cta">💬</div>
+        </div>
+      </div>
+
+      <!-- 3. JANELA DE OURO -->
+      <div class="section">
+        <div class="section-eyebrow">12,6× CHANCE DE PREMIUM · CONTATO HOJE</div>
+        <div class="section-title">⚡ Janela de Ouro · 2 entrando em D+8 hoje</div>
+
+        <div class="golden-card">
+          <div class="row" style="border:0; padding-bottom:0;">
+            <div class="avatar">A</div>
+            <div class="row-info">
+              <div class="row-name">Amanda Tavares</div>
+              <div class="row-meta">Tintura PRP · D+8 · LTV R$ 8.420</div>
+              <div class="golden-memory">🧠 Está noiva · casamento marcado pra setembro</div>
+            </div>
+          </div>
+          <div class="golden-btn" onclick="document.getElementById('script-amanda').scrollIntoView({behavior:'smooth'})">📋 ABRIR SCRIPT DA LIGAÇÃO →</div>
+        </div>
+
+        <div class="golden-card">
+          <div class="row" style="border:0; padding-bottom:0;">
+            <div class="avatar">F</div>
+            <div class="row-info">
+              <div class="row-name">Fernanda Lima</div>
+              <div class="row-meta">Sobrancelha Premium · D+8 · LTV R$ 3.200</div>
+              <div class="golden-memory">🧠 Trabalha em escritório · cobra "natural mas marcada"</div>
+              <div class="golden-ok">✓ Retorno já marcado · só fortalecer vínculo</div>
+            </div>
+          </div>
+          <div class="golden-btn">📋 ABRIR SCRIPT DA LIGAÇÃO →</div>
+        </div>
+      </div>
+
+      <!-- 4. ZONA PERIGOSA -->
+      <div class="section">
+        <div class="section-eyebrow red">ÚLTIMA CHANCE ANTES DA NÃO-RECOMPRA</div>
+        <div class="section-title">🚨 Zona Perigosa · 3 saindo da janela</div>
+
+        <div class="danger-card">
+          <div class="row" style="border:0; padding:0;">
+            <div class="avatar">L</div>
+            <div class="row-info">
+              <div class="row-name">Larissa Pinto</div>
+              <div class="row-meta">Limpeza Profunda · LTV R$ 5.800 · última 12/mai</div>
+              <div class="danger-urgency">CRÍTICO · sai da janela em 2 dias</div>
+              <div class="row-memory">🧠 Acabou de mudar de casa · estresse alto</div>
+            </div>
+            <div class="row-cta">📞</div>
+          </div>
+        </div>
+
+        <div class="danger-card">
+          <div class="row" style="border:0; padding:0;">
+            <div class="avatar">D</div>
+            <div class="row-info">
+              <div class="row-name">Daniela Rocha</div>
+              <div class="row-meta">Brow Design · LTV R$ 2.100 · última 15/mai</div>
+              <div class="danger-urgency">ATENÇÃO · D+26 sem agendamento</div>
+            </div>
+            <div class="row-cta">📞</div>
+          </div>
+        </div>
+
+        <div class="danger-card">
+          <div class="row" style="border:0; padding:0;">
+            <div class="avatar">V</div>
+            <div class="row-info">
+              <div class="row-name">Viviane Castro</div>
+              <div class="row-meta">Botox · LTV R$ 12.400 · última 14/mai</div>
+              <div class="danger-urgency">CRÍTICO · sai da janela em 3 dias · HIGH LTV</div>
+              <div class="row-memory">🧠 Aniversário ano passado teve cortesia</div>
+            </div>
+            <div class="row-cta">📞</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. PRA PRESENTEAR -->
+      <div class="section">
+        <div class="section-eyebrow gold">CORTESIA INTELIGENTE · FIDELIZAÇÃO</div>
+        <div class="section-title">🎁 Pra presentear · 2 merecem mimo</div>
+
+        <div class="gift-card">
+          <div class="avatar gold">A</div>
+          <div class="row-info">
+            <div class="row-name">Ana Beatriz Costa</div>
+            <div class="row-meta">Constelação · LTV R$ 24.800</div>
+            <div class="gift-reason">✨ aniversário próximo (3 dias)</div>
+            <div class="gift-suggestion">💝 Massagem de 30 min + chá especial</div>
+          </div>
+        </div>
+
+        <div class="gift-card">
+          <div class="avatar gold">M</div>
+          <div class="row-info">
+            <div class="row-name">Maria Eduarda Pinto</div>
+            <div class="row-meta">Premium · LTV R$ 9.600</div>
+            <div class="gift-reason">✨ cliente premium · sem mimo há 60+ dias</div>
+            <div class="gift-suggestion">💝 Brinde da curadoria do mês</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. DIVULGAR -->
+      <div class="section">
+        <div class="section-eyebrow green">PRÉ-LANÇAMENTO · 5 ALVOS RELEVANTES</div>
+        <div class="section-title">📢 Divulgar · Tratamento Skin Reset 3.0</div>
+
+        <div class="promo-banner">
+          <div class="promo-body">"Reservas antecipadas pra Madrinhas com 25% de desconto. Lançamento oficial 22/jun. Aceita?"</div>
+          <div class="promo-end">Termina em 21/06</div>
+        </div>
+
+        <div class="row">
+          <div class="avatar">B</div>
+          <div class="row-info">
+            <div class="row-name">Beatriz Souza</div>
+            <div class="row-meta">LTV R$ 24.800 · cliente Premium · acesso antecipado faz sentido</div>
+          </div>
+          <div class="row-cta">📤</div>
+        </div>
+
+        <div class="row">
+          <div class="avatar">T</div>
+          <div class="row-info">
+            <div class="row-name">Talita Ferreira</div>
+            <div class="row-meta">LTV R$ 12.400 · high spender · provável compra</div>
+          </div>
+          <div class="row-cta">📤</div>
+        </div>
+
+        <div class="row">
+          <div class="avatar">G</div>
+          <div class="row-info">
+            <div class="row-name">Gabriela Reis</div>
+            <div class="row-meta">LTV R$ 7.800 · cliente ativa · vale informar</div>
+          </div>
+          <div class="row-cta">📤</div>
+        </div>
+      </div>
+
+      <!-- 7. AÇÕES PRIORIZADAS -->
+      <div class="section">
+        <div class="section-eyebrow">DO MOTOR DE DECISÃO</div>
+        <div class="section-title">🔔 Outras ações priorizadas</div>
+
+        <div class="action-item">
+          <div class="priority-bar high"></div>
+          <div class="action-info">
+            <div class="action-title">Cortesia D+15 reservada</div>
+            <div class="action-desc">Sofia Andrade · escolher horário do retorno</div>
+            <div class="action-context">JANELA MÁGICA</div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="priority-bar med"></div>
+          <div class="action-info">
+            <div class="action-title">Sugerir Painel Hormonal</div>
+            <div class="action-desc">Patrícia Lemos · sintomas indicam relevância</div>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="priority-bar low"></div>
+          <div class="action-info">
+            <div class="action-title">Atualizar memória ativa</div>
+            <div class="action-desc">Carla Mendonça · revisar após follow-up de hoje</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div class="nav-row">
+        <div class="nav-btn"><span class="nav-icon">📊</span><div class="nav-label">Pipeline</div></div>
+        <div class="nav-btn"><span class="nav-icon">⭐</span><div class="nav-label">Score</div></div>
+        <div class="nav-btn"><span class="nav-icon">👥</span><div class="nav-label">Clientes</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PHONE 2: SCRIPT MODAL (Janela de Ouro)
+  ============================================================ -->
+  <div class="script-modal" id="script-amanda">
+    <div class="phone-label">SCRIPT JANELA DE OURO · Aberto</div>
+    <div class="phone-notch">●</div>
+
+    <div class="script-header">
+      <div class="script-close">✕</div>
+      <div>
+        <div class="script-eyebrow">JANELA DE OURO · D+8</div>
+        <div class="script-title">Amanda Tavares</div>
+        <div class="script-sub">Tintura PRP · 8 dias atrás</div>
+      </div>
+    </div>
+
+    <div class="script-body">
+      <!-- Princípios -->
+      <div class="principles-box">
+        <div class="principles-title">🎯 ANTES DE LIGAR · 5 PRINCÍPIOS</div>
+        <div class="principle-item">1. NÃO marca o retorno como venda. É check técnico, gratuito.</div>
+        <div class="principle-item">2. A frase âncora vem da memória dela — usar SEMPRE.</div>
+        <div class="principle-item">3. Se ela diz "tá tudo bem", pergunta DE NOVO de outro jeito. 80% das primeiras respostas são polidas.</div>
+        <div class="principle-item">4. Cortesia entra SÓ se ela for Premium ou se a conversa abrir espaço — não força.</div>
+        <div class="principle-item">5. Áudio > mensagem. Vínculo é voz, não texto.</div>
+      </div>
+
+      <!-- Memória ativa -->
+      <div class="memory-box">
+        <div class="memory-label">🧠 MEMÓRIA ATIVA · ANCORA NISSO</div>
+        <div class="memory-text">"Está noiva · casamento marcado pra setembro"</div>
+      </div>
+
+      <!-- Fases -->
+      <div class="phase-block open">
+        <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="phase-name">1 · ABERTURA</div>
+          <div class="phase-toggle">+</div>
+        </div>
+        <div class="phase-lines">
+          <div class="script-line">"Bom dia, Amanda. Aqui é a Lene, do Estúdio."</div>
+          <div class="script-line">"Hoje fez 8 dias desde a tintura prp — e esse é justo o momento que eu mais gosto de ouvir você."</div>
+          <div class="script-line">"Pode ser por áudio rapidinho?"</div>
+        </div>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="phase-name">2 · EXPLORAR O QUE ELA SENTE</div>
+          <div class="phase-toggle">+</div>
+        </div>
+        <div class="phase-lines">
+          <div class="script-line">"Como você tá enxergando o resultado agora que o efeito assentou?"</div>
+          <div class="script-line">"Tem alguma coisa que tá te incomodando, mesmo coisa pequena?"</div>
+          <div class="script-line">"E como tá sua rotina? Algum compromisso importante chegando?"</div>
+        </div>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="phase-name">3 · ANCORAR NO PESSOAL</div>
+          <div class="phase-toggle">+</div>
+        </div>
+        <div class="phase-lines">
+          <div class="script-line">"Lembra que você comentou comigo sobre o casamento em setembro?"</div>
+          <div class="script-line">"Eu fiquei pensando depois daquela conversa — você tá bem com isso?"</div>
+        </div>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="phase-name">4 · FECHAR O RETORNO</div>
+          <div class="phase-toggle">+</div>
+        </div>
+        <div class="phase-lines">
+          <div class="script-line">"Quero te marcar pra eu mesma ver de novo daqui umas 3 semanas — é gratuito, é um check."</div>
+          <div class="script-line">"Pode ser dia X ou Y? Te garanto na minha agenda."</div>
+        </div>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="phase-name">5 · CORTESIA (SE COUBER)</div>
+          <div class="phase-toggle">+</div>
+        </div>
+        <div class="phase-lines">
+          <div class="script-line">"Tem uma cortesia que reservei especialmente pra você (massagem 30min / brinde do mês) —"</div>
+          <div class="script-line">"encaixa no mesmo dia ou em outro horário, como você preferir."</div>
+        </div>
+      </div>
+
+      <div class="status-box-alert">
+        <div class="status-text-alert">⚠ Sem retorno agendado · meta principal de hoje é deixar marcado</div>
+      </div>
+    </div>
+
+    <div class="script-footer">
+      <div class="cta audio">🎙️ Áudio</div>
+      <div class="cta text">💬 Texto</div>
+      <div class="cta return">📅 Retorno</div>
+      <div class="cta courtesy">🎁 Cortesia</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="notes">
+  <h3>Mapeamento Protótipo → Backend</h3>
+  <ul>
+    <li><strong>Estratégia das clientes de hoje</strong> → <code>employee_today_strategy(profile_id)</code> · traz strategy_hint computado por regras + memory_facts top 3 + upsell_opportunity</li>
+    <li><strong>Follow-up de ontem</strong> → <code>employee_followups_yesterday(profile_id)</code> · suggested_opener gerado por tipo de procedimento (sobrancelha / botox / limpeza)</li>
+    <li><strong>Janela de Ouro D+8</strong> → <code>employee_golden_window_today(profile_id)</code> · filtra <code>client_protocol_progress.started_at = today - 8</code> + detecta retorno já agendado</li>
+    <li><strong>Zona Perigosa</strong> → <code>employee_danger_zone(profile_id)</code> · D+25-30 sem appointment futuro · urgency_text calculada</li>
+    <li><strong>Pra presentear</strong> → <code>employee_gift_candidates(profile_id)</code> · LTV ≥ p75 da unidade + sem cortesia 60d + aniversário próximo</li>
+    <li><strong>Divulgar promo</strong> → <code>employee_promo_targets(profile_id)</code> · lê de <code>daily_promo_campaigns</code> ativa · target_filter jsonb flexível (min_ltv, tiers, last_visit_days)</li>
+    <li><strong>Script da Janela de Ouro</strong> → componente <code>golden-window-script.tsx</code> · 5 fases accordion · frases auto-substituídas com {name}/{procedure}/{memory}</li>
+  </ul>
+</div>
+
+</body>
+</html>
