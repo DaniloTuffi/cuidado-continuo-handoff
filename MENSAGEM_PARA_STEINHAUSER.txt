@@ -45,9 +45,28 @@ Em ordem cronológica (todos já no main remoto):
    - flask-side/madrinha_auto_login.py (template Flask)
    - migrations/00168_instituto_seed.sql (intencionalmente vazia)
 
-4. <commit desta sessão> · Esconder seções vazias do Instituto + mensagem
+4. a253de9 · Esconder seções vazias do Instituto + mensagem
    - Telas Clube/Instituto agora escondem seções de métricas e depoimentos
      enquanto admin não populá-los. Sem números chutados.
+
+5. c9fbc0d · COMANDO DO DIA · briefing reescrito com 7 seções operacionais
+   - migrations/00169_comando_do_dia.sql (6 RPCs + 1 tabela
+     daily_promo_campaigns)
+   - briefing.tsx reescrito (substitui o anterior simples) com:
+       1. Estratégia das clientes de hoje (preparar antes de chegarem)
+       2. Follow-up dos atendimentos de ontem
+       3. Janela de Ouro · D+8 (botão abre script dedicado)
+       4. Zona Perigosa · D+25-30 (urgência crítica vs atenção)
+       5. Pra presentear (cortesia com sugestão por tier)
+       6. Divulgar promo do dia/semana/pré-lançamento
+       7. Ações priorizadas do decision-engine
+   - components/golden-window-script.tsx · modal full-screen com
+     5 princípios + 5 fases accordion + 4 CTAs (áudio/texto/retorno/cortesia)
+   - 6 helpers tipados novos em cuidado-continuo-queries.ts
+
+6. 15a477e · Protótipo HTML do Comando do Dia
+   - prototypes/comando-do-dia.html (briefing + modal script renderizados)
+   - GitHub Pages: danilotuffi.github.io/cuidado-continuo-handoff/comando-do-dia.html
 
 
 ================================================================================
@@ -64,13 +83,16 @@ Se a migration 00163_tiers_assinaturas.sql já foi aplicada em produção:
 Caso ainda não tenha aplicado, simplesmente ignora a 00163 e segue.
 
 
-ETAPA 2 · Aplicar migrations do Clube
+ETAPA 2 · Aplicar migrations
 ─────────────────────────────────────────────────────────────────
-  - 00166_clube_madrinhas_schema.sql  (schema + trigger + funções)
-  - 00167_clube_madrinhas_rls.sql      (políticas RLS pras 6 tabelas)
-  - 00168_instituto_seed.sql           (no-op por design — só comentários guia)
+  - 00166_clube_madrinhas_schema.sql   (schema do Clube + trigger + funções)
+  - 00167_clube_madrinhas_rls.sql       (políticas RLS pras 6 tabelas do Clube)
+  - 00168_instituto_seed.sql            (no-op por design — só comentários guia)
+  - 00169_comando_do_dia.sql            (Comando do Dia · 6 RPCs +
+                                         tabela daily_promo_campaigns)
 
-Todas são idempotentes (CREATE TABLE IF NOT EXISTS, ON CONFLICT DO NOTHING).
+Todas são idempotentes (CREATE TABLE IF NOT EXISTS, DROP FUNCTION IF EXISTS,
+ON CONFLICT DO NOTHING).
 
 Após aplicar, valida que tudo subiu:
   SELECT count(*) FROM clube_madrinhas_membership;            -- esperado: 0
@@ -78,6 +100,15 @@ Após aplicar, valida que tudo subiu:
   SELECT count(*) FROM clube_high_value_benefits;             -- esperado: 0
   SELECT * FROM instituto_metrics ORDER BY metric_key;        -- esperado: 4 linhas, current_value = 0
   SELECT count(*) FROM instituto_depoimentos;                 -- esperado: 0
+  SELECT count(*) FROM daily_promo_campaigns;                 -- esperado: 0
+
+  -- Sanity check das 6 funções do Comando do Dia
+  SELECT proname FROM pg_proc
+   WHERE proname LIKE 'employee_%'
+   ORDER BY proname;
+  -- esperado: employee_danger_zone, employee_followups_yesterday,
+  --           employee_gift_candidates, employee_golden_window_today,
+  --           employee_promo_targets, employee_today_strategy
 
 
 ETAPA 3 · Backfill histórico de Madrinhas High Value
@@ -158,21 +189,54 @@ com os UPDATEs e INSERTs prontos.
 clube_stock_visibility — admin popula mensalmente por unidade.
 Template SQL no 00168 (comentado).
 
+daily_promo_campaigns — admin/gerente popula quando rolar campanha.
+Template SQL pra primeira campanha em produção:
+
+  INSERT INTO public.daily_promo_campaigns
+    (unit_id, title, body_short, body_full, kind, ends_at, target_filter)
+  VALUES (
+    '<unit_id Center Norte>'::uuid,
+    'Pré-lançamento Skin Reset 3.0',
+    'Reservas antecipadas com 25% de desconto',
+    'Madrinhas com 25% de desconto. Lançamento oficial 22/jun. Aceita?',
+    'pre_launch',
+    '2026-06-21 23:59:00-03'::timestamptz,
+    '{"min_ltv_centavos": 500000, "last_visit_days_max": 90}'::jsonb
+  );
+
+Sem campanha ativa, a seção "Divulgar" da tela briefing some sozinha
+(o RPC retorna zero linhas e a tela esconde a seção inteira).
+
 
 ETAPA 7 · Deploy das telas TSX no app
 ─────────────────────────────────────────────────────────────────
 Copiar de mobile-tsx/ pro app:
 
-  client/clube-madrinhas/index.tsx       → app/(client)/clube-madrinhas/index.tsx
-  client/clube-madrinhas/painel.tsx      → app/(client)/clube-madrinhas/painel.tsx
-  client/clube-madrinhas/instituto.tsx   → app/(client)/clube-madrinhas/instituto.tsx
-  employee/liberar-madrinha.tsx          → app/(employee)/liberar-madrinha.tsx
-  client/casa-do-cuidado.tsx             → SUBSTITUI a Casa do Cuidado atual
+  Cliente:
+    client/clube-madrinhas/index.tsx       → app/(client)/clube-madrinhas/index.tsx
+    client/clube-madrinhas/painel.tsx      → app/(client)/clube-madrinhas/painel.tsx
+    client/clube-madrinhas/instituto.tsx   → app/(client)/clube-madrinhas/instituto.tsx
+    client/casa-do-cuidado.tsx             → SUBSTITUI a Casa do Cuidado atual
+
+  Profissional:
+    employee/briefing.tsx                  → SUBSTITUI o briefing atual
+                                             (vira o "Comando do Dia" · 7 seções)
+    employee/liberar-madrinha.tsx          → app/(employee)/liberar-madrinha.tsx
+
+  Componentes / helpers (acompanham o briefing novo):
+    components/golden-window-script.tsx    → app/components/golden-window-script.tsx
+    lib/cuidado-continuo-queries.ts        → SUBSTITUI o helper atual
+                                             (+ 6 getters do Comando do Dia)
 
 Dependências NPM novas (se ainda não tiver):
-  - react-native-webview (pro Painel via WebView)
+  - react-native-webview (pro Painel via WebView do Clube)
 
-Não tem nada de Anthropic novo, nem Daily.co — fica zero novo serviço externo.
+Não tem nada de Anthropic novo, nem Daily.co — fica zero novo serviço externo
+adicionado nesta entrega.
+
+A tela briefing (Comando do Dia) chama 6 RPCs em paralelo (Promise.all) na
+montagem. Cada RPC já vem otimizada com LIMIT — performance esperada < 300ms
+no total mesmo em pico (Center Norte tem ~2.5k clientes ativos).
 
 
 ================================================================================
@@ -195,6 +259,16 @@ PERGUNTAS PRA VOCÊ ME RESPONDER QUANDO PUDER
 5. Quer que eu já pegue do Flask atual o modelo de Madrinha e te entregue
    o find_or_create_madrinha() preenchido pra você só copiar?
 
+6. O briefing novo (Comando do Dia) supõe que client_protocol_progress já
+   está populado pelos protocolos (Anamnese Premium e suas filhas que você
+   implementou em 29/maio). Confirma que esse fluxo já cria registros nessa
+   tabela quando a cliente termina um procedimento? Se não estiver, a seção
+   "Janela de Ouro" e "Zona Perigosa" ficam vazias até esse pipeline rolar.
+
+7. O briefing novo substitui o briefing.tsx atual. Quer revisar antes do
+   merge (preview no comando-do-dia.html) ou aplica direto e a gente itera
+   depois?
+
 
 ================================================================================
 ARQUIVOS NOVOS NESTA ENTREGA (caminhos relativos ao repo)
@@ -204,6 +278,7 @@ Backend:
   migrations/00166_clube_madrinhas_schema.sql       (schema + trigger + funções)
   migrations/00167_clube_madrinhas_rls.sql          (RLS das 6 tabelas)
   migrations/00168_instituto_seed.sql               (no-op + template)
+  migrations/00169_comando_do_dia.sql               (6 RPCs + daily_promo_campaigns)
 
 Edge / Flask:
   edge-functions/issue-painel-jwt/index.ts          (Deno + djwt HS256)
@@ -216,11 +291,17 @@ App cliente (mobile):
   mobile-tsx/client/casa-do-cuidado.tsx             (já existia, foi modificada)
 
 App profissional (mobile):
+  mobile-tsx/employee/briefing.tsx                  (REESCRITA · Comando do Dia 7 seções)
   mobile-tsx/employee/liberar-madrinha.tsx
+  mobile-tsx/components/golden-window-script.tsx    (modal full-screen do script D+8)
+
+Helpers (lib):
+  mobile-tsx/lib/cuidado-continuo-queries.ts        (+ 6 getters do Comando do Dia)
 
 Documentação:
   BELLE-READINESS-CLUBE.md                          (auditoria + backfill SQL)
   prototypes/clube-madrinhas.html                   (visual interativo)
+  prototypes/comando-do-dia.html                    (briefing + modal renderizados)
   board/apresentacao-board.html + PDF               (deck atualizado)
 
 
