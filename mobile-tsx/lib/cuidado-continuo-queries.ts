@@ -138,6 +138,130 @@ export async function getPipeline(profileId: string) {
 }
 
 /**
+ * Comando do Dia · 6 RPCs (migration 00169).
+ * Cada uma alimenta uma seção do briefing.
+ */
+
+export async function getFollowupsYesterday(profileId: string, limit = 10) {
+  const { data, error } = await supabase.rpc("employee_followups_yesterday", {
+    p_profile_id: profileId,
+    p_limit: limit,
+  });
+  if (error) console.warn("[cc] followups yesterday error:", error.message);
+  return (data ?? []) as Array<{
+    client_id: string;
+    client_name: string;
+    avatar_url: string | null;
+    service_name: string;
+    appointment_id: string;
+    hours_since: number;
+    memory_snippet: string | null;
+    suggested_opener: string;
+  }>;
+}
+
+export async function getGoldenWindowToday(profileId: string, limit = 8) {
+  const { data, error } = await supabase.rpc("employee_golden_window_today", {
+    p_profile_id: profileId,
+    p_limit: limit,
+  });
+  if (error) console.warn("[cc] golden window error:", error.message);
+  return (data ?? []) as Array<{
+    client_id: string;
+    client_name: string;
+    avatar_url: string | null;
+    procedure_name: string;
+    procedure_key: string;
+    days_since: number;
+    ltv_centavos: number;
+    memory_snippet: string | null;
+    suggested_opener: string;
+    has_upcoming_appt: boolean;
+  }>;
+}
+
+export async function getDangerZone(profileId: string, limit = 10) {
+  const { data, error } = await supabase.rpc("employee_danger_zone", {
+    p_profile_id: profileId,
+    p_limit: limit,
+  });
+  if (error) console.warn("[cc] danger zone error:", error.message);
+  return (data ?? []) as Array<{
+    client_id: string;
+    client_name: string;
+    avatar_url: string | null;
+    procedure_name: string;
+    days_since: number;
+    ltv_centavos: number;
+    last_visit_date: string | null;
+    memory_snippet: string | null;
+    urgency_text: string;
+  }>;
+}
+
+export async function getGiftCandidates(profileId: string, limit = 5) {
+  const { data, error } = await supabase.rpc("employee_gift_candidates", {
+    p_profile_id: profileId,
+    p_limit: limit,
+  });
+  if (error) console.warn("[cc] gift candidates error:", error.message);
+  return (data ?? []) as Array<{
+    client_id: string;
+    client_name: string;
+    avatar_url: string | null;
+    ltv_centavos: number;
+    tier_name: string | null;
+    reason: string;
+    days_to_event: number | null;
+    memory_snippet: string | null;
+    suggested_gift: string;
+  }>;
+}
+
+export async function getPromoTargets(profileId: string, limit = 10) {
+  const { data, error } = await supabase.rpc("employee_promo_targets", {
+    p_profile_id: profileId,
+    p_limit: limit,
+  });
+  if (error) console.warn("[cc] promo targets error:", error.message);
+  return (data ?? []) as Array<{
+    campaign_id: string;
+    campaign_title: string;
+    campaign_body: string;
+    campaign_kind: "promo_day" | "promo_week" | "pre_launch" | "flash_sale";
+    ends_at: string;
+    client_id: string;
+    client_name: string;
+    avatar_url: string | null;
+    ltv_centavos: number;
+    affinity_reason: string;
+  }>;
+}
+
+export async function getTodayStrategy(profileId: string) {
+  const { data, error } = await supabase.rpc("employee_today_strategy", {
+    p_profile_id: profileId,
+  });
+  if (error) console.warn("[cc] today strategy error:", error.message);
+  return (data ?? []) as Array<{
+    appointment_id: string;
+    start_time: string;
+    client_id: string;
+    client_name: string;
+    avatar_url: string | null;
+    service_name: string;
+    visit_count: number;
+    ltv_centavos: number;
+    tier_name: string | null;
+    active_protocol: string | null;
+    active_protocol_day: number | null;
+    memory_facts: Array<{ fact: string; category: string; priority: number }> | null;
+    strategy_hint: string;
+    upsell_opportunity: string | null;
+  }>;
+}
+
+/**
  * Marca ação como executada na fila do decision-engine.
  */
 export async function markActionExecuted(actionId: string) {
